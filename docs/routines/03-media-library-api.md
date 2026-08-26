@@ -76,7 +76,7 @@ Two consequences worth noting:
   In a typed field it survives, and it is the mechanism that stops a model inventing
   values.
 
-## Three things still open
+## Two things still open
 
 ### EXIF: read the `md` rendition, but confirm its long edge first
 
@@ -107,10 +107,14 @@ fields.** That also makes the resume query far more useful — if it returns
 `promptVersion` per occurrence, a re-tag after a prompt revision can select only the
 records written under the old version instead of re-running everything.
 
-### Getting bytes out of SharePoint
+### RESOLVED — bytes come from Graph
 
-Unchanged and still unsolved on our side: the Microsoft 365 connector returns images
-rendered for a model to look at, not raw bytes — `downloadUrl` is `null` on every result.
-So the routine currently has no way to produce `dataBase64`. Either the library fetches
-by `sourceUrl` server-side, or the routine needs Graph credentials of its own. Worth
-settling before the client is written, since it decides the shape of the whole write step.
+Settled: the routine uses Microsoft Graph directly rather than waiting on a server-side
+`sourceUrl` fetch. `GET /drives/{driveId}/items/{itemId}/content` supplies the bytes for
+`dataBase64`, so the library does not need a fetch mode.
+
+Setup, permissions and the additional egress hosts this requires are in
+`04-graph-access.md`. The short version: ask for `Sites.Selected` rather than
+`Files.Read.All`, and remember that a Graph content request **302s to a storage host** —
+so `graph.microsoft.com` alone in the allowlist is not enough and fails at the redirect,
+after auth has already succeeded.
