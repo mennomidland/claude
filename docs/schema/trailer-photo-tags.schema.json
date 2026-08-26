@@ -1,0 +1,174 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://midlandind.com.au/schema/trailer-photo-tags/v1",
+  "title": "Midland trailer photo tag record (v1)",
+  "description": "One record per image. `photo` and `join` are populated by code from the SharePoint path and the Manufacturing Job Card. `vision` is the ONLY object a model is ever asked to produce. Nothing in `join` may be inferred from pixels, and nothing in `vision` may be copied from `join`.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["photo", "vision"],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+
+    "photo": {
+      "type": "object",
+      "description": "Populated by the enumeration pass. No model involvement.",
+      "additionalProperties": false,
+      "required": ["drive_id", "item_id", "path", "filename", "extension"],
+      "properties": {
+        "drive_id": { "type": "string" },
+        "item_id": { "type": "string" },
+        "path": { "type": "string", "description": "Full SharePoint path including site and library." },
+        "filename": { "type": "string" },
+        "extension": { "type": "string", "description": "Lowercased, no leading dot." },
+        "size_bytes": { "type": ["integer", "null"], "minimum": 0 },
+        "last_modified": { "type": ["string", "null"], "format": "date-time" },
+        "shoot_group": {
+          "type": ["string", "null"],
+          "description": "Stable id for a run of consecutive camera-default filenames in one folder (e.g. IMG_0356-IMG_0395). Shoot-level attributes propagate within a group; per-frame attributes do not."
+        },
+        "shoot_group_position": { "type": ["integer", "null"], "minimum": 1 }
+      }
+    },
+
+    "join": {
+      "type": "object",
+      "description": "Populated by exact lookup against the Manufacturing Job Card. A model is NEVER asked for any field in here. If the join fails, this object is omitted and `join_status` explains why -- it is never guessed.",
+      "additionalProperties": false,
+      "required": ["join_status"],
+      "properties": {
+        "join_status": {
+          "enum": [
+            "joined_single_unit",
+            "joined_after_vision_disambiguation",
+            "ambiguous_multiple_units",
+            "no_job_number_in_path",
+            "job_number_not_found",
+            "job_card_unreadable",
+            "not_attempted"
+          ]
+        },
+        "job_number": { "type": ["string", "null"], "description": "e.g. \"3467\"" },
+        "unit": { "type": ["string", "null"], "description": "e.g. \"01\"" },
+        "job_card_uri": { "type": ["string", "null"] },
+        "job_card_revision": { "type": ["string", "null"] },
+        "quote_number": { "type": ["string", "null"] },
+        "vin": { "type": ["string", "null"] },
+        "customer": { "type": ["string", "null"] },
+        "trailer_type": { "type": ["string", "null"], "description": "Verbatim from the card, e.g. \"SEMI TRAILER\"." },
+        "deck_type": { "type": ["string", "null"], "description": "Verbatim, e.g. \"SKELETAL\"." },
+        "model_code": { "type": ["string", "null"], "description": "Quote Machine code where available, e.g. \"ST-3\", \"DT-2\", \"TAG-3\". The digit is the axle count." },
+        "number_of_axles_text": { "type": ["string", "null"], "description": "Verbatim, e.g. \"QUAD AXLE\". Never \"BOGIE\"." },
+        "length": { "type": ["string", "null"] },
+        "deck_width": { "type": ["string", "null"] },
+        "mainbeam_centres": { "type": ["string", "null"] },
+        "kingpin_location": { "type": ["string", "null"] },
+        "suspension_location": { "type": ["string", "null"] },
+        "suspension_spread": { "type": ["string", "null"] },
+        "suspension_type": { "type": ["string", "null"] },
+        "axles": { "type": ["string", "null"] },
+        "coupling": { "type": ["string", "null"] },
+        "atm": { "type": ["string", "null"] },
+        "gtm": { "type": ["string", "null"] },
+        "chassis_colour": { "type": ["string", "null"] },
+        "fabrication_plant": { "type": ["string", "null"] },
+        "fitout_plant": { "type": ["string", "null"] },
+        "build_completed_date": { "type": ["string", "null"] }
+      }
+    },
+
+    "vision": {
+      "type": "object",
+      "description": "The model's entire output. Every enum admits `unknown`. Where a thing could simply be out of frame, `not_visible` is offered as distinct from `unknown`: use `not_visible` when the feature is confidently outside the frame or occluded, and `unknown` when it is in frame but cannot be judged. A model that is forced to always emit a substantive value will invent one -- these two escape hatches exist so it never has to.",
+      "additionalProperties": false,
+      "required": [
+        "subject_type", "shot_type", "build_state", "axle_count",
+        "marketing_usability", "overall_confidence"
+      ],
+      "properties": {
+        "subject_type": {
+          "enum": ["complete_trailer", "partial_build", "chassis_only", "component_detail", "render_or_drawing", "non_trailer", "unknown"]
+        },
+        "shot_type": {
+          "enum": ["three_quarter_front", "three_quarter_rear", "side_elevation", "front_elevation", "rear_elevation", "top_down", "oblique_other", "detail_close_up", "deck_or_interior", "underside", "in_service_loaded", "group_multiple_trailers", "unknown"]
+        },
+        "build_state": {
+          "enum": ["finished", "in_build_painted", "in_build_unpainted", "render", "unknown"]
+        },
+
+        "axle_count": {
+          "description": "Midland house vocabulary. A trailer with 2 axles is TANDEM. The word `bogie` is not a permitted value anywhere in this schema and must not appear in any free-text field.",
+          "enum": ["single", "tandem", "tri", "quad", "five_or_more", "not_visible", "unknown"]
+        },
+        "trailer_configuration": {
+          "enum": ["semi_trailer", "dog_trailer", "tag_trailer", "converter_dolly", "rigid_body", "not_visible", "unknown"]
+        },
+        "body_type": {
+          "enum": ["skeletal", "flat_top", "drop_deck", "step_deck", "drop_deck_extendable", "float", "plant_trailer", "curtainsider", "tipper", "water_tank", "other", "not_visible", "unknown"]
+        },
+
+        "front_load_restraint": { "enum": ["fixed_headboard", "loadrack", "none", "not_visible", "unknown"] },
+        "rear_load_restraint": { "enum": ["fixed_headboard", "loadrack", "none", "not_visible", "unknown"] },
+        "front_ramp": { "enum": ["none", "fixed", "slide_out", "not_visible", "unknown"] },
+        "rear_ramp": { "enum": ["none", "fixed", "slide_out", "not_visible", "unknown"] },
+        "floor_type": { "enum": ["flush", "raised_coaming", "no_floor_skeletal", "not_visible", "unknown"] },
+        "coaming_type": { "enum": ["channel", "flush_only", "none", "not_visible", "unknown"] },
+        "suspension_mount": { "enum": ["over_slung", "under_slung", "not_visible", "unknown"] },
+        "coupling_type": { "enum": ["kingpin_fifth_wheel", "ball_race", "drawbar_pin", "none_visible", "unknown"] },
+        "chassis_colour": {
+          "description": "Kept deliberately redundant with join.chassis_colour as a join audit signal, not as a source of truth.",
+          "enum": ["flame_red", "pearl_white", "midland_treeline_green", "black", "grey_or_silver", "blue", "yellow", "green_other", "unpainted_or_primer", "other", "not_visible", "unknown"]
+        },
+
+        "visible_text": {
+          "type": "array",
+          "description": "Legible text in the frame -- customer signage, VIN plates, unit numbers, job numbers chalked on the chassis. Transcribe only what is actually legible; do not complete a partially readable string. This is the main mechanism for recovering which unit is in frame.",
+          "items": { "type": "string" },
+          "maxItems": 12
+        },
+        "unit_identification": {
+          "type": "object",
+          "description": "Only meaningful when the folder names more than one job. Populated when something in the frame actually identifies the unit.",
+          "additionalProperties": false,
+          "properties": {
+            "identified_job_number": { "type": ["string", "null"] },
+            "evidence": { "enum": ["vin_plate_legible", "job_number_marked", "customer_signage", "distinguishing_feature", "none", "unknown"] }
+          }
+        },
+
+        "marketing_usability": {
+          "description": "hero = publishable as a lead image; good = usable in collateral; usable = fine as a supporting or record shot; record_only = keep for the job record, not for marketing; reject = do not use.",
+          "enum": ["hero", "good", "usable", "record_only", "reject", "unknown"]
+        },
+        "defects": {
+          "type": "array",
+          "description": "Empty array means none observed. `unknown` as a member means the frame could not be assessed.",
+          "items": {
+            "enum": ["blurry", "poor_lighting", "backlit", "cluttered_background", "workshop_clutter", "obstructed_subject", "people_visible", "partial_crop", "watermark_or_overlay_text", "duplicate_of_adjacent_frame", "unknown"]
+          },
+          "uniqueItems": true
+        },
+
+        "overall_confidence": { "enum": ["high", "medium", "low"] },
+        "needs_human_review": { "type": "boolean" },
+        "notes": {
+          "type": ["string", "null"],
+          "description": "At most one sentence, and only when it says something the enums cannot. Not a place to restate the enums, and not a place to speculate about specifications. The word `bogie` must not appear here.",
+          "maxLength": 240
+        }
+      }
+    },
+
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "model": { "type": "string" },
+        "prompt_version": { "type": "string" },
+        "batch_id": { "type": "string" },
+        "tagged_at": { "type": "string", "format": "date-time" },
+        "input_tokens": { "type": ["integer", "null"] },
+        "output_tokens": { "type": ["integer", "null"] }
+      }
+    }
+  }
+}
