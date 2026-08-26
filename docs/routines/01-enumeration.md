@@ -136,6 +136,15 @@ configurations.
   counts, total bytes, maximum depth, and distinct shoot groups.
 - `_delta_token.json` — the resume token. Keep it; it is what makes the next run cheap.
 
+Measured: a full run is **213 pages, ~4 minutes**. `--resume` immediately afterwards is
+**1 page, 5 seconds**, reporting `0 changed, 0 deleted` and leaving all 41,421 records in
+place. That ratio is the whole argument for delta over a folder walk.
+
+> A resume run returns **only what changed**, so it must be folded into the existing
+> manifest rather than written over it. Writing the delta result straight out would
+> replace a 41,421-record work queue with however many files changed that day — zero, in
+> the run above. `merge_with_existing()` upserts by `item_id` and applies deletions.
+
 Writing to SharePoint is **not** part of this pass. The old routine uploaded checkpoints to
 `Sales/_image-tagging/` because an unattended container was reclaimed after the run and
 anything unwritten was lost. A local manifest plus a delta token is simpler and resumable,
