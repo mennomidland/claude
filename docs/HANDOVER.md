@@ -43,8 +43,13 @@ Allowlist state as measured 2026-08-26 (`python3 tools/graph_check.py` re-measur
 ```
 login.microsoftonline.com   allowed (302)
 *.sharepoint.com            allowed (HTTP 403 = tunnel open, server wants auth)
-graph.microsoft.com         added late in the session; re-probe before relying on it
+graph.microsoft.com         STILL BLOCKED -- reported added, but refusing CONNECT
+                            throughout a 10-minute poll. Verify the entry saved.
 ```
+
+A reference point for how long an edit should take: `*.sharepoint.com` went live within
+about two minutes. Ten minutes with no change means the entry did not take, not that it
+is still propagating.
 
 Package managers are fine — pypi/npm reach via the proxy's `noProxy` bypass and
 `raw.githubusercontent.com` returns 301.

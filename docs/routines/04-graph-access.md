@@ -95,7 +95,7 @@ Measured in session `session_016EmSbCtVTxyNtCkqCimdwn`, environment
 | `qm3staging.midlandind.com.au` | **401** | Step 1 passes. Host up, wanting auth |
 | `login.microsoftonline.com` | **302** | Allowlisted. Step 2's egress host is fine |
 | `midlandind.sharepoint.com` | **403** | Allowlisted mid-session. Tunnel opens; the 403 is SharePoint wanting auth |
-| `graph.microsoft.com` | **CONNECT 403** | **Not allowlisted.** Blocks steps 3-6 |
+| `graph.microsoft.com` | **CONNECT 403** | **Not allowlisted.** Blocks steps 3-6. Still rejecting after a 10-minute poll |
 | `pypi.org`, `registry.npmjs.org` | 200 | Reachable — but via the proxy's `noProxy` bypass, not the tick |
 | `raw.githubusercontent.com` | 301 | Allowed through the gateway |
 
@@ -104,6 +104,15 @@ is the bypass list, so it is not evidence about the allowlist itself.
 
 **`graph.microsoft.com` is the one host still missing.** Everything else Graph needs is
 in place.
+
+How long an allowlist edit takes to land, measured here: `*.sharepoint.com` went live
+**within about two minutes** of being added. `graph.microsoft.com` was reported added and
+was still refusing CONNECT after a **ten-minute** poll, with the proxy's
+`recentRelayFailures` showing continuous rejections throughout. Same session, same
+mechanism, so slow propagation does not explain the second case — if a host has not
+opened within a few minutes, check that the entry actually saved and that it is a bare
+hostname on the `Midland` environment (no scheme, no path, no trailing slash) rather than
+waiting longer.
 
 Distinguish the two 403s carefully, because they read alike and mean opposite things:
 a **CONNECT 403** is the gateway refusing to open the tunnel (host not allowlisted),
