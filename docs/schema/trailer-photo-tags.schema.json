@@ -237,7 +237,7 @@
         },
         "visible_text": {
           "type": "array",
-          "description": "Text legible in the frame -- customer signage, branding, unit or job numbers, VIN plates. Transcribe only what is actually legible; never complete a partially readable string. Main route to identifying which unit is in frame when the folder names several.",
+          "description": "Text legible in the frame -- customer signage, branding, VIN plates, chassis-marked job or build numbers, container numbers, compliance plates. Transcribe only what is actually legible; never complete a partially readable string. Container numbers belong to the container, not the trailer, so they can distinguish one unit from another WITHIN a frame but must not be used to link frames or identify a trailer. Registration plates must not be used for identity at all -- see trailers[].identifying_text.",
           "items": {
             "type": "string"
           },
@@ -498,7 +498,7 @@
                   "type": "string"
                 },
                 "maxItems": 6,
-                "description": "Text legible ON THIS UNIT that identifies it - plate, VIN, unit number. Plates link the same trailer across separate shoots, which shoot grouping cannot."
+                "description": "Text legible ON THIS UNIT. Identity signals are the VIN plate and any chassis-marked job or build number -- these are permanent and unit-specific. A REGISTRATION PLATE IS NOT AN IDENTITY SIGNAL: Midland uses trade plates, which move between units, so the same plate across two frames does not mean the same trailer and very often means a different one. Transcribe a plate if legible, but never use it to assert which unit this is, and never use it to link frames."
               },
               "confidence": {
                 "enum": [
@@ -513,6 +513,16 @@
                   "null"
                 ],
                 "maxLength": 200
+              },
+              "plate_type": {
+                "description": "Where a plate is legible. `trade_plate` is Midland's own transferable plate, which indicates an unregistered unit being moved or photographed -- typically a new build pre-delivery. It says something about the trailer's STATE, never its identity.",
+                "enum": [
+                  "trade_plate",
+                  "registered_plate",
+                  "no_plate_visible",
+                  "illegible",
+                  "unknown"
+                ]
               }
             }
           }

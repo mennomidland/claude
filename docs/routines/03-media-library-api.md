@@ -87,10 +87,13 @@ a vision pass wants a downscaled rendition anyway: the originals here are 3–4 
 full resolution is wasted tokens on a classification task.
 
 One caveat that decides it, though: **what is `md`'s long edge?** The folder test showed
-that legible text carries real weight — plate `YO 56BA` linked the same trailer across
-two shoots a year apart, container numbers identified individual units in a four-unit
-combination, and the auto twist lock control panel's instruction text was the whole point
-of several frames. If `md` is around 1024px that detail starts to go, and with it the
+that legible text carries real weight — container numbers separated individual units
+within a four-unit combination, the auto twist lock control panel's instruction text was
+the whole point of several frames, and **VIN plates and chassis-marked job numbers are
+the only real identity signals** (registration plates are not: Midland uses trade plates,
+which move between units). VIN and stamped compliance plates are small and fine-grained —
+harder to read than a rego plate — so the resolution requirement is if anything tighter
+than it first appeared. If `md` is around 1024px that detail starts to go, and with it the
 `visible_text` field and the ability to say *which* trailer is in shot. If `md` is
 1600px+ on the long edge it is fine. If it is smaller, either a larger rendition or
 auto-orient-on-orig is the better answer.

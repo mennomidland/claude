@@ -87,10 +87,22 @@ Add an `image_rotated` defect value, and expect this class across the library.
 
 ## Two smaller observations
 
-- **Plates are a better identity key than shoot groups.** `YO 56BA` appears in both the
-  Oct 2024 and Oct 2025 shoots — the same trailer, a year apart, in two different
-  `shoot_group`s. Plates and container numbers in `visible_text` link frames that
-  filename grouping cannot.
+- **CORRECTED — plates are not an identity key.** This originally read *"plates are a
+  better identity key than shoot groups"*, on the basis that `YO 56BA` appeared in both
+  the Oct 2024 and Oct 2025 shoots and therefore showed the same trailer a year apart.
+  That is wrong: **`YO 56BA` is most likely a trade plate** — Midland's own transferable
+  plate, moved between units. So a shared plate across two frames does not mean one
+  trailer, and quite often means two different ones. The inference was exactly backwards.
+  Identity comes from the VIN plate or a chassis-marked job/build number, both of which
+  are permanent and unit-specific. Container numbers are no better — they belong to the
+  container, so they can separate one unit from another *within* a frame but cannot link
+  frames.
+
+  There is a useful signal left over, though, worth confirming: a trade plate means the
+  unit is unregistered and being moved or photographed — which usually means a new build
+  pre-delivery. That correlates with exactly the frames marketing wants. So the plate is
+  worth reading for what it says about the trailer's *state*, never its identity.
+
 - **Near-duplicates are common.** `153333`, `153337` and `153339` are three frames of
   one framing, all hero-grade. Marketing wants one. Worth a `duplicate_group` so the
   best of a run surfaces and the rest stay findable.
