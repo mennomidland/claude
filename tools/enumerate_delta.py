@@ -147,30 +147,66 @@ def parse_path(rel_segments):
     }
 
 
-def assign_shoot_groups(records):
-    """Group a run of consecutive camera-default filenames within one folder.
+TIMESTAMP_NAME = re.compile(r"(\d{8})[_-](\d{6})")
+COUNTER_NAME = re.compile(r"^(.*?)(\d+)$")
+COUNTER_GAP = 10       # frames; a burst numbers consecutively, a new shoot jumps
+TIMESTAMP_GAP = 3 * 3600
 
-    Sorting by name puts a burst in capture order for every pattern here, since they are
-    all zero-padded counters or timestamps. A descriptive filename breaks the run: it is
-    somebody naming one specific thing, not part of a burst.
+
+def _sequence_key(record):
+    """(prefix, ordinal) for ordering and gap detection within a folder."""
+    stem = _DUP_SUFFIX.sub("", pathlib.Path(record["photo"]["filename"]).stem).strip()
+    ts = TIMESTAMP_NAME.search(stem)
+    if ts:
+        d, t = ts.group(1), ts.group(2)
+        seconds = int(t[0:2]) * 3600 + int(t[2:4]) * 60 + int(t[4:6])
+        return ("ts", int(d) * 86400 + seconds, True)
+    m = COUNTER_NAME.match(stem)
+    if m:
+        return (m.group(1).lower(), int(m.group(2)), False)
+    return (stem.lower(), 0, False)
+
+
+def assign_shoot_groups(records):
+    """Group each run of *consecutive* camera-default filenames within one folder.
+
+    Consecutive is the operative word and it has to be enforced, not assumed. Grouping
+    every camera-default file in a folder into one run put all 1,017 frames of
+    `Drone Items/143GOPRO` -- spanning seven separate dates -- into a single "shoot".
+
+    A run therefore breaks on any of: a descriptive filename (somebody naming one specific
+    thing is not part of a burst), a change of filename prefix, a jump in the counter, or
+    a change of capture date.
     """
     by_folder = {}
     for r in records:
         by_folder.setdefault(r["path_derived"]["folder_path"], []).append(r)
 
     for folder, items in by_folder.items():
-        items.sort(key=lambda r: r["photo"]["filename"].lower())
+        items.sort(key=lambda r: (_sequence_key(r), r["photo"]["filename"].lower()))
         group_index, position = 0, 0
+        prev_key, prev_day = None, None
         for r in items:
-            if r["photo"]["filename_is_descriptive"]:
-                r["photo"]["shoot_group"] = None
-                r["photo"]["shoot_group_position"] = None
-                group_index += 1       # a named file ends the run either side of it
-                position = 0
+            photo = r["photo"]
+            if photo["filename_is_descriptive"]:
+                photo["shoot_group"] = None
+                photo["shoot_group_position"] = None
+                group_index += 1          # a named file ends the run either side of it
+                position, prev_key, prev_day = 0, None, None
                 continue
+
+            prefix, ordinal, is_ts = _sequence_key(r)
+            day = (photo["last_modified"] or "")[:10]
+            if prev_key is not None:
+                gap = TIMESTAMP_GAP if is_ts else COUNTER_GAP
+                if (prefix != prev_key[0] or ordinal - prev_key[1] > gap
+                        or (day and prev_day and day != prev_day)):
+                    group_index += 1
+                    position = 0
             position += 1
-            r["photo"]["shoot_group"] = f"{folder}#{group_index}"
-            r["photo"]["shoot_group_position"] = position
+            photo["shoot_group"] = f"{folder}#{group_index}"
+            photo["shoot_group_position"] = position
+            prev_key, prev_day = (prefix, ordinal), day
 
 
 def enumerate_library(token, out_dir, resume):

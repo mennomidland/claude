@@ -98,6 +98,13 @@ The tree encodes the taxonomy before any subfolder detail, so all of this is fre
 
 Within one folder, a run of consecutive camera-default filenames is normally one shoot of
 one trailer. Each run gets a stable `shoot_group` id and a `shoot_group_position`.
+Measured: **2,437 groups over 39,527 grouped files**, median 4 frames.
+
+**"Consecutive" is enforced, not assumed.** A run breaks on a descriptive filename, a
+change of filename prefix, a counter jump beyond ~10 frames, or a change of capture date.
+Grouping every camera-default file in a folder instead — which is the obvious
+implementation and the one written first here — put all 1,017 frames of
+`Drone Items/143GOPRO`, spanning **seven separate dates**, into a single "shoot".
 
 A **descriptive** filename breaks the run and gets no group — somebody naming one specific
 thing is not part of a burst. `filename_is_descriptive` is worth carrying in its own right:

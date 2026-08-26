@@ -167,3 +167,23 @@ as free ground truth, so the validation set would have been poisoned with camera
 The patterns now in `tools/enumerate_delta.py` were derived by clustering the real
 filenames, not guessed: GoPro, DJI, WhatsApp, Android, iOS, Canon `MVI_`, bare counters and
 epoch-ms stamps, plus `(2)` / `- Copy` / `_resized` suffixes.
+
+### Shoot groups: ~2,400, and "consecutive" has to be enforced
+
+**2,437 shoot groups over 39,527 grouped files** — median 4 frames, mean 16.
+
+The word *consecutive* in "a run of consecutive camera-default filenames" is load-bearing,
+and a first implementation that grouped every camera-default file in a folder into one run
+looked plausible while being wrong: all 1,017 frames of `Drone Items/143GOPRO`, **spanning
+seven separate dates**, came out as a single shoot. A run now breaks on a descriptive
+filename, a change of filename prefix, a counter jump beyond ~10 frames, or a change of
+capture date. That folder resolves into 12 single-date groups.
+
+Large groups are not automatically wrong. `Drone Items/175GOPRO` is one group of 999 and
+should be: single date, counter `G0018481` → `G0019479`, **zero gaps**. That is a
+continuous time-lapse, and it is precisely the population `duplicate_group` exists for.
+
+A caution for anything that keys off capture dates: several GoPro folders carry a default
+camera clock (`2012-01-03` across all 999 frames of `175GOPRO`), so the date is reliable
+for *splitting* a run but not for dating the trailer. Build date comes from the folder
+name, not from file metadata.
