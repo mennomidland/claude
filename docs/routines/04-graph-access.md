@@ -90,29 +90,48 @@ Better to discover that on one file than 30,000.
 Measured in session `session_016EmSbCtVTxyNtCkqCimdwn`, environment
 `env_0175ZY9ro2ikpeDDEHXq7R4t`. Run `python3 tools/graph_check.py` to re-measure.
 
+**Steps 1-5 pass. Step 6 fails on one missing allowlist entry** — see the table below.
+
 | Host | Result | Meaning |
 |---|---|---|
 | `qm3staging.midlandind.com.au` | **401** | Step 1 passes. Host up, wanting auth |
-| `login.microsoftonline.com` | **302** | Allowlisted. Step 2's egress host is fine |
-| `midlandind.sharepoint.com` | **403** | Allowlisted mid-session. Tunnel opens; the 403 is SharePoint wanting auth |
-| `graph.microsoft.com` | **CONNECT 403** | **Not allowlisted.** Blocks steps 3-6. Still rejecting after a 10-minute poll |
+| `login.microsoftonline.com` | **302** | Allowlisted. Step 2 acquires a token |
+| `graph.microsoft.com` | **open** | Allowlisted. Steps 3-6 reach the API |
+| `midlandind.sharepoint.com` | **open** | Allowlisted. **This is where `/content` redirects** |
+| `australiaeast1-mediap.svc.ms` | **CONNECT 403** | **Not allowlisted.** Thumbnails come from here. Blocks step 6 |
 | `pypi.org`, `registry.npmjs.org` | 200 | Reachable — but via the proxy's `noProxy` bypass, not the tick |
 | `raw.githubusercontent.com` | 301 | Allowed through the gateway |
 
 So the package-manager question is answered — installs work — though note the mechanism
 is the bypass list, so it is not evidence about the allowlist itself.
 
-**`graph.microsoft.com` is the one host still missing.** Everything else Graph needs is
-in place.
+**Outstanding: add `*.svc.ms`** (or at minimum `australiaeast1-mediap.svc.ms`) to the
+`Midland` allowlist. Nothing else is missing.
 
-How long an allowlist edit takes to land, measured here: `*.sharepoint.com` went live
-**within about two minutes** of being added. `graph.microsoft.com` was reported added and
-was still refusing CONNECT after a **ten-minute** poll, with the proxy's
-`recentRelayFailures` showing continuous rejections throughout. Same session, same
-mechanism, so slow propagation does not explain the second case — if a host has not
-opened within a few minutes, check that the entry actually saved and that it is a bare
-hostname on the `Midland` environment (no scheme, no path, no trailing slash) rather than
-waiting longer.
+### Bytes and thumbnails come from two *different* hosts
+
+The warning in this file was right that a content request redirects, and half right about
+where. Measured on a real 4000x3000 item:
+
+- `GET /items/{id}/content` → **302 → `midlandind.sharepoint.com`** → 200, 3,154,822 bytes.
+  Covered by the `*.sharepoint.com` entry, so `dataBase64` works today.
+- `GET /items/{id}/thumbnails` → URLs on **`australiaeast1-mediap.svc.ms`**, a
+  region-specific media host that `*.sharepoint.com` does **not** cover.
+
+So `*.svc.ms` is not an "and depending on tenant also" footnote — on this tenant it is
+required the moment the vision pass prefers a rendition over a full original. Note the
+region prefix: another tenant region would give a different subdomain, which is the
+argument for the `*.svc.ms` wildcard over pinning one host.
+
+### Allowlist propagation, and a wildcard that does not match
+
+`*.sharepoint.com` went live **within about two minutes** of being added.
+`graph.microsoft.com` was reported added and then refused CONNECT for a further ten
+minutes — because it had been entered as `*.graph.microsoft.com`. **A leading `*.` does
+not match the bare host.** It opened immediately once the `*.` was dropped.
+
+If a host has not opened within a few minutes, do not wait longer: check the entry saved,
+and that it is a bare hostname (no scheme, no path, no trailing slash, no stray `*.`).
 
 Distinguish the two 403s carefully, because they read alike and mean opposite things:
 a **CONNECT 403** is the gateway refusing to open the tunnel (host not allowlisted),
@@ -177,6 +196,44 @@ Cheapest-first, so each step's failure is unambiguous. Automated in
 6. Only then a single end-to-end ingest into the media library.
 
 Steps 1-5 are read-only and create nothing. Step 6 creates one asset in staging.
+
+## Thumbnails: the API is fussier than the docs suggest
+
+Four things cost time here; all are encoded in `tools/graph_check.py`.
+
+1. **The default sizes are useless for this task.** `large` came back **600px** on the
+   long edge. VIN plates and chassis-marked job numbers are gone well before that, so a
+   custom size is mandatory, not an optimisation.
+2. **Use bare `select=` / `expand=`, not `$select=` / `$expand=`.** With the `$` prefix
+   Graph applies strict OData property validation and rejects the size outright —
+   *"Could not find a property named 'c1600x1200_Crop' on type
+   `microsoft.graph.thumbnailSet`"*. Without the `$`, the same string is read as a
+   thumbnail descriptor and honoured. Requesting the size as a path segment
+   (`/thumbnails/0/c1600x1600`) fails differently again, with an internal server error.
+3. **`_Fit` is not supported; only `_Crop`.** `c1600x1600_Fit` returns *"Unsupported
+   options were provided in the thumbnail descriptor."*
+4. **Therefore never request a square box.** `_Crop` on `c1600x1600` against a 4:3 frame
+   squares it off and discards a third of the image — including, quite possibly, the axle
+   group you are trying to count. Derive the box from the item's own `image.width` /
+   `image.height` so the crop is a no-op: `c1600x1200_Crop` on a 4000x3000 original
+   returns a true 1600x1200. `c2048x1536_Crop` also works, so there is headroom.
+
+### This answers the `md` rendition question
+
+`routines/03-media-library-api.md` left open whether the media library's `md.webp` is at
+least 1600px on the long edge, and flagged that VIN plates and chassis-marked job numbers
+are the only real identity signals — so a small rendition would cost the ability to say
+*which* trailer is in shot.
+
+Graph settles it independently: **a custom thumbnail at 1600px or 2048px on the long
+edge, auto-oriented, is available per item.** The vision pass never needs a
+full-resolution original and never needs the media library's rendition, so `md`'s long
+edge stops being on the critical path. It still wants confirming before anything depends
+on `md` specifically, but nothing does now.
+
+Legibility at 1600px has **not** been eyeball-checked yet — that needs `*.svc.ms`
+allowlisted so a rendition can actually be fetched and looked at. Treat 1600px as the
+requirement, not as a verified sufficiency.
 
 ## Consequence for the enumeration routine
 

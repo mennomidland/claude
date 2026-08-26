@@ -122,11 +122,23 @@ def _err(body):
 # --- steps ----------------------------------------------------------------------
 
 def step1_egress(state):
-    status, _, _ = request(INGEST_HOST)
-    state["ingest_status"] = status
-    if status == 401:
-        return True, "401 — host up and wanting auth, which is the expected shape"
-    return False, f"expected 401, got {status}"
+    """The staging host resets a connection now and then; a transient reset is not a
+    policy failure and must not abort the run before the Graph steps get a chance."""
+    last = None
+    for attempt in range(3):
+        try:
+            status, _, _ = request(INGEST_HOST)
+        except Blocked as b:
+            if b.kind == "egress":
+                raise  # a policy denial is not transient -- fail immediately
+            last = b.detail
+            continue
+        state["ingest_status"] = status
+        retried = f" (after {attempt} retr{'y' if attempt == 1 else 'ies'})" if attempt else ""
+        if status == 401:
+            return True, f"401 — host up and wanting auth, which is the expected shape{retried}"
+        return False, f"expected 401, got {status}{retried}"
+    raise Blocked("network", f"3 attempts, last: {last}")
 
 
 def step2_token(state):
@@ -226,27 +238,60 @@ def step5_content(state):
     return False, f"content {status}: {_err(raw)}"
 
 
+def _thumb_spec(state):
+    """A custom size box matching the item's own aspect ratio.
+
+    Only `_Crop` is supported here -- `_Fit` returns "Unsupported options were provided
+    in the thumbnail descriptor". `_Crop` on a square box would square off a 4:3 frame
+    and throw away a third of it, so the box is derived from the item's own dimensions
+    and the crop becomes a no-op. Falls back to a square only when Graph reported no
+    dimensions, where there is nothing better to go on.
+    """
+    w, h = state.get("item_dims") or (None, None)
+    if not (w and h):
+        return f"c{THUMB_SIZE}x{THUMB_SIZE}_Crop"
+    if w >= h:
+        return f"c{THUMB_SIZE}x{round(THUMB_SIZE * h / w)}_Crop"
+    return f"c{round(THUMB_SIZE * w / h)}x{THUMB_SIZE}_Crop"
+
+
 def step6_thumbnail(state):
     """Settles whether a rendition is legible enough to replace a full-resolution original."""
-    url = (f"{GRAPH}/drives/{DRIVE_ID}/items/{state['item_id']}"
-           f"/thumbnails?$select=c{THUMB_SIZE}x{THUMB_SIZE}"
-           f"&$expand=c{THUMB_SIZE}x{THUMB_SIZE}")
-    status, _, raw = request(url, token=state["token"])
+    spec = _thumb_spec(state)
+    status, _, raw = request(
+        f"{GRAPH}/drives/{DRIVE_ID}/items/{state['item_id']}"
+        # Bare `select`/`expand`, NOT `$select`/`$expand`: with the `$` prefix Graph
+        # applies strict OData property validation and rejects a custom size descriptor
+        # ("Could not find a property named 'c1600x1200_Crop'"). Without it, the size is
+        # routed to the thumbnail descriptor and honoured.
+        f"/thumbnails?select={spec}&expand={spec}", token=state["token"])
     if status != 200:
         return False, f"thumbnails {status}: {_err(raw)}"
     sets = json.loads(raw).get("value", [])
     if not sets:
         return False, "no thumbnail set returned"
-    custom = sets[0].get(f"c{THUMB_SIZE}x{THUMB_SIZE}") or {}
+    custom = sets[0].get(spec) or {}
     w, h = custom.get("width"), custom.get("height")
     state["thumb"] = (w, h)
     if not w:
-        return False, f"custom size not honoured; available: {sorted(sets[0])}"
+        return False, f"{spec} not honoured; available: {sorted(k for k in sets[0] if k != 'id')}"
+
     long_edge = max(w, h)
-    ok = long_edge >= THUMB_SIZE
-    verdict = ("legible enough for VIN plates" if ok
-               else f"BELOW the {THUMB_SIZE}px the vision pass needs")
-    return ok, f"{w}x{h} — long edge {long_edge}px, {verdict}"
+    big_enough = long_edge >= THUMB_SIZE
+    # The rendition lives on a different host again -- not graph.microsoft.com, and not
+    # the storage host /content redirects to. Reaching it is the whole point.
+    host = urllib.parse.urlparse(custom.get("url", "")).hostname
+    state["thumb_host"] = host
+    try:
+        s2, _, body = request(custom["url"])
+        reach = f"fetched {len(body)} bytes" if s2 == 200 else f"host answered {s2}"
+        ok = big_enough and s2 == 200
+    except Blocked as b:
+        reach = f"BLOCKED — add {host} (or *.svc.ms) to the allowlist"
+        ok = False
+    size_note = (f"{w}x{h}" if big_enough
+                 else f"{w}x{h} BELOW the {THUMB_SIZE}px long edge the vision pass needs")
+    return ok, f"{spec} -> {size_note}, host {host}: {reach}"
 
 
 STEPS = [

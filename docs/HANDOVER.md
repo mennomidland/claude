@@ -41,15 +41,17 @@ do not restart. See `routines/04-graph-access.md`.
 Allowlist state as measured 2026-08-26 (`python3 tools/graph_check.py` re-measures):
 
 ```
-login.microsoftonline.com   allowed (302)
-*.sharepoint.com            allowed (HTTP 403 = tunnel open, server wants auth)
-graph.microsoft.com         STILL BLOCKED -- reported added, but refusing CONNECT
-                            throughout a 10-minute poll. Verify the entry saved.
+login.microsoftonline.com     allowed
+graph.microsoft.com           allowed
+*.sharepoint.com              allowed -- /content redirects here
+*.svc.ms                      MISSING -- thumbnails come from
+                              australiaeast1-mediap.svc.ms. Blocks step 6.
 ```
 
-A reference point for how long an edit should take: `*.sharepoint.com` went live within
-about two minutes. Ten minutes with no change means the entry did not take, not that it
-is still propagating.
+An edit lands in about two minutes. If a host has not opened by then the entry did not
+take — check it is a **bare hostname**. `graph.microsoft.com` was entered as
+`*.graph.microsoft.com` and refused CONNECT for ten minutes; a leading `*.` does not
+match the bare host.
 
 Package managers are fine — pypi/npm reach via the proxy's `noProxy` bypass and
 `raw.githubusercontent.com` returns 301.
@@ -92,15 +94,15 @@ It never prints a credential or a token, and it does **not** do step 7. Full det
 1. Confirm egress: `https://qm3staging.midlandind.com.au/` → expect `401`, not `000`. **PASSING.**
 2. Graph token from `login.microsoftonline.com` — proves credentials + first egress host.
    **PASSING** — token acquired, so the client credentials are valid.
-3. `GET /sites/{...}/drives` — proves `Sites.Selected` was actually granted on the site.
-   **Blocked: `graph.microsoft.com` is not allowlisted.** This is the only thing in the way.
-4. `GET /drives/{driveId}/items/{itemId}` on one known file — proves item access.
-5. `GET .../content` — **most likely step to fail**, because it 302s to a storage host.
-   Read the real redirect host from the `Location` header before adding allowlist entries.
-6. `GET .../thumbnails` at a large custom size — settles whether the vision pass can read
-   an auto-oriented rendition instead of a full-resolution original. Check VIN plates and
-   chassis-marked job numbers are still legible. The script asserts a **≥1600px** long
-   edge, per the open question below.
+3. `GET /sites/{...}/drives` — **PASSING.** 2 drives, documented drive id present, so
+   `Sites.Selected` is granted on `SalesMarketingTeam`.
+4. `GET /drives/{driveId}/items/{itemId}` — **PASSING.** Resolves a real 4000x3000 image.
+5. `GET .../content` — **PASSING.** 302s to `midlandind.sharepoint.com` and fetches
+   3.15 MB. The predicted redirect trap is resolved: for this tenant the storage host is
+   covered by the existing `*.sharepoint.com` entry.
+6. `GET .../thumbnails` at a large custom size — **FAILING, one allowlist entry short.**
+   The custom size is honoured (1600x1200, aspect-preserved, auto-oriented) but the URL
+   is on `australiaeast1-mediap.svc.ms`, which is blocked. **Add `*.svc.ms`.**
 7. Only then one end-to-end ingest of a single asset into staging. **Not automated, and
    not to be run without saying so first** — it is the first step that writes anything.
 
@@ -141,8 +143,11 @@ strictly better than the folder-walk checkpoint scheme and removes the
 
 ## Still open
 
-- `md` rendition long edge — is it ≥1600px? Decides whether the vision pass reads a
-  rendition or a full original (Graph thumbnails may make this moot; step 6).
+- ~~`md` rendition long edge~~ — **largely settled.** Graph serves a custom thumbnail at
+  1600px (2048px also works), aspect-preserved and auto-oriented, so the vision pass needs
+  neither a full original nor the media library's `md`. Still worth confirming `md` before
+  anything depends on it specifically, but nothing does now. Legibility at 1600px has not
+  been eyeball-checked — that needs `*.svc.ms` allowlisted first.
 - Namespace naming — proposed `trailer-photo:vision` and `trailer-photo:human`.
 - Set-level provenance fields `model` / `promptVersion` / `taggedAt`, and whether the
   resume query returns `promptVersion` so a re-tag can select only stale records.
