@@ -1,0 +1,1931 @@
+{
+ "batch": "Auto Twist Lock Skels - full folder test",
+ "library_root": "Sales/1. Trailer Photos",
+ "folder": "Auto Twist Lock Skels",
+ "counts": {
+  "files_total": 43,
+  "images_tagged": 30,
+  "videos_excluded": 13,
+  "subfolders": 1
+ },
+ "records": [
+  {
+   "schema_version": "1.0",
+   "photo": {
+    "drive_id": "b!kxUlnz9hTEGIP79tTDljrR9Yzea0cmdLraKjspDsTfIFN9XvZPm7RKua__mqYOLv",
+    "item_id": "015HCHN4VVZRECJJUS6JDLYF5PXMSWUNVN",
+    "path": "Sales/1. Trailer Photos/Auto Twist Lock Skels/20241010_083353.jpg",
+    "filename": "20241010_083353.jpg",
+    "extension": "jpg",
+    "media_class": "image",
+    "depth": 3,
+    "filename_is_descriptive": false,
+    "shoot_group": "sg-20241010",
+    "shoot_group_position": 1
+   },
+   "path_derived": {
+    "product_category": "Auto Twist Lock Skels",
+    "variant": null,
+    "axle_config_from_path": "unstated",
+    "customer": null,
+    "build_date": null,
+    "job_numbers": [],
+    "content_expectation": "midland_trailer",
+    "folder_path": "Sales/1. Trailer Photos/Auto Twist Lock Skels/"
+   },
+   "vision": {
+    "media_kind": "photograph",
+    "is_midland_product": "midland",
+    "subject_type": "trailer_with_prime_mover",
+    "shot_type": "oblique_other",
+    "build_state": "finished",
+    "axle_count": "tri",
+    "trailer_configuration": "semi_trailer",
+    "body_type": "skeletal",
+    "is_loaded": "loaded",
+    "load_type": "shipping_containers",
+    "chassis_colour": "grey_or_silver",
+    "setting": "yard_or_hardstand",
+    "visible_text": [
+     "TRITON",
+     "154914",
+     "2,6m 8'6\"",
+     "Midland"
+    ],
+    "marketing_usability": "good",
+    "defects": [
+     "cluttered_background"
+    ],
+    "overall_confidence": "medium",
+    "needs_human_review": false,
+    "notes": null
+   },
+   "audit": {
+    "axle_agreement": "path_unstated",
+    "category_agreement": "agree",
+    "provenance_conflict": false
+   },
+   "provenance": {
+    "model": "in-session vision pass",
+    "prompt_version": "test-run-1",
+    "batch_id": "auto-twist-lock-skels-full-folder",
+    "tagged_at": "2026-08-26T11:20:00Z"
+   },
+   "_reviewer_note": "Low oblique from rear of a loaded skel, 2x20ft containers, prime mover attached. Midland mudflap legible."
+  },
+  {
+   "schema_version": "1.0",
+   "photo": {
+    "drive_id": "b!kxUlnz9hTEGIP79tTDljrR9Yzea0cmdLraKjspDsTfIFN9XvZPm7RKua__mqYOLv",
+    "item_id": "015HCHN4UTUPJIUKBG5VDL65Y2N67VT4OB",
+    "path": "Sales/1. Trailer Photos/Auto Twist Lock Skels/20241010_083357.jpg",
+    "filename": "20241010_083357.jpg",
+    "extension": "jpg",
+    "media_class": "image",
+    "depth": 3,
+    "filename_is_descriptive": false,
+    "shoot_group": "sg-20241010",
+    "shoot_group_position": 2
+   },
+   "path_derived": {
+    "product_category": "Auto Twist Lock Skels",
+    "variant": null,
+    "axle_config_from_path": "unstated",
+    "customer": null,
+    "build_date": null,
+    "job_numbers": [],
+    "content_expectation": "midland_trailer",
+    "folder_path": "Sales/1. Trailer Photos/Auto Twist Lock Skels/"
+   },
+   "vision": {
+    "media_kind": "photograph",
+    "is_midland_product": "midland",
+    "subject_type": "trailer_with_prime_mover",
+    "shot_type": "oblique_other",
+    "build_state": "finished",
+    "axle_count": "tri",
+    "trailer_configuration": "semi_trailer",
+    "body_type": "skeletal",
+    "is_loaded": "loaded",
+    "load_type": "shipping_containers",
+    "chassis_colour": "grey_or_silver",
+    "setting": "yard_or_hardstand",
+    "visible_text": [
+     "TRITON",
+     "154914",
+     "Midland",
+     "Behind you all the way"
+    ],
+    "marketing_usability": "good",
+    "defects": [
+     "cluttered_background"
+    ],
+    "overall_confidence": "medium",
+    "needs_human_review": false,
+    "notes": null
+   },
+   "audit": {
+    "axle_agreement": "path_unstated",
+    "category_agreement": "agree",
+    "provenance_conflict": false
+   },
+   "provenance": {
+    "model": "in-session vision pass",
+    "prompt_version": "test-run-1",
+    "batch_id": "auto-twist-lock-skels-full-folder",
+    "tagged_at": "2026-08-26T11:20:00Z"
+   },
+   "_reviewer_note": "Near-duplicate of 083353, wider. Landing legs and twist-lock control panel visible."
+  },
+  {
+   "schema_version": "1.0",
+   "photo": {
+    "drive_id": "b!kxUlnz9hTEGIP79tTDljrR9Yzea0cmdLraKjspDsTfIFN9XvZPm7RKua__mqYOLv",
+    "item_id": "015HCHN4XGZTV3JF65ZVG27LVTPXJRIR6B",
+    "path": "Sales/1. Trailer Photos/Auto Twist Lock Skels/20241010_083443.jpg",
+    "filename": "20241010_083443.jpg",
+    "extension": "jpg",
+    "media_class": "image",
+    "depth": 3,
+    "filename_is_descriptive": false,
+    "shoot_group": "sg-20241010",
+    "shoot_group_position": 3
+   },
+   "path_derived": {
+    "product_category": "Auto Twist Lock Skels",
+    "variant": null,
+    "axle_config_from_path": "unstated",
+    "customer": null,
+    "build_date": null,
+    "job_numbers": [],
+    "content_expectation": "midland_trailer",
+    "folder_path": "Sales/1. Trailer Photos/Auto Twist Lock Skels/"
+   },
+   "vision": {
+    "media_kind": "photograph",
+    "is_midland_product": "midland",
+    "subject_type": "multiple_trailers",
+    "shot_type": "three_quarter_rear",
+    "build_state": "finished",
+    "axle_count": "tri",
+    "trailer_configuration": "road_train_combination",
+    "body_type": "skeletal",
+    "is_loaded": "loaded",
+    "load_type": "shipping_containers",
+    "chassis_colour": "grey_or_silver",
+    "setting": "yard_or_hardstand",
+    "visible_text": [
+     "DONG FANG",
+     "DFSU 115491",
+     "2261",
+     "YO 56BA",
+     "MIDLAND",
+     "1300 303 570",
+     "OOCL",
+     "COSCO SHIPPING",
+     "TRITON"
+    ],
+    "marketing_usability": "good",
+    "defects": [
+     "cluttered_background"
+    ],
+    "overall_confidence": "high",
+    "needs_human_review": false,
+    "notes": null
+   },
+   "audit": {
+    "axle_agreement": "path_unstated",
+    "category_agreement": "agree",
+    "provenance_conflict": false
+   },
+   "provenance": {
+    "model": "in-session vision pass",
+    "prompt_version": "test-run-1",
+    "batch_id": "auto-twist-lock-skels-full-folder",
+    "tagged_at": "2026-08-26T11:20:00Z"
+   },
+   "_reviewer_note": "Rear three-quarter, reach stacker mid-lift. Tri axle group unambiguous. Plate YO 56BA."
+  },
+  {
+   "schema_version": "1.0",
+   "photo": {
+    "drive_id": "b!kxUlnz9hTEGIP79tTDljrR9Yzea0cmdLraKjspDsTfIFN9XvZPm7RKua__mqYOLv",
+    "item_id": "015HCHN4X5OUCN7IUSNNAJC5E2HKL4LUYP",
+    "path": "Sales/1. Trailer Photos/Auto Twist Lock Skels/20241010_084259.jpg",
+    "filename": "20241010_084259.jpg",
+    "extension": "jpg",
+    "media_class": "image",
+    "depth": 3,
+    "filename_is_descriptive": false,
+    "shoot_group": "sg-20241010",
+    "shoot_group_position": 4
+   },
+   "path_derived": {
+    "product_category": "Auto Twist Lock Skels",
+    "variant": null,
+    "axle_config_from_path": "unstated",
+    "customer": null,
+    "build_date": null,
+    "job_numbers": [],
+    "content_expectation": "midland_trailer",
+    "folder_path": "Sales/1. Trailer Photos/Auto Twist Lock Skels/"
+   },
+   "vision": {
+    "media_kind": "photograph",
+    "is_midland_product": "midland",
+    "subject_type": "component_detail",
+    "shot_type": "detail_close_up",
+    "build_state": "finished",
+    "axle_count": "not_visible",
+    "trailer_configuration": "semi_trailer",
+    "body_type": "skeletal",
+    "is_loaded": "loaded",
+    "load_type": "shipping_containers",
+    "chassis_colour": "grey_or_silver",
+    "setting": "yard_or_hardstand",
+    "visible_text": [
+     "HAUL STAR",
+     "MIDLAND",
+     "Midland"
+    ],
+    "marketing_usability": "record_only",
+    "defects": [
+     "partial_crop"
+    ],
+    "overall_confidence": "medium",
+    "needs_human_review": false,
+    "notes": "Cropped side view; only two axles of the group are in frame so the total cannot be counted."
+   },
+   "audit": {
+    "axle_agreement": "path_unstated",
+    "category_agreement": "agree",
+    "provenance_conflict": false
+   },
+   "provenance": {
+    "model": "in-session vision pass",
+    "prompt_version": "test-run-1",
+    "batch_id": "auto-twist-lock-skels-full-folder",
+    "tagged_at": "2026-08-26T11:20:00Z"
+   },
+   "_reviewer_note": "SCHEMA GAP: a cropped view of a whole trailer has no good subject_type. Tagged component_detail."
+  },
+  {
+   "schema_version": "1.0",
+   "photo": {
+    "drive_id": "b!kxUlnz9hTEGIP79tTDljrR9Yzea0cmdLraKjspDsTfIFN9XvZPm7RKua__mqYOLv",
+    "item_id": "015HCHN4UURYZIUBCPSJDJYOZDAC3PD6ST",
+    "path": "Sales/1. Trailer Photos/Auto Twist Lock Skels/20241010_084308.jpg",
+    "filename": "20241010_084308.jpg",
+    "extension": "jpg",
+    "media_class": "image",
+    "depth": 3,
+    "filename_is_descriptive": false,
+    "shoot_group": "sg-20241010",
+    "shoot_group_position": 5
+   },
+   "path_derived": {
+    "product_category": "Auto Twist Lock Skels",
+    "variant": null,
+    "axle_config_from_path": "unstated",
+    "customer": null,
+    "build_date": null,
+    "job_numbers": [],
+    "content_expectation": "midland_trailer",
+    "folder_path": "Sales/1. Trailer Photos/Auto Twist Lock Skels/"
+   },
+   "vision": {
+    "media_kind": "photograph",
+    "is_midland_product": "midland",
+    "subject_type": "component_detail",
+    "shot_type": "detail_close_up",
+    "build_state": "finished",
+    "axle_count": "not_visible",
+    "trailer_configuration": "semi_trailer",
+    "body_type": "skeletal",
+    "is_loaded": "loaded",
+    "load_type": "shipping_containers",
+    "chassis_colour": "grey_or_silver",
+    "setting": "yard_or_hardstand",
+    "visible_text": [
+     "MIDLAND PTY LTD",
+     "1300 301 570",
+     "RIGHT WEIGH"
+    ],
+    "marketing_usability": "record_only",
+    "defects": [],
+    "overall_confidence": "high",
+    "needs_human_review": false,
+    "notes": null
+   },
+   "audit": {
+    "axle_agreement": "path_unstated",
+    "category_agreement": "agree",
+    "provenance_conflict": false
+   },
+   "provenance": {
+    "model": "in-session vision pass",
+    "prompt_version": "test-run-1",
+    "batch_id": "auto-twist-lock-skels-full-folder",
+    "tagged_at": "2026-08-26T11:20:00Z"
+   },
+   "_reviewer_note": "Chassis-rail detail: Midland twist-lock control box, Right Weigh gauge, marker lights."
+  },
+  {
+   "schema_version": "1.0",
+   "photo": {
+    "drive_id": "b!kxUlnz9hTEGIP79tTDljrR9Yzea0cmdLraKjspDsTfIFN9XvZPm7RKua__mqYOLv",
+    "item_id": "015HCHN4S6HYQWP3QCDRAJLKIDVCZ4QYNL",
+    "path": "Sales/1. Trailer Photos/Auto Twist Lock Skels/20241010_084316.jpg",
+    "filename": "20241010_084316.jpg",
+    "extension": "jpg",
+    "media_class": "image",
+    "depth": 3,
+    "filename_is_descriptive": false,
+    "shoot_group": "sg-20241010",
+    "shoot_group_position": 6
+   },
+   "path_derived": {
+    "product_category": "Auto Twist Lock Skels",
+    "variant": null,
+    "axle_config_from_path": "unstated",
+    "customer": null,
+    "build_date": null,
+    "job_numbers": [],
+    "content_expectation": "midland_trailer",
+    "folder_path": "Sales/1. Trailer Photos/Auto Twist Lock Skels/"
+   },
+   "vision": {
+    "media_kind": "photograph",
+    "is_midland_product": "midland",
+    "subject_type": "component_detail",
+    "shot_type": "detail_close_up",
+    "build_state": "finished",
+    "axle_count": "not_visible",
+    "trailer_configuration": "semi_trailer",
+    "body_type": "skeletal",
+    "is_loaded": "loaded",
+    "load_type": "shipping_containers",
+    "chassis_colour": "grey_or_silver",
+    "setting": "yard_or_hardstand",
+    "visible_text": [
+     "MIDLAND PTY LTD",
+     "1x20' CONTAINER PUSH TO ENGAGE PULL TO RELEASE",
+     "2x20' CONTAINERS PUSH TO ENGAGE PULL TO RELEASE",
+     "1x40'/1 BOTH VALVES MUST BE RELEASED!",
+     "SYSTEM PRESSURE MUST BE GREEN TO OPERATE",
+     "SYSTEM POWER MUST BE ILLUMINATE",
+     "RIGHT WEIGH"
+    ],
+    "marketing_usability": "good",
+    "defects": [],
+    "overall_confidence": "high",
+    "needs_human_review": false,
+    "notes": null
+   },
+   "audit": {
+    "axle_agreement": "path_unstated",
+    "category_agreement": "agree",
+    "provenance_conflict": false
+   },
+   "provenance": {
+    "model": "in-session vision pass",
+    "prompt_version": "test-run-1",
+    "batch_id": "auto-twist-lock-skels-full-folder",
+    "tagged_at": "2026-08-26T11:20:00Z"
+   },
+   "_reviewer_note": "The product feature this whole folder is named for: the auto twist lock control panel."
+  },
+  {
+   "schema_version": "1.0",
+   "photo": {
+    "drive_id": "b!kxUlnz9hTEGIP79tTDljrR9Yzea0cmdLraKjspDsTfIFN9XvZPm7RKua__mqYOLv",
+    "item_id": "015HCHN4S2RVNQ752FWJAZNSKKGRZ2BCSR",
+    "path": "Sales/1. Trailer Photos/Auto Twist Lock Skels/20251029_150916.jpg",
+    "filename": "20251029_150916.jpg",
+    "extension": "jpg",
+    "media_class": "image",
+    "depth": 3,
+    "filename_is_descriptive": false,
+    "shoot_group": "sg-20251029",
+    "shoot_group_position": 1
+   },
+   "path_derived": {
+    "product_category": "Auto Twist Lock Skels",
+    "variant": null,
+    "axle_config_from_path": "unstated",
+    "customer": null,
+    "build_date": null,
+    "job_numbers": [],
+    "content_expectation": "midland_trailer",
+    "folder_path": "Sales/1. Trailer Photos/Auto Twist Lock Skels/"
+   },
+   "vision": {
+    "media_kind": "photograph",
+    "is_midland_product": "midland",
+    "subject_type": "component_detail",
+    "shot_type": "unknown",
+    "build_state": "finished",
+    "axle_count": "not_visible",
+    "trailer_configuration": "semi_trailer",
+    "body_type": "skeletal",
+    "is_loaded": "loaded",
+    "load_type": "shipping_containers",
+    "chassis_colour": "grey_or_silver",
+    "setting": "yard_or_hardstand",
+    "visible_text": [
+     "MAERSK",
+     "MIDLAND"
+    ],
+    "marketing_usability": "reject",
+    "defects": [
+     "partial_crop"
+    ],
+    "overall_confidence": "low",
+    "needs_human_review": true,
+    "notes": "File is stored rotated 90 degrees; orientation must be corrected before any use."
+   },
+   "audit": {
+    "axle_agreement": "path_unstated",
+    "category_agreement": "agree",
+    "provenance_conflict": false
+   },
+   "provenance": {
+    "model": "in-session vision pass",
+    "prompt_version": "test-run-1",
+    "batch_id": "auto-twist-lock-skels-full-folder",
+    "tagged_at": "2026-08-26T11:20:00Z"
+   },
+   "_reviewer_note": "ROTATION DEFECT: served sideways, EXIF orientation not applied."
+  },
+  {
+   "schema_version": "1.0",
+   "photo": {
+    "drive_id": "b!kxUlnz9hTEGIP79tTDljrR9Yzea0cmdLraKjspDsTfIFN9XvZPm7RKua__mqYOLv",
+    "item_id": "015HCHN4RBHKEGOBY5IBBYPR2ZIC7R6XSR",
+    "path": "Sales/1. Trailer Photos/Auto Twist Lock Skels/20251029_151948.jpg",
+    "filename": "20251029_151948.jpg",
+    "extension": "jpg",
+    "media_class": "image",
+    "depth": 3,
+    "filename_is_descriptive": false,
+    "shoot_group": "sg-20251029",
+    "shoot_group_position": 2
+   },
+   "path_derived": {
+    "product_category": "Auto Twist Lock Skels",
+    "variant": null,
+    "axle_config_from_path": "unstated",
+    "customer": null,
+    "build_date": null,
+    "job_numbers": [],
+    "content_expectation": "midland_trailer",
+    "folder_path": "Sales/1. Trailer Photos/Auto Twist Lock Skels/"
+   },
+   "vision": {
+    "media_kind": "photograph",
+    "is_midland_product": "midland",
+    "subject_type": "multiple_trailers",
+    "shot_type": "three_quarter_rear",
+    "build_state": "finished",
+    "axle_count": "tri",
+    "trailer_configuration": "road_train_combination",
+    "body_type": "skeletal",
+    "is_loaded": "loaded",
+    "load_type": "shipping_containers",
+    "chassis_colour": "grey_or_silver",
+    "setting": "yard_or_hardstand",
+    "visible_text": [
+     "MSBU 168557",
+     "22G1",
+     "MEDITERRANEAN SHIPPING CO",
+     "YO 56BA",
+     "LONG VEHICLE",
+     "DO NOT OVERTAKE TURNING VEHICLE",
+     "Midland",
+     "Behind you all the way",
+     "1300 301 570",
+     "Eco-Container"
+    ],
+    "marketing_usability": "good",
+    "defects": [
+     "people_visible"
+    ],
+    "overall_confidence": "high",
+    "needs_human_review": false,
+    "notes": null
+   },
+   "audit": {
+    "axle_agreement": "path_unstated",
+    "category_agreement": "agree",
+    "provenance_conflict": false
+   },
+   "provenance": {
+    "model": "in-session vision pass",
+    "prompt_version": "test-run-1",
+    "batch_id": "auto-twist-lock-skels-full-folder",
+    "tagged_at": "2026-08-26T11:20:00Z"
+   },
+   "_reviewer_note": "Clean rear three-quarter, blue sky. Two workers in hi-vis at right."
+  },
+  {
+   "schema_version": "1.0",
+   "photo": {
+    "drive_id": "b!kxUlnz9hTEGIP79tTDljrR9Yzea0cmdLraKjspDsTfIFN9XvZPm7RKua__mqYOLv",
+    "item_id": "015HCHN4QV3WDO7I4KKNA3PTBJMXMWAS3Z",
+    "path": "Sales/1. Trailer Photos/Auto Twist Lock Skels/20251029_151958.jpg",
+    "filename": "20251029_151958.jpg",
+    "extension": "jpg",
+    "media_class": "image",
+    "depth": 3,
+    "filename_is_descriptive": false,
+    "shoot_group": "sg-20251029",
+    "shoot_group_position": 3
+   },
+   "path_derived": {
+    "product_category": "Auto Twist Lock Skels",
+    "variant": null,
+    "axle_config_from_path": "unstated",
+    "customer": null,
+    "build_date": null,
+    "job_numbers": [],
+    "content_expectation": "midland_trailer",
+    "folder_path": "Sales/1. Trailer Photos/Auto Twist Lock Skels/"
+   },
+   "vision": {
+    "media_kind": "photograph",
+    "is_midland_product": "midland",
+    "subject_type": "multiple_trailers",
+    "shot_type": "three_quarter_rear",
+    "build_state": "finished",
+    "axle_count": "tri",
+    "trailer_configuration": "road_train_combination",
+    "body_type": "skeletal",
+    "is_loaded": "loaded",
+    "load_type": "shipping_containers",
+    "chassis_colour": "grey_or_silver",
+    "setting": "yard_or_hardstand",
+    "visible_text": [
+     "MSBU 168557",
+     "MEDITERRANEAN SHIPPING CO",
+     "YO 56BA",
+     "LONG VEHICLE",
+     "MIDLAND",
+     "MAERSK",
+     "CMA CGM"
+    ],
+    "marketing_usability": "hero",
+    "defects": [],
+    "overall_confidence": "high",
+    "needs_human_review": false,
+    "notes": null
+   },
+   "audit": {
+    "axle_agreement": "path_unstated",
+    "category_agreement": "agree",
+    "provenance_conflict": false
+   },
+   "provenance": {
+    "model": "in-session vision pass",
+    "prompt_version": "test-run-1",
+    "batch_id": "auto-twist-lock-skels-full-folder",
+    "tagged_at": "2026-08-26T11:20:00Z"
+   },
+   "_reviewer_note": "Best rear three-quarter in the folder: whole combination, clean light, no people."
+  },
+  {
+   "schema_version": "1.0",
+   "photo": {
+    "drive_id": "b!kxUlnz9hTEGIP79tTDljrR9Yzea0cmdLraKjspDsTfIFN9XvZPm7RKua__mqYOLv",
+    "item_id": "015HCHN4WFWTLVOZR6IVC2TRWY2ZJHZB4V",
+    "path": "Sales/1. Trailer Photos/Auto Twist Lock Skels/20251029_152010.jpg",
+    "filename": "20251029_152010.jpg",
+    "extension": "jpg",
+    "media_class": "image",
+    "depth": 3,
+    "filename_is_descriptive": false,
+    "shoot_group": "sg-20251029",
+    "shoot_group_position": 4
+   },
+   "path_derived": {
+    "product_category": "Auto Twist Lock Skels",
+    "variant": null,
+    "axle_config_from_path": "unstated",
+    "customer": null,
+    "build_date": null,
+    "job_numbers": [],
+    "content_expectation": "midland_trailer",
+    "folder_path": "Sales/1. Trailer Photos/Auto Twist Lock Skels/"
+   },
+   "vision": {
+    "media_kind": "photograph",
+    "is_midland_product": "midland",
+    "subject_type": "complete_trailer",
+    "shot_type": "side_elevation",
+    "build_state": "finished",
+    "axle_count": "tandem",
+    "trailer_configuration": "semi_trailer",
+    "body_type": "skeletal",
+    "is_loaded": "loaded",
+    "load_type": "shipping_containers",
+    "chassis_colour": "grey_or_silver",
+    "setting": "yard_or_hardstand",
+    "visible_text": [
+     "MEDITERRANEAN SHIPPING CO",
+     "MSBU 1369871",
+     "22G1",
+     "eco container bamboo flooring",
+     "MIDLAND",
+     "LONG VEHICLE"
+    ],
+    "marketing_usability": "good",
+    "defects": [],
+    "overall_confidence": "high",
+    "needs_human_review": false,
+    "notes": null
+   },
+   "audit": {
+    "axle_agreement": "path_unstated",
+    "category_agreement": "agree",
+    "provenance_conflict": false
+   },
+   "provenance": {
+    "model": "in-session vision pass",
+    "prompt_version": "test-run-1",
+    "batch_id": "auto-twist-lock-skels-full-folder",
+    "tagged_at": "2026-08-26T11:20:00Z"
+   },
+   "_reviewer_note": "KEY CASE: a TANDEM unit in the same combination as the tri-axle units above."
+  },
+  {
+   "schema_version": "1.0",
+   "photo": {
+    "drive_id": "b!kxUlnz9hTEGIP79tTDljrR9Yzea0cmdLraKjspDsTfIFN9XvZPm7RKua__mqYOLv",
+    "item_id": "015HCHN4RMEG6QCQBX65HZVRSP2KQFPK4E",
+    "path": "Sales/1. Trailer Photos/Auto Twist Lock Skels/20251029_152033.jpg",
+    "filename": "20251029_152033.jpg",
+    "extension": "jpg",
+    "media_class": "image",
+    "depth": 3,
+    "filename_is_descriptive": false,
+    "shoot_group": "sg-20251029",
+    "shoot_group_position": 5
+   },
+   "path_derived": {
+    "product_category": "Auto Twist Lock Skels",
+    "variant": null,
+    "axle_config_from_path": "unstated",
+    "customer": null,
+    "build_date": null,
+    "job_numbers": [],
+    "content_expectation": "midland_trailer",
+    "folder_path": "Sales/1. Trailer Photos/Auto Twist Lock Skels/"
+   },
+   "vision": {
+    "media_kind": "photograph",
+    "is_midland_product": "midland",
+    "subject_type": "multiple_trailers",
+    "shot_type": "oblique_other",
+    "build_state": "finished",
+    "axle_count": "unknown",
+    "trailer_configuration": "road_train_combination",
+    "body_type": "skeletal",
+    "is_loaded": "loaded",
+    "load_type": "shipping_containers",
+    "chassis_colour": "grey_or_silver",
+    "setting": "yard_or_hardstand",
+    "visible_text": [
+     "TASMAN LOGISTICS SERVICES",
+     "TLS1345",
+     "TRAIN",
+     "MSBU 1053780",
+     "MEDITERRANEAN SHIPPING CO",
+     "Safmarine",
+     "CMA CGM",
+     "MAERSK",
+     "MIDLAND",
+     "KENT WELD"
+    ],
+    "marketing_usability": "hero",
+    "defects": [],
+    "overall_confidence": "high",
+    "needs_human_review": false,
+    "notes": "Axle count left unknown: the subject is a multi-unit combination, not one trailer."
+   },
+   "audit": {
+    "axle_agreement": "path_unstated",
+    "category_agreement": "agree",
+    "provenance_conflict": false
+   },
+   "provenance": {
+    "model": "in-session vision pass",
+    "prompt_version": "test-run-1",
+    "batch_id": "auto-twist-lock-skels-full-folder",
+    "tagged_at": "2026-08-26T11:20:00Z"
+   },
+   "_reviewer_note": "SCHEMA GAP: axle_count is undefined when the subject is a whole combination."
+  },
+  {
+   "schema_version": "1.0",
+   "photo": {
+    "drive_id": "b!kxUlnz9hTEGIP79tTDljrR9Yzea0cmdLraKjspDsTfIFN9XvZPm7RKua__mqYOLv",
+    "item_id": "015HCHN4QY4PF5HJXO5NF3QJJB7R46YY4H",
+    "path": "Sales/1. Trailer Photos/Auto Twist Lock Skels/20251029_152126.jpg",
+    "filename": "20251029_152126.jpg",
+    "extension": "jpg",
+    "media_class": "image",
+    "depth": 3,
+    "filename_is_descriptive": false,
+    "shoot_group": "sg-20251029",
+    "shoot_group_position": 6
+   },
+   "path_derived": {
+    "product_category": "Auto Twist Lock Skels",
+    "variant": null,
+    "axle_config_from_path": "unstated",
+    "customer": null,
+    "build_date": null,
+    "job_numbers": [],
+    "content_expectation": "midland_trailer",
+    "folder_path": "Sales/1. Trailer Photos/Auto Twist Lock Skels/"
+   },
+   "vision": {
+    "media_kind": "photograph",
+    "is_midland_product": "midland",
+    "subject_type": "multiple_trailers",
+    "shot_type": "three_quarter_front",
+    "build_state": "finished",
+    "axle_count": "unknown",
+    "trailer_configuration": "road_train_combination",
+    "body_type": "skeletal",
+    "is_loaded": "loaded",
+    "load_type": "shipping_containers",
+    "chassis_colour": "grey_or_silver",
+    "setting": "yard_or_hardstand",
+    "visible_text": [
+     "TASMAN LOGISTICS SERVICES",
+     "TLS1345",
+     "XW 670H",
+     "Safmarine",
+     "COSCO SHIPPING",
+     "MAERSK",
+     "Without Trucks Australia Stops"
+    ],
+    "marketing_usability": "good",
+    "defects": [
+     "cluttered_background"
+    ],
+    "overall_confidence": "high",
+    "needs_human_review": false,
+    "notes": null
+   },
+   "audit": {
+    "axle_agreement": "path_unstated",
+    "category_agreement": "agree",
+    "provenance_conflict": false
+   },
+   "provenance": {
+    "model": "in-session vision pass",
+    "prompt_version": "test-run-1",
+    "batch_id": "auto-twist-lock-skels-full-folder",
+    "tagged_at": "2026-08-26T11:20:00Z"
+   },
+   "_reviewer_note": "Front three-quarter of prime mover and combination."
+  },
+  {
+   "schema_version": "1.0",
+   "photo": {
+    "drive_id": "b!kxUlnz9hTEGIP79tTDljrR9Yzea0cmdLraKjspDsTfIFN9XvZPm7RKua__mqYOLv",
+    "item_id": "015HCHN4V3LYKNJI3URRBKR2V6KMW3EQT4",
+    "path": "Sales/1. Trailer Photos/Auto Twist Lock Skels/20251029_152235.jpg",
+    "filename": "20251029_152235.jpg",
+    "extension": "jpg",
+    "media_class": "image",
+    "depth": 3,
+    "filename_is_descriptive": false,
+    "shoot_group": "sg-20251029",
+    "shoot_group_position": 7
+   },
+   "path_derived": {
+    "product_category": "Auto Twist Lock Skels",
+    "variant": null,
+    "axle_config_from_path": "unstated",
+    "customer": null,
+    "build_date": null,
+    "job_numbers": [],
+    "content_expectation": "midland_trailer",
+    "folder_path": "Sales/1. Trailer Photos/Auto Twist Lock Skels/"
+   },
+   "vision": {
+    "media_kind": "photograph",
+    "is_midland_product": "midland",
+    "subject_type": "multiple_trailers",
+    "shot_type": "three_quarter_front",
+    "build_state": "finished",
+    "axle_count": "unknown",
+    "trailer_configuration": "road_train_combination",
+    "body_type": "skeletal",
+    "is_loaded": "loaded",
+    "load_type": "shipping_containers",
+    "chassis_colour": "grey_or_silver",
+    "setting": "yard_or_hardstand",
+    "visible_text": [
+     "TASMAN LOGISTICS SERVICES",
+     "TLS1345",
+     "XW 670H",
+     "Safmarine",
+     "MSBU 1053780",
+     "KENT WELD"
+    ],
+    "marketing_usability": "good",
+    "defects": [
+     "cluttered_background"
+    ],
+    "overall_confidence": "high",
+    "needs_human_review": false,
+    "notes": null
+   },
+   "audit": {
+    "axle_agreement": "path_unstated",
+    "category_agreement": "agree",
+    "provenance_conflict": false
+   },
+   "provenance": {
+    "model": "in-session vision pass",
+    "prompt_version": "test-run-1",
+    "batch_id": "auto-twist-lock-skels-full-folder",
+    "tagged_at": "2026-08-26T11:20:00Z"
+   },
+   "_reviewer_note": "Tighter front three-quarter, Safmarine container filling the background."
+  },
+  {
+   "schema_version": "1.0",
+   "photo": {
+    "drive_id": "b!kxUlnz9hTEGIP79tTDljrR9Yzea0cmdLraKjspDsTfIFN9XvZPm7RKua__mqYOLv",
+    "item_id": "015HCHN4SGUMI45W25PZDYJQDKUOWOM5LI",
+    "path": "Sales/1. Trailer Photos/Auto Twist Lock Skels/20251029_153319.jpg",
+    "filename": "20251029_153319.jpg",
+    "extension": "jpg",
+    "media_class": "image",
+    "depth": 3,
+    "filename_is_descriptive": false,
+    "shoot_group": "sg-20251029",
+    "shoot_group_position": 8
+   },
+   "path_derived": {
+    "product_category": "Auto Twist Lock Skels",
+    "variant": null,
+    "axle_config_from_path": "unstated",
+    "customer": null,
+    "build_date": null,
+    "job_numbers": [],
+    "content_expectation": "midland_trailer",
+    "folder_path": "Sales/1. Trailer Photos/Auto Twist Lock Skels/"
+   },
+   "vision": {
+    "media_kind": "photograph",
+    "is_midland_product": "midland",
+    "subject_type": "multiple_trailers",
+    "shot_type": "three_quarter_front",
+    "build_state": "finished",
+    "axle_count": "unknown",
+    "trailer_configuration": "road_train_combination",
+    "body_type": "skeletal",
+    "is_loaded": "loaded",
+    "load_type": "shipping_containers",
+    "chassis_colour": "grey_or_silver",
+    "setting": "yard_or_hardstand",
+    "visible_text": [
+     "TASMAN LOGISTICS SERVICES",
+     "XW 670H",
+     "MEDITERRANEAN SHIPPING CO",
+     "YANG MING",
+     "CMA CGM",
+     "MIDLAND"
+    ],
+    "marketing_usability": "hero",
+    "defects": [],
+    "overall_confidence": "high",
+    "needs_human_review": false,
+    "notes": null
+   },
+   "audit": {
+    "axle_agreement": "path_unstated",
+    "category_agreement": "agree",
+    "provenance_conflict": false
+   },
+   "provenance": {
+    "model": "in-session vision pass",
+    "prompt_version": "test-run-1",
+    "batch_id": "auto-twist-lock-skels-full-folder",
+    "tagged_at": "2026-08-26T11:20:00Z"
+   },
+   "_reviewer_note": "Wide three-quarter front, whole combination, deep blue sky. Strong hero candidate."
+  },
+  {
+   "schema_version": "1.0",
+   "photo": {
+    "drive_id": "b!kxUlnz9hTEGIP79tTDljrR9Yzea0cmdLraKjspDsTfIFN9XvZPm7RKua__mqYOLv",
+    "item_id": "015HCHN4UMHKSJRYFRV5AZA5YMZKB7BB77",
+    "path": "Sales/1. Trailer Photos/Auto Twist Lock Skels/20251029_153333.jpg",
+    "filename": "20251029_153333.jpg",
+    "extension": "jpg",
+    "media_class": "image",
+    "depth": 3,
+    "filename_is_descriptive": false,
+    "shoot_group": "sg-20251029",
+    "shoot_group_position": 9
+   },
+   "path_derived": {
+    "product_category": "Auto Twist Lock Skels",
+    "variant": null,
+    "axle_config_from_path": "unstated",
+    "customer": null,
+    "build_date": null,
+    "job_numbers": [],
+    "content_expectation": "midland_trailer",
+    "folder_path": "Sales/1. Trailer Photos/Auto Twist Lock Skels/"
+   },
+   "vision": {
+    "media_kind": "photograph",
+    "is_midland_product": "midland",
+    "subject_type": "multiple_trailers",
+    "shot_type": "three_quarter_front",
+    "build_state": "finished",
+    "axle_count": "unknown",
+    "trailer_configuration": "road_train_combination",
+    "body_type": "skeletal",
+    "is_loaded": "loaded",
+    "load_type": "shipping_containers",
+    "chassis_colour": "grey_or_silver",
+    "setting": "yard_or_hardstand",
+    "visible_text": [
+     "TASMAN LOGISTICS SERVICES",
+     "TLS1345",
+     "MEDITERRANEAN SHIPPING CO",
+     "YANG MING",
+     "MIDLAND"
+    ],
+    "marketing_usability": "hero",
+    "defects": [],
+    "overall_confidence": "high",
+    "needs_human_review": false,
+    "notes": null
+   },
+   "audit": {
+    "axle_agreement": "path_unstated",
+    "category_agreement": "agree",
+    "provenance_conflict": false
+   },
+   "provenance": {
+    "model": "in-session vision pass",
+    "prompt_version": "test-run-1",
+    "batch_id": "auto-twist-lock-skels-full-folder",
+    "tagged_at": "2026-08-26T11:20:00Z"
+   },
+   "_reviewer_note": "Cleanest full-combination three-quarter in the folder."
+  },
+  {
+   "schema_version": "1.0",
+   "photo": {
+    "drive_id": "b!kxUlnz9hTEGIP79tTDljrR9Yzea0cmdLraKjspDsTfIFN9XvZPm7RKua__mqYOLv",
+    "item_id": "015HCHN4UCFK3YUNLSWJFLQZIFHSNVH432",
+    "path": "Sales/1. Trailer Photos/Auto Twist Lock Skels/20251029_153337.jpg",
+    "filename": "20251029_153337.jpg",
+    "extension": "jpg",
+    "media_class": "image",
+    "depth": 3,
+    "filename_is_descriptive": false,
+    "shoot_group": "sg-20251029",
+    "shoot_group_position": 10
+   },
+   "path_derived": {
+    "product_category": "Auto Twist Lock Skels",
+    "variant": null,
+    "axle_config_from_path": "unstated",
+    "customer": null,
+    "build_date": null,
+    "job_numbers": [],
+    "content_expectation": "midland_trailer",
+    "folder_path": "Sales/1. Trailer Photos/Auto Twist Lock Skels/"
+   },
+   "vision": {
+    "media_kind": "photograph",
+    "is_midland_product": "midland",
+    "subject_type": "multiple_trailers",
+    "shot_type": "three_quarter_front",
+    "build_state": "finished",
+    "axle_count": "unknown",
+    "trailer_configuration": "road_train_combination",
+    "body_type": "skeletal",
+    "is_loaded": "loaded",
+    "load_type": "shipping_containers",
+    "chassis_colour": "grey_or_silver",
+    "setting": "yard_or_hardstand",
+    "visible_text": [
+     "TASMAN LOGISTICS SERVICES",
+     "TLS1345",
+     "MEDITERRANEAN SHIPPING CO",
+     "YANG MING",
+     "MIDLAND"
+    ],
+    "marketing_usability": "hero",
+    "defects": [],
+    "overall_confidence": "high",
+    "needs_human_review": false,
+    "notes": null
+   },
+   "audit": {
+    "axle_agreement": "path_unstated",
+    "category_agreement": "agree",
+    "provenance_conflict": false
+   },
+   "provenance": {
+    "model": "in-session vision pass",
+    "prompt_version": "test-run-1",
+    "batch_id": "auto-twist-lock-skels-full-folder",
+    "tagged_at": "2026-08-26T11:20:00Z"
+   },
+   "_reviewer_note": "Near-duplicate of 153333."
+  },
+  {
+   "schema_version": "1.0",
+   "photo": {
+    "drive_id": "b!kxUlnz9hTEGIP79tTDljrR9Yzea0cmdLraKjspDsTfIFN9XvZPm7RKua__mqYOLv",
+    "item_id": "015HCHN4QZ5C33XZSRFZGJ5N5VULXA75GU",
+    "path": "Sales/1. Trailer Photos/Auto Twist Lock Skels/20251029_153339.jpg",
+    "filename": "20251029_153339.jpg",
+    "extension": "jpg",
+    "media_class": "image",
+    "depth": 3,
+    "filename_is_descriptive": false,
+    "shoot_group": "sg-20251029",
+    "shoot_group_position": 11
+   },
+   "path_derived": {
+    "product_category": "Auto Twist Lock Skels",
+    "variant": null,
+    "axle_config_from_path": "unstated",
+    "customer": null,
+    "build_date": null,
+    "job_numbers": [],
+    "content_expectation": "midland_trailer",
+    "folder_path": "Sales/1. Trailer Photos/Auto Twist Lock Skels/"
+   },
+   "vision": {
+    "media_kind": "photograph",
+    "is_midland_product": "midland",
+    "subject_type": "multiple_trailers",
+    "shot_type": "three_quarter_front",
+    "build_state": "finished",
+    "axle_count": "unknown",
+    "trailer_configuration": "road_train_combination",
+    "body_type": "skeletal",
+    "is_loaded": "loaded",
+    "load_type": "shipping_containers",
+    "chassis_colour": "grey_or_silver",
+    "setting": "yard_or_hardstand",
+    "visible_text": [
+     "TASMAN LOGISTICS SERVICES",
+     "TLS1345",
+     "MEDITERRANEAN SHIPPING CO",
+     "YANG MING",
+     "TRITON",
+     "MIDLAND"
+    ],
+    "marketing_usability": "good",
+    "defects": [],
+    "overall_confidence": "high",
+    "needs_human_review": false,
+    "notes": null
+   },
+   "audit": {
+    "axle_agreement": "path_unstated",
+    "category_agreement": "agree",
+    "provenance_conflict": false
+   },
+   "provenance": {
+    "model": "in-session vision pass",
+    "prompt_version": "test-run-1",
+    "batch_id": "auto-twist-lock-skels-full-folder",
+    "tagged_at": "2026-08-26T11:20:00Z"
+   },
+   "_reviewer_note": "Third near-duplicate of the same framing."
+  },
+  {
+   "schema_version": "1.0",
+   "photo": {
+    "drive_id": "b!kxUlnz9hTEGIP79tTDljrR9Yzea0cmdLraKjspDsTfIFN9XvZPm7RKua__mqYOLv",
+    "item_id": "015HCHN4QVW5Y3GNYL4FDY5LDRE32IMDZL",
+    "path": "Sales/1. Trailer Photos/Auto Twist Lock Skels/20251029_153352.jpg",
+    "filename": "20251029_153352.jpg",
+    "extension": "jpg",
+    "media_class": "image",
+    "depth": 3,
+    "filename_is_descriptive": false,
+    "shoot_group": "sg-20251029",
+    "shoot_group_position": 12
+   },
+   "path_derived": {
+    "product_category": "Auto Twist Lock Skels",
+    "variant": null,
+    "axle_config_from_path": "unstated",
+    "customer": null,
+    "build_date": null,
+    "job_numbers": [],
+    "content_expectation": "midland_trailer",
+    "folder_path": "Sales/1. Trailer Photos/Auto Twist Lock Skels/"
+   },
+   "vision": {
+    "media_kind": "photograph",
+    "is_midland_product": "midland",
+    "subject_type": "multiple_trailers",
+    "shot_type": "side_elevation",
+    "build_state": "finished",
+    "axle_count": "tri",
+    "trailer_configuration": "road_train_combination",
+    "body_type": "skeletal",
+    "is_loaded": "loaded",
+    "load_type": "shipping_containers",
+    "chassis_colour": "grey_or_silver",
+    "setting": "yard_or_hardstand",
+    "visible_text": [
+     "TASMAN LOGISTICS SERVICES",
+     "MEDITERRANEAN SHIPPING CO",
+     "MSBU 1053780",
+     "MSMU 3572433",
+     "22G1",
+     "MIDLAND",
+     "YANG MING"
+    ],
+    "marketing_usability": "good",
+    "defects": [],
+    "overall_confidence": "high",
+    "needs_human_review": false,
+    "notes": null
+   },
+   "audit": {
+    "axle_agreement": "path_unstated",
+    "category_agreement": "agree",
+    "provenance_conflict": false
+   },
+   "provenance": {
+    "model": "in-session vision pass",
+    "prompt_version": "test-run-1",
+    "batch_id": "auto-twist-lock-skels-full-folder",
+    "tagged_at": "2026-08-26T11:20:00Z"
+   },
+   "_reviewer_note": "True side elevation, two 20ft boxes per unit. Tri group clear."
+  },
+  {
+   "schema_version": "1.0",
+   "photo": {
+    "drive_id": "b!kxUlnz9hTEGIP79tTDljrR9Yzea0cmdLraKjspDsTfIFN9XvZPm7RKua__mqYOLv",
+    "item_id": "015HCHN4QQNHYJAKHBH5GKTXBXAIQGTYRO",
+    "path": "Sales/1. Trailer Photos/Auto Twist Lock Skels/20251029_153354.jpg",
+    "filename": "20251029_153354.jpg",
+    "extension": "jpg",
+    "media_class": "image",
+    "depth": 3,
+    "filename_is_descriptive": false,
+    "shoot_group": "sg-20251029",
+    "shoot_group_position": 13
+   },
+   "path_derived": {
+    "product_category": "Auto Twist Lock Skels",
+    "variant": null,
+    "axle_config_from_path": "unstated",
+    "customer": null,
+    "build_date": null,
+    "job_numbers": [],
+    "content_expectation": "midland_trailer",
+    "folder_path": "Sales/1. Trailer Photos/Auto Twist Lock Skels/"
+   },
+   "vision": {
+    "media_kind": "photograph",
+    "is_midland_product": "midland",
+    "subject_type": "multiple_trailers",
+    "shot_type": "side_elevation",
+    "build_state": "finished",
+    "axle_count": "tri",
+    "trailer_configuration": "road_train_combination",
+    "body_type": "skeletal",
+    "is_loaded": "loaded",
+    "load_type": "shipping_containers",
+    "chassis_colour": "grey_or_silver",
+    "setting": "yard_or_hardstand",
+    "visible_text": [
+     "MEDITERRANEAN SHIPPING CO",
+     "MSBU 1053780",
+     "MSMU 3572433",
+     "22G1",
+     "YANG MING",
+     "MIDLAND"
+    ],
+    "marketing_usability": "good",
+    "defects": [],
+    "overall_confidence": "high",
+    "needs_human_review": false,
+    "notes": "Both a tri group and a tandem group are visible on different units in this frame."
+   },
+   "audit": {
+    "axle_agreement": "path_unstated",
+    "category_agreement": "agree",
+    "provenance_conflict": false
+   },
+   "provenance": {
+    "model": "in-session vision pass",
+    "prompt_version": "test-run-1",
+    "batch_id": "auto-twist-lock-skels-full-folder",
+    "tagged_at": "2026-08-26T11:20:00Z"
+   },
+   "_reviewer_note": "Side elevation showing tri and tandem units together - the propagation trap."
+  },
+  {
+   "schema_version": "1.0",
+   "photo": {
+    "drive_id": "b!kxUlnz9hTEGIP79tTDljrR9Yzea0cmdLraKjspDsTfIFN9XvZPm7RKua__mqYOLv",
+    "item_id": "015HCHN4U4P5GGNDHWLFBIEQWYIFRKICDT",
+    "path": "Sales/1. Trailer Photos/Auto Twist Lock Skels/Matt Tasman Videos and Pictures/WhatsApp Image 2026-03-18 at 3.25.38 PM.jpeg",
+    "filename": "WhatsApp Image 2026-03-18 at 3.25.38 PM.jpeg",
+    "extension": "jpeg",
+    "media_class": "image",
+    "depth": 4,
+    "filename_is_descriptive": false,
+    "shoot_group": "sg-20260318",
+    "shoot_group_position": 1
+   },
+   "path_derived": {
+    "product_category": "Auto Twist Lock Skels",
+    "variant": null,
+    "axle_config_from_path": "unstated",
+    "customer": "Tasman Logistics Services (Matt)",
+    "build_date": null,
+    "job_numbers": [],
+    "content_expectation": "midland_trailer",
+    "folder_path": "Sales/1. Trailer Photos/Auto Twist Lock Skels/Matt Tasman Videos and Pictures/"
+   },
+   "vision": {
+    "media_kind": "photograph",
+    "is_midland_product": "midland",
+    "subject_type": "multiple_trailers",
+    "shot_type": "oblique_other",
+    "build_state": "finished",
+    "axle_count": "tri",
+    "trailer_configuration": "semi_trailer",
+    "body_type": "skeletal",
+    "is_loaded": "empty",
+    "load_type": "none",
+    "chassis_colour": "pearl_white",
+    "setting": "customer_site",
+    "visible_text": [
+     "TASMAN LOGISTICS SERVICES",
+     "46'6\"x9'10\"",
+     "Midland",
+     "HAULSTAR"
+    ],
+    "marketing_usability": "usable",
+    "defects": [
+     "cluttered_background"
+    ],
+    "overall_confidence": "high",
+    "needs_human_review": false,
+    "notes": null
+   },
+   "audit": {
+    "axle_agreement": "path_unstated",
+    "category_agreement": "agree",
+    "provenance_conflict": false
+   },
+   "provenance": {
+    "model": "in-session vision pass",
+    "prompt_version": "test-run-1",
+    "batch_id": "auto-twist-lock-skels-full-folder",
+    "tagged_at": "2026-08-26T11:20:00Z"
+   },
+   "_reviewer_note": "Row of unloaded skels at customer yard, Melbourne CBD skyline behind."
+  },
+  {
+   "schema_version": "1.0",
+   "photo": {
+    "drive_id": "b!kxUlnz9hTEGIP79tTDljrR9Yzea0cmdLraKjspDsTfIFN9XvZPm7RKua__mqYOLv",
+    "item_id": "015HCHN4T5RU2DOCN5J5DJMKTHYGTH6XKN",
+    "path": "Sales/1. Trailer Photos/Auto Twist Lock Skels/Matt Tasman Videos and Pictures/WhatsApp Image 2026-03-18 at 3.25.38 PM (1).jpeg",
+    "filename": "WhatsApp Image 2026-03-18 at 3.25.38 PM (1).jpeg",
+    "extension": "jpeg",
+    "media_class": "image",
+    "depth": 4,
+    "filename_is_descriptive": false,
+    "shoot_group": "sg-20260318",
+    "shoot_group_position": 2
+   },
+   "path_derived": {
+    "product_category": "Auto Twist Lock Skels",
+    "variant": null,
+    "axle_config_from_path": "unstated",
+    "customer": "Tasman Logistics Services (Matt)",
+    "build_date": null,
+    "job_numbers": [],
+    "content_expectation": "midland_trailer",
+    "folder_path": "Sales/1. Trailer Photos/Auto Twist Lock Skels/Matt Tasman Videos and Pictures/"
+   },
+   "vision": {
+    "media_kind": "photograph",
+    "is_midland_product": "midland",
+    "subject_type": "multiple_trailers",
+    "shot_type": "oblique_other",
+    "build_state": "finished",
+    "axle_count": "tri",
+    "trailer_configuration": "semi_trailer",
+    "body_type": "skeletal",
+    "is_loaded": "empty",
+    "load_type": "none",
+    "chassis_colour": "pearl_white",
+    "setting": "customer_site",
+    "visible_text": [
+     "TASMAN LOGISTICS SERVICES",
+     "46'6\"x9'10\"",
+     "Midland",
+     "HAULSTAR"
+    ],
+    "marketing_usability": "usable",
+    "defects": [
+     "cluttered_background"
+    ],
+    "overall_confidence": "high",
+    "needs_human_review": false,
+    "notes": null
+   },
+   "audit": {
+    "axle_agreement": "path_unstated",
+    "category_agreement": "agree",
+    "provenance_conflict": false
+   },
+   "provenance": {
+    "model": "in-session vision pass",
+    "prompt_version": "test-run-1",
+    "batch_id": "auto-twist-lock-skels-full-folder",
+    "tagged_at": "2026-08-26T11:20:00Z"
+   },
+   "_reviewer_note": "Same row, wider; coiled air lines in foreground."
+  },
+  {
+   "schema_version": "1.0",
+   "photo": {
+    "drive_id": "b!kxUlnz9hTEGIP79tTDljrR9Yzea0cmdLraKjspDsTfIFN9XvZPm7RKua__mqYOLv",
+    "item_id": "015HCHN4VZPH2QQ7YNLRBKOH2NAW6XWDBP",
+    "path": "Sales/1. Trailer Photos/Auto Twist Lock Skels/Matt Tasman Videos and Pictures/WhatsApp Image 2026-03-18 at 3.25.38 PM (2).jpeg",
+    "filename": "WhatsApp Image 2026-03-18 at 3.25.38 PM (2).jpeg",
+    "extension": "jpeg",
+    "media_class": "image",
+    "depth": 4,
+    "filename_is_descriptive": false,
+    "shoot_group": "sg-20260318",
+    "shoot_group_position": 3
+   },
+   "path_derived": {
+    "product_category": "Auto Twist Lock Skels",
+    "variant": null,
+    "axle_config_from_path": "unstated",
+    "customer": "Tasman Logistics Services (Matt)",
+    "build_date": null,
+    "job_numbers": [],
+    "content_expectation": "midland_trailer",
+    "folder_path": "Sales/1. Trailer Photos/Auto Twist Lock Skels/Matt Tasman Videos and Pictures/"
+   },
+   "vision": {
+    "media_kind": "photograph",
+    "is_midland_product": "midland",
+    "subject_type": "component_detail",
+    "shot_type": "detail_close_up",
+    "build_state": "finished",
+    "axle_count": "not_visible",
+    "trailer_configuration": "semi_trailer",
+    "body_type": "skeletal",
+    "is_loaded": "empty",
+    "load_type": "none",
+    "chassis_colour": "pearl_white",
+    "setting": "customer_site",
+    "visible_text": [
+     "MIDLAND"
+    ],
+    "marketing_usability": "record_only",
+    "defects": [
+     "cluttered_background"
+    ],
+    "overall_confidence": "high",
+    "needs_human_review": false,
+    "notes": null
+   },
+   "audit": {
+    "axle_agreement": "path_unstated",
+    "category_agreement": "agree",
+    "provenance_conflict": false
+   },
+   "provenance": {
+    "model": "in-session vision pass",
+    "prompt_version": "test-run-1",
+    "batch_id": "auto-twist-lock-skels-full-folder",
+    "tagged_at": "2026-08-26T11:20:00Z"
+   },
+   "_reviewer_note": "Worn twist lock and marker lights, in-service condition. Kenworth in background."
+  },
+  {
+   "schema_version": "1.0",
+   "photo": {
+    "drive_id": "b!kxUlnz9hTEGIP79tTDljrR9Yzea0cmdLraKjspDsTfIFN9XvZPm7RKua__mqYOLv",
+    "item_id": "015HCHN4XHYRTYXFDUHNFY34CULYTYFRHP",
+    "path": "Sales/1. Trailer Photos/Auto Twist Lock Skels/Matt Tasman Videos and Pictures/WhatsApp Image 2026-03-18 at 3.25.56 PM.jpeg",
+    "filename": "WhatsApp Image 2026-03-18 at 3.25.56 PM.jpeg",
+    "extension": "jpeg",
+    "media_class": "image",
+    "depth": 4,
+    "filename_is_descriptive": false,
+    "shoot_group": "sg-20260318",
+    "shoot_group_position": 4
+   },
+   "path_derived": {
+    "product_category": "Auto Twist Lock Skels",
+    "variant": null,
+    "axle_config_from_path": "unstated",
+    "customer": "Tasman Logistics Services (Matt)",
+    "build_date": null,
+    "job_numbers": [],
+    "content_expectation": "midland_trailer",
+    "folder_path": "Sales/1. Trailer Photos/Auto Twist Lock Skels/Matt Tasman Videos and Pictures/"
+   },
+   "vision": {
+    "media_kind": "photograph",
+    "is_midland_product": "midland",
+    "subject_type": "component_detail",
+    "shot_type": "underside",
+    "build_state": "finished",
+    "axle_count": "not_visible",
+    "trailer_configuration": "semi_trailer",
+    "body_type": "skeletal",
+    "is_loaded": "empty",
+    "load_type": "none",
+    "chassis_colour": "pearl_white",
+    "setting": "customer_site",
+    "visible_text": [
+     "HAULSTAR"
+    ],
+    "marketing_usability": "record_only",
+    "defects": [
+     "poor_lighting"
+    ],
+    "overall_confidence": "medium",
+    "needs_human_review": false,
+    "notes": null
+   },
+   "audit": {
+    "axle_agreement": "path_unstated",
+    "category_agreement": "agree",
+    "provenance_conflict": false
+   },
+   "provenance": {
+    "model": "in-session vision pass",
+    "prompt_version": "test-run-1",
+    "batch_id": "auto-twist-lock-skels-full-folder",
+    "tagged_at": "2026-08-26T11:20:00Z"
+   },
+   "_reviewer_note": "Axle, hub and brake actuator detail from underneath. Technical record."
+  },
+  {
+   "schema_version": "1.0",
+   "photo": {
+    "drive_id": "b!kxUlnz9hTEGIP79tTDljrR9Yzea0cmdLraKjspDsTfIFN9XvZPm7RKua__mqYOLv",
+    "item_id": "015HCHN4WGAROMGOGVSZCLUAB2AHYDY4LF",
+    "path": "Sales/1. Trailer Photos/Auto Twist Lock Skels/Matt Tasman Videos and Pictures/WhatsApp Image 2026-03-18 at 3.25.58 PM.jpeg",
+    "filename": "WhatsApp Image 2026-03-18 at 3.25.58 PM.jpeg",
+    "extension": "jpeg",
+    "media_class": "image",
+    "depth": 4,
+    "filename_is_descriptive": false,
+    "shoot_group": "sg-20260318",
+    "shoot_group_position": 5
+   },
+   "path_derived": {
+    "product_category": "Auto Twist Lock Skels",
+    "variant": null,
+    "axle_config_from_path": "unstated",
+    "customer": "Tasman Logistics Services (Matt)",
+    "build_date": null,
+    "job_numbers": [],
+    "content_expectation": "midland_trailer",
+    "folder_path": "Sales/1. Trailer Photos/Auto Twist Lock Skels/Matt Tasman Videos and Pictures/"
+   },
+   "vision": {
+    "media_kind": "photograph",
+    "is_midland_product": "midland",
+    "subject_type": "component_detail",
+    "shot_type": "detail_close_up",
+    "build_state": "finished",
+    "axle_count": "not_visible",
+    "trailer_configuration": "semi_trailer",
+    "body_type": "skeletal",
+    "is_loaded": "empty",
+    "load_type": "none",
+    "chassis_colour": "pearl_white",
+    "setting": "customer_site",
+    "visible_text": [
+     "YO 22TJ",
+     "NATIONAL HEAVY VEHICLE"
+    ],
+    "marketing_usability": "reject",
+    "defects": [
+     "cluttered_background"
+    ],
+    "overall_confidence": "high",
+    "needs_human_review": true,
+    "notes": "Rust streaking and surface staining on the mainbeam; reads as condition documentation."
+   },
+   "audit": {
+    "axle_agreement": "path_unstated",
+    "category_agreement": "agree",
+    "provenance_conflict": false
+   },
+   "provenance": {
+    "model": "in-session vision pass",
+    "prompt_version": "test-run-1",
+    "batch_id": "auto-twist-lock-skels-full-folder",
+    "tagged_at": "2026-08-26T11:20:00Z"
+   },
+   "_reviewer_note": "CONDITION SHOT: rust streaks on mainbeam. Not marketing material."
+  },
+  {
+   "schema_version": "1.0",
+   "photo": {
+    "drive_id": "b!kxUlnz9hTEGIP79tTDljrR9Yzea0cmdLraKjspDsTfIFN9XvZPm7RKua__mqYOLv",
+    "item_id": "015HCHN4SMBU5YULWZGRH2PMUHSTOYEW3Q",
+    "path": "Sales/1. Trailer Photos/Auto Twist Lock Skels/Matt Tasman Videos and Pictures/WhatsApp Image 2026-03-18 at 3.26.09 PM.jpeg",
+    "filename": "WhatsApp Image 2026-03-18 at 3.26.09 PM.jpeg",
+    "extension": "jpeg",
+    "media_class": "image",
+    "depth": 4,
+    "filename_is_descriptive": false,
+    "shoot_group": "sg-20260318",
+    "shoot_group_position": 6
+   },
+   "path_derived": {
+    "product_category": "Auto Twist Lock Skels",
+    "variant": null,
+    "axle_config_from_path": "unstated",
+    "customer": "Tasman Logistics Services (Matt)",
+    "build_date": null,
+    "job_numbers": [],
+    "content_expectation": "midland_trailer",
+    "folder_path": "Sales/1. Trailer Photos/Auto Twist Lock Skels/Matt Tasman Videos and Pictures/"
+   },
+   "vision": {
+    "media_kind": "photograph",
+    "is_midland_product": "midland",
+    "subject_type": "component_detail",
+    "shot_type": "detail_close_up",
+    "build_state": "finished",
+    "axle_count": "not_visible",
+    "trailer_configuration": "semi_trailer",
+    "body_type": "skeletal",
+    "is_loaded": "empty",
+    "load_type": "none",
+    "chassis_colour": "pearl_white",
+    "setting": "customer_site",
+    "visible_text": [
+     "Midland"
+    ],
+    "marketing_usability": "record_only",
+    "defects": [
+     "backlit"
+    ],
+    "overall_confidence": "high",
+    "needs_human_review": false,
+    "notes": "Midland script decal on a dirty in-service beam, shot into the sun."
+   },
+   "audit": {
+    "axle_agreement": "path_unstated",
+    "category_agreement": "agree",
+    "provenance_conflict": false
+   },
+   "provenance": {
+    "model": "in-session vision pass",
+    "prompt_version": "test-run-1",
+    "batch_id": "auto-twist-lock-skels-full-folder",
+    "tagged_at": "2026-08-26T11:20:00Z"
+   },
+   "_reviewer_note": "Branding decal on in-service unit, heavy sun flare."
+  },
+  {
+   "schema_version": "1.0",
+   "photo": {
+    "drive_id": "b!kxUlnz9hTEGIP79tTDljrR9Yzea0cmdLraKjspDsTfIFN9XvZPm7RKua__mqYOLv",
+    "item_id": "015HCHN4UUYFBJ7RGSD5GZYHFKQVRCJOL7",
+    "path": "Sales/1. Trailer Photos/Auto Twist Lock Skels/Matt Tasman Videos and Pictures/WhatsApp Image 2026-03-18 at 3.26.10 PM.jpeg",
+    "filename": "WhatsApp Image 2026-03-18 at 3.26.10 PM.jpeg",
+    "extension": "jpeg",
+    "media_class": "image",
+    "depth": 4,
+    "filename_is_descriptive": false,
+    "shoot_group": "sg-20260318",
+    "shoot_group_position": 7
+   },
+   "path_derived": {
+    "product_category": "Auto Twist Lock Skels",
+    "variant": null,
+    "axle_config_from_path": "unstated",
+    "customer": "Tasman Logistics Services (Matt)",
+    "build_date": null,
+    "job_numbers": [],
+    "content_expectation": "midland_trailer",
+    "folder_path": "Sales/1. Trailer Photos/Auto Twist Lock Skels/Matt Tasman Videos and Pictures/"
+   },
+   "vision": {
+    "media_kind": "photograph",
+    "is_midland_product": "midland",
+    "subject_type": "component_detail",
+    "shot_type": "detail_close_up",
+    "build_state": "finished",
+    "axle_count": "not_visible",
+    "trailer_configuration": "semi_trailer",
+    "body_type": "skeletal",
+    "is_loaded": "empty",
+    "load_type": "none",
+    "chassis_colour": "pearl_white",
+    "setting": "customer_site",
+    "visible_text": [
+     "TJ",
+     "LONG VEHICLE",
+     "NATIONAL HEAVY VEHICLE",
+     "Midland"
+    ],
+    "marketing_usability": "reject",
+    "defects": [
+     "people_visible",
+     "partial_crop"
+    ],
+    "overall_confidence": "high",
+    "needs_human_review": true,
+    "notes": "A person's hand and arm are in frame; surfaces are dirty and scuffed."
+   },
+   "audit": {
+    "axle_agreement": "path_unstated",
+    "category_agreement": "agree",
+    "provenance_conflict": false
+   },
+   "provenance": {
+    "model": "in-session vision pass",
+    "prompt_version": "test-run-1",
+    "batch_id": "auto-twist-lock-skels-full-folder",
+    "tagged_at": "2026-08-26T11:20:00Z"
+   },
+   "_reviewer_note": "CONDITION SHOT with a person partly in frame."
+  },
+  {
+   "schema_version": "1.0",
+   "photo": {
+    "drive_id": "b!kxUlnz9hTEGIP79tTDljrR9Yzea0cmdLraKjspDsTfIFN9XvZPm7RKua__mqYOLv",
+    "item_id": "015HCHN4X6GQTTDNAKERHYQTMFW5CDYUAM",
+    "path": "Sales/1. Trailer Photos/Auto Twist Lock Skels/Matt Tasman Videos and Pictures/WhatsApp Image 2026-03-18 at 3.26.10 PM (1).jpeg",
+    "filename": "WhatsApp Image 2026-03-18 at 3.26.10 PM (1).jpeg",
+    "extension": "jpeg",
+    "media_class": "image",
+    "depth": 4,
+    "filename_is_descriptive": false,
+    "shoot_group": "sg-20260318",
+    "shoot_group_position": 8
+   },
+   "path_derived": {
+    "product_category": "Auto Twist Lock Skels",
+    "variant": null,
+    "axle_config_from_path": "unstated",
+    "customer": "Tasman Logistics Services (Matt)",
+    "build_date": null,
+    "job_numbers": [],
+    "content_expectation": "midland_trailer",
+    "folder_path": "Sales/1. Trailer Photos/Auto Twist Lock Skels/Matt Tasman Videos and Pictures/"
+   },
+   "vision": {
+    "media_kind": "photograph",
+    "is_midland_product": "midland",
+    "subject_type": "component_detail",
+    "shot_type": "detail_close_up",
+    "build_state": "finished",
+    "axle_count": "not_visible",
+    "trailer_configuration": "semi_trailer",
+    "body_type": "skeletal",
+    "is_loaded": "empty",
+    "load_type": "none",
+    "chassis_colour": "pearl_white",
+    "setting": "customer_site",
+    "visible_text": [],
+    "marketing_usability": "reject",
+    "defects": [
+     "cluttered_background"
+    ],
+    "overall_confidence": "high",
+    "needs_human_review": true,
+    "notes": "Chipped and dirt-streaked coaming edge; this is damage documentation."
+   },
+   "audit": {
+    "axle_agreement": "path_unstated",
+    "category_agreement": "agree",
+    "provenance_conflict": false
+   },
+   "provenance": {
+    "model": "in-session vision pass",
+    "prompt_version": "test-run-1",
+    "batch_id": "auto-twist-lock-skels-full-folder",
+    "tagged_at": "2026-08-26T11:20:00Z"
+   },
+   "_reviewer_note": "CONDITION SHOT: chipped coaming/edge damage."
+  },
+  {
+   "schema_version": "1.0",
+   "photo": {
+    "drive_id": "b!kxUlnz9hTEGIP79tTDljrR9Yzea0cmdLraKjspDsTfIFN9XvZPm7RKua__mqYOLv",
+    "item_id": "015HCHN4UAEPA2KK647BAJIQER5Y7EF4LW",
+    "path": "Sales/1. Trailer Photos/Auto Twist Lock Skels/Matt Tasman Videos and Pictures/WhatsApp Image 2026-03-18 at 3.26.14 PM.jpeg",
+    "filename": "WhatsApp Image 2026-03-18 at 3.26.14 PM.jpeg",
+    "extension": "jpeg",
+    "media_class": "image",
+    "depth": 4,
+    "filename_is_descriptive": false,
+    "shoot_group": "sg-20260318",
+    "shoot_group_position": 9
+   },
+   "path_derived": {
+    "product_category": "Auto Twist Lock Skels",
+    "variant": null,
+    "axle_config_from_path": "unstated",
+    "customer": "Tasman Logistics Services (Matt)",
+    "build_date": null,
+    "job_numbers": [],
+    "content_expectation": "midland_trailer",
+    "folder_path": "Sales/1. Trailer Photos/Auto Twist Lock Skels/Matt Tasman Videos and Pictures/"
+   },
+   "vision": {
+    "media_kind": "photograph",
+    "is_midland_product": "midland",
+    "subject_type": "component_detail",
+    "shot_type": "detail_close_up",
+    "build_state": "finished",
+    "axle_count": "not_visible",
+    "trailer_configuration": "semi_trailer",
+    "body_type": "skeletal",
+    "is_loaded": "empty",
+    "load_type": "none",
+    "chassis_colour": "pearl_white",
+    "setting": "customer_site",
+    "visible_text": [
+     "YO 22TJ",
+     "LONG VEHICLE",
+     "DO NOT OVERTAKE TURNING VEHICLE",
+     "KRUEGER",
+     "257"
+    ],
+    "marketing_usability": "reject",
+    "defects": [
+     "people_visible",
+     "competitor_branding_visible"
+    ],
+    "overall_confidence": "high",
+    "needs_human_review": true,
+    "notes": "A Krueger-branded trailer is visible behind the Midland unit."
+   },
+   "audit": {
+    "axle_agreement": "path_unstated",
+    "category_agreement": "agree",
+    "provenance_conflict": false
+   },
+   "provenance": {
+    "model": "in-session vision pass",
+    "prompt_version": "test-run-1",
+    "batch_id": "auto-twist-lock-skels-full-folder",
+    "tagged_at": "2026-08-26T11:20:00Z"
+   },
+   "_reviewer_note": "COMPETITOR IN FRAME: Krueger trailer in background, plus a worker in hi-vis."
+  },
+  {
+   "schema_version": "1.0",
+   "photo": {
+    "drive_id": "b!kxUlnz9hTEGIP79tTDljrR9Yzea0cmdLraKjspDsTfIFN9XvZPm7RKua__mqYOLv",
+    "item_id": "015HCHN4R4YNPCJQRVHFH2HIKY77GHERZV",
+    "path": "Sales/1. Trailer Photos/Auto Twist Lock Skels/Matt Tasman Videos and Pictures/WhatsApp Image 2026-03-18 at 3.26.15 PM.jpeg",
+    "filename": "WhatsApp Image 2026-03-18 at 3.26.15 PM.jpeg",
+    "extension": "jpeg",
+    "media_class": "image",
+    "depth": 4,
+    "filename_is_descriptive": false,
+    "shoot_group": "sg-20260318",
+    "shoot_group_position": 10
+   },
+   "path_derived": {
+    "product_category": "Auto Twist Lock Skels",
+    "variant": null,
+    "axle_config_from_path": "unstated",
+    "customer": "Tasman Logistics Services (Matt)",
+    "build_date": null,
+    "job_numbers": [],
+    "content_expectation": "midland_trailer",
+    "folder_path": "Sales/1. Trailer Photos/Auto Twist Lock Skels/Matt Tasman Videos and Pictures/"
+   },
+   "vision": {
+    "media_kind": "photograph",
+    "is_midland_product": "midland",
+    "subject_type": "multiple_trailers",
+    "shot_type": "three_quarter_front",
+    "build_state": "finished",
+    "axle_count": "tri",
+    "trailer_configuration": "semi_trailer",
+    "body_type": "skeletal",
+    "is_loaded": "empty",
+    "load_type": "none",
+    "chassis_colour": "pearl_white",
+    "setting": "customer_site",
+    "visible_text": [
+     "TASMAN LOGISTICS SERVICES",
+     "WE GO THE EXTRA MILE",
+     "MIDLAND"
+    ],
+    "marketing_usability": "good",
+    "defects": [],
+    "overall_confidence": "high",
+    "needs_human_review": false,
+    "notes": "Unloaded skels showing the bare chassis clearly; tri and tandem groups both present."
+   },
+   "audit": {
+    "axle_agreement": "path_unstated",
+    "category_agreement": "agree",
+    "provenance_conflict": false
+   },
+   "provenance": {
+    "model": "in-session vision pass",
+    "prompt_version": "test-run-1",
+    "batch_id": "auto-twist-lock-skels-full-folder",
+    "tagged_at": "2026-08-26T11:20:00Z"
+   },
+   "_reviewer_note": "Best frame in the subfolder: empty skels, bare chassis visible, customer branding behind."
+  },
+  {
+   "schema_version": "1.0",
+   "photo": {
+    "drive_id": "b!kxUlnz9hTEGIP79tTDljrR9Yzea0cmdLraKjspDsTfIFN9XvZPm7RKua__mqYOLv",
+    "item_id": "015HCHN4TLCKYQ3CE2DVGK3CICBUVY3ZH2",
+    "path": "Sales/1. Trailer Photos/Auto Twist Lock Skels/Matt Tasman Videos and Pictures/WhatsApp Image 2026-03-18 at 3.26.18 PM.jpeg",
+    "filename": "WhatsApp Image 2026-03-18 at 3.26.18 PM.jpeg",
+    "extension": "jpeg",
+    "media_class": "image",
+    "depth": 4,
+    "filename_is_descriptive": false,
+    "shoot_group": "sg-20260318",
+    "shoot_group_position": 11
+   },
+   "path_derived": {
+    "product_category": "Auto Twist Lock Skels",
+    "variant": null,
+    "axle_config_from_path": "unstated",
+    "customer": "Tasman Logistics Services (Matt)",
+    "build_date": null,
+    "job_numbers": [],
+    "content_expectation": "midland_trailer",
+    "folder_path": "Sales/1. Trailer Photos/Auto Twist Lock Skels/Matt Tasman Videos and Pictures/"
+   },
+   "vision": {
+    "media_kind": "photograph",
+    "is_midland_product": "midland",
+    "subject_type": "complete_trailer",
+    "shot_type": "side_elevation",
+    "build_state": "finished",
+    "axle_count": "not_visible",
+    "trailer_configuration": "semi_trailer",
+    "body_type": "skeletal",
+    "is_loaded": "empty",
+    "load_type": "none",
+    "chassis_colour": "pearl_white",
+    "setting": "customer_site",
+    "visible_text": [
+     "TASMAN LOGISTICS SERVICES",
+     "WE GO THE EXTRA MILE",
+     "MIDLAND"
+    ],
+    "marketing_usability": "usable",
+    "defects": [
+     "partial_crop"
+    ],
+    "overall_confidence": "medium",
+    "needs_human_review": false,
+    "notes": "Axle group is out of frame to the right."
+   },
+   "audit": {
+    "axle_agreement": "path_unstated",
+    "category_agreement": "agree",
+    "provenance_conflict": false
+   },
+   "provenance": {
+    "model": "in-session vision pass",
+    "prompt_version": "test-run-1",
+    "batch_id": "auto-twist-lock-skels-full-folder",
+    "tagged_at": "2026-08-26T11:20:00Z"
+   },
+   "_reviewer_note": "Empty skel beside customer curtainsider; axles cropped out."
+  }
+ ]
+}
