@@ -41,6 +41,10 @@ omitted in `read_resource` URIs — paths are relative to the drive root).
 Roughly **250 GB** in total. Sizes are the cost estimate to plan against, not the file
 counts — file counts require the recursive walk below.
 
+> **Superseded by a full enumeration, 2026-08-26.** The byte totals above are confirmed
+> exactly; the file counts and the video assumption are now measured rather than guessed.
+> See "Enumerated" at the foot of this file. The eyeballed ~250 GB is really **216.7 GB**.
+
 ## Enumeration must recurse. This is not optional.
 
 Several of the largest folders hold **no loose files at all** — only subfolders.
@@ -99,3 +103,67 @@ tag them blind and check the output against the name.
   published as Midland's own work. The schema must carry an explicit
   `is_midland_product` field, and this folder is a required member of the Thursday
   hard-case set.
+
+## Enumerated — 2026-08-26
+
+`tools/enumerate_delta.py` over Graph `/delta`, scoped to the library folder.
+**41,421 files, 40,452 images, 216.7 GB, 213 delta pages, max depth 8.**
+
+Every folder byte total above reproduced **exactly** — Drop Deck 69.0 GB, Tag Trailers
+41.0, Drone Items 31.4, Dog Trailers 28.6, Skel 15.3, Flat Tops 11.3. That agreement is
+the check that the walk was complete, and it is the reason to trust the counts below. No
+folder came back with large bytes and zero images.
+
+| Folder | files | images | video | doc | GB |
+|---|---|---|---|---|---|
+| Drop Deck Trailers | 5,984 | 5,755 | 152 | 1 | 69.0 |
+| Tag Trailers | 4,889 | 4,772 | 86 | 11 | 41.0 |
+| **Drone Items** | **19,234** | **19,138** | **43** | 0 | 31.4 |
+| Dog Trailers | 4,273 | 4,211 | 50 | 0 | 28.6 |
+| Skel Trailers | 1,404 | 1,363 | 33 | 4 | 15.3 |
+| Flat Tops Trailers | 1,241 | 1,206 | 28 | 0 | 11.3 |
+| z Second Hand and Miscelaneous | 1,774 | 1,701 | 0 | 42 | 6.7 |
+| Brochures | 483 | 285 | 0 | 169 | 2.7 |
+| Customised Trailers | 592 | 578 | 14 | 0 | 2.4 |
+| Road Trains | 108 | 100 | 6 | 0 | 2.8 |
+| Hay Spec Trailers | 354 | 341 | 13 | 0 | 1.8 |
+| *(19 smaller folders)* | 1,085 | 1,002 | 16 | 63 | 2.7 |
+
+### CORRECTED — `Drone Items` is not mostly video
+
+The hazard note above reads *"`Drone Items` at 31.4 GB is named for a medium that is
+mostly video."* **It is not.** It holds **19,138 images and 43 videos** — 47% of every
+image in the library, in one folder. It is GoPro burst photography: 23 subfolders named
+`143GOPRO`, `174GOPRO`, `175GOPRO` … each holding about 1,000 frames named `G0012102.JPG`.
+
+This changes the shape of the job. Nearly half the tagging volume sits in one folder of
+near-identical aerial bursts, which is exactly where `duplicate_group` earns its place and
+exactly the population to sample rather than tag exhaustively. It is also the strongest
+argument for the cheap model tier: 19,000 frames of one subject at Fable prices is the
+whole budget.
+
+### Video is 1% of files but 36% of bytes
+
+**441 videos, 77.6 GB.** So the extension filter is worth far more than the file count
+suggests — it keeps 36% of the library's bytes out of vision calls entirely. The largest
+single file is a **3.76 GB** `DJI_0208.MP4`; the folder test's "102 MB mp4 that would have
+killed a run mid-batch" was one of the smaller ones.
+
+Coverage should be denominated by **images (40,452)**, never by all files, or the
+legitimately untagged video population makes coverage read broken.
+
+### Filenames: 4.6% descriptive, not 58%
+
+Only **1,894 files** carry real words (`Internal Tie Down Point.JPG`,
+`Midland Trailer Brochure V4 OP.pdf`, the `Hills_Shire_council_…` set). Everything else is
+a camera counter.
+
+Getting this right took a second pass and is worth recording, because the first attempt
+was wrong in a way that looked fine: a shorter camera-default pattern list flagged **58%**
+of the library as descriptively named, including all 18,860 GoPro `G0012102` frames. Both
+consequences are silent — a descriptive name *breaks* a shoot run, so grouping collapsed
+in the largest folder (19,234 files fell into 2 groups), and descriptive names are treated
+as free ground truth, so the validation set would have been poisoned with camera counters.
+The patterns now in `tools/enumerate_delta.py` were derived by clustering the real
+filenames, not guessed: GoPro, DJI, WhatsApp, Android, iOS, Canon `MVI_`, bare counters and
+epoch-ms stamps, plus `(2)` / `- Copy` / `_resized` suffixes.

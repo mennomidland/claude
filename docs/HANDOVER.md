@@ -106,9 +106,25 @@ It never prints a credential or a token, and it does **not** do step 7. Full det
 7. Only then one end-to-end ingest of a single asset into staging. **Not automated, and
    not to be run without saying so first** — it is the first step that writes anything.
 
-After 1-4 pass: rewrite `routines/01-enumeration.md` around Graph `/delta`, which is
-strictly better than the folder-walk checkpoint scheme and removes the
-"folder looks empty because it only holds subfolders" hazard entirely.
+**Enumeration is done.** `routines/01-enumeration.md` is rewritten around Graph `/delta`
+and implemented in `tools/enumerate_delta.py`; a full run over the library completed and
+its results are in `findings/library-structure.md`. Headline numbers to plan against:
+
+```
+41,421 files   40,452 images   441 videos   216.7 GB
+```
+
+Three things it found that change the plan:
+
+- **`Drone Items` is 19,138 images — 47% of every image in the library**, in one folder of
+  GoPro bursts. It was documented as "mostly video"; it holds 43 videos. Nearly half the
+  tagging volume is near-identical aerial frames, so that folder wants sampling and
+  `duplicate_group`, not exhaustive tagging.
+- **Video is 1% of files but 36% of bytes** (77.6 GB, largest single file 3.76 GB), so the
+  extension filter is worth much more than its file count suggests. Denominate coverage by
+  **images**, never all files.
+- **Only 4.6% of filenames are descriptive**, so the free-validation-set idea is real but
+  small — about 1,900 files.
 
 ## Settled — do not re-litigate
 

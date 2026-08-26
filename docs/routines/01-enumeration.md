@@ -96,14 +96,24 @@ The tree encodes the taxonomy before any subfolder detail, so all of this is fre
 
 ## Shoot grouping
 
-Within one folder, a run of consecutive camera-default filenames (`IMG_nnnn`, `DSC_nnnn`,
-`DSCN nnnn`, `P10nnnnn`, `PXL_...`, `YYYYMMDD_HHMMSS`) is normally one shoot of one
-trailer. Each run gets a stable `shoot_group` id and a `shoot_group_position`.
+Within one folder, a run of consecutive camera-default filenames is normally one shoot of
+one trailer. Each run gets a stable `shoot_group` id and a `shoot_group_position`.
 
 A **descriptive** filename breaks the run and gets no group — somebody naming one specific
 thing is not part of a burst. `filename_is_descriptive` is worth carrying in its own right:
 names like `Hills_Shire_council_Tandem_Axle_tag_trailer_1.jpg` state the answer, so they
-are a free validation set. Tag them blind and check the output against the name.
+are a free validation set. Tag them blind and check the output against the name. Measured,
+that set is **~1,900 files, 4.6% of the library**.
+
+> **The camera-default pattern list is load-bearing, and under-matching fails silently.**
+> A first version covering only `IMG_`/`DSC`/`DSCN`/`P10…`/`YYYYMMDD_HHMMSS` classified
+> **58%** of the library as descriptively named — including all 18,860 GoPro `G0012102`
+> frames, which collapsed `Drone Items` from thousands of shoots into 2 and would have
+> filled the validation set with camera counters. Neither failure announces itself. The
+> list in `tools/enumerate_delta.py` was derived by clustering the library's real
+> filenames and covers GoPro, DJI, WhatsApp, Android, iOS, Canon `MVI_`, bare counters and
+> epoch-ms stamps, plus `(2)` / `- Copy` / `_resized` suffixes. **Re-cluster before
+> trusting it on a folder it has not seen.**
 
 **A shoot group is not permission to propagate tags across its members.** The folder test
 established this the hard way: 13 of 30 frames in one folder could not be axle-counted at

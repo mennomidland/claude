@@ -59,8 +59,36 @@ NUM_PREFIX = re.compile(r"^\d{1,2}\.\s*")
 JOB_NUMBERS = re.compile(r"\b(\d{4})\b")
 BUILD_DATE = re.compile(r"\b(20\d{2})[.\-/](\d{2})\b")
 # Camera defaults. A run of these in one folder is normally one shoot of one trailer.
-CAMERA_DEFAULT = re.compile(
-    r"^(IMG[_-]?\d+|DSC[_-]?\d+|DSCN\d+|P\d{7}|PXL_\d+|GOPR\d+|\d{8}_\d{6}|\d{8}-\d{6})$", re.I)
+#
+# Derived from the actual library, not guessed: an earlier, shorter version of this list
+# flagged 58% of the library as "descriptively named", including all 18,860 GoPro
+# `G0012102` frames in Drone Items. That is not a cosmetic error -- a descriptive name
+# breaks a shoot run and is treated as free ground truth, so under-matching here both
+# destroys shoot grouping and poisons the validation set.
+_DUP_SUFFIX = re.compile(
+    r"(\s*\(\d+\)|[_-]\d{1,2}|-min|-Edit(ed)?|\s*-\s*Copy|_resized|"
+    r"\.(jpe?g|png|heic|tiff?|mp4|mov))$", re.I)   # trailing ext: `DSC_0661.JPG.xmp` sidecars
+CAMERA_PATTERNS = [
+    r"(IMG|DSC|DSCN|MVI|VID|PXL|GOPR|DJI|PANO|MOV|SAM|FILE|PICT|CIMG|SDC)[_-]?\d{3,}",
+    r"IMG[_-]\d{8}[_-]\d{6}",              # Android:  IMG_20151208_163118
+    r"IMG[_-]\d{8}[_-]WA\d{3,}",           # WhatsApp: IMG-20240604-WA0001
+    r"IMG[_-]\d{8}[_-]\d{3,}",             # IMG-20120608-00208
+    r"G[XH]?\d{6,8}",                      # GoPro:    G0012102, GX010123
+    r"P\d{7}",                             # Panasonic
+    r"\d{8}[_-]\d{6,9}(_iOS)?",            # 20250123_164442, 20230905_232015650_iOS
+    r"\d{1,13}",                           # bare counters and epoch-ms: 1.JPG, 1730318447042
+    r"WhatsApp (Image|Video) \d{4}-\d{2}-\d{2} at [\d.]+ ?[AP]M",
+]
+CAMERA_DEFAULT = re.compile(r"^(?:%s)$" % "|".join(CAMERA_PATTERNS), re.I)
+
+
+def is_descriptive(stem):
+    """True when a filename carries real words rather than a camera counter.
+
+    Strips a duplicate/edit suffix first, so `IMG_0435 (2)` and `DSC00204-min` are still
+    recognised as the camera names they are.
+    """
+    return not bool(CAMERA_DEFAULT.match(_DUP_SUFFIX.sub("", stem).strip()))
 
 
 def media_class(ext):
@@ -195,7 +223,7 @@ def enumerate_library(token, out_dir, resume):
                     "size_bytes": item.get("size", 0),
                     "last_modified": item.get("lastModifiedDateTime"),
                     "depth": len(rel),
-                    "filename_is_descriptive": not bool(CAMERA_DEFAULT.match(pathlib.Path(name).stem)),
+                    "filename_is_descriptive": is_descriptive(pathlib.Path(name).stem),
                     "quick_xor_hash": ((item.get("file") or {}).get("hashes") or {}).get("quickXorHash"),
                     "mime_type": (item.get("file") or {}).get("mimeType"),
                     # Graph reports DISPLAY dimensions (EXIF applied). Use these for the
