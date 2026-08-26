@@ -85,6 +85,14 @@ checked before anything is published.
 — EXIF orientation is not applied by the read path. Tagged `reject`, low confidence.
 Add an `image_rotated` defect value, and expect this class across the library.
 
+> **RESOLVED at the pipeline level, 2026-08-26.** The file is stored 4000x3000 with EXIF
+> orientation 6, which is why a naive read shows it sideways. Microsoft Graph's thumbnail
+> renditions are auto-oriented: the same file comes back 1200x1600 and physically upright,
+> with no EXIF tag. So feeding the vision pass renditions rather than originals removes
+> this class of failure entirely — consistent with the decision below not to add an
+> `image_rotated` defect. **`150916`'s `reject` was earned by the rotation, not by the
+> frame**, so it needs re-tagging on its content. See `routines/04-graph-access.md`.
+
 ## Two smaller observations
 
 - **CORRECTED — plates are not an identity key.** This originally read *"plates are a

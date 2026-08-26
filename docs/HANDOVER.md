@@ -143,11 +143,13 @@ strictly better than the folder-walk checkpoint scheme and removes the
 
 ## Still open
 
-- ~~`md` rendition long edge~~ — **largely settled.** Graph serves a custom thumbnail at
-  1600px (2048px also works), aspect-preserved and auto-oriented, so the vision pass needs
-  neither a full original nor the media library's `md`. Still worth confirming `md` before
-  anything depends on it specifically, but nothing does now. Legibility at 1600px has not
-  been eyeball-checked — that needs `*.svc.ms` allowlisted first.
+- ~~`md` rendition long edge~~ — **settled, and the old guess was wrong.** Checked by eye:
+  at 1600px *and* at 2048px the auto twist lock control panel text is an illegible smear;
+  only a full-resolution rendition reads. So use **two tiers** — 1600px (~160 KB) for
+  scene-level classification, full resolution (~724 KB) for `visible_text`, identity and
+  component detail. Graph's full-res rendition is 4.3x smaller than the original with the
+  same legibility, and is auto-oriented, so prefer it over `/content` outright. Details in
+  `routines/04-graph-access.md`.
 - Namespace naming — proposed `trailer-photo:vision` and `trailer-photo:human`.
 - Set-level provenance fields `model` / `promptVersion` / `taggedAt`, and whether the
   resume query returns `promptVersion` so a re-tag can select only stale records.

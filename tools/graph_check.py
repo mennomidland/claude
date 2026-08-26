@@ -36,7 +36,11 @@ PROBE_FOLDER = f"{LIBRARY_ROOT}/Auto Twist Lock Skels"
 INGEST_HOST = "https://qm3staging.midlandind.com.au/"
 GRAPH = "https://graph.microsoft.com/v1.0"
 IMAGE_EXT = (".jpg", ".jpeg", ".png", ".heic", ".tif", ".tiff", ".webp", ".bmp")
-THUMB_SIZE = 1600  # the long edge the vision pass needs; see step 6 note below
+# The floor for scene-level classification, and what step 6 gates on. NOT sufficient for
+# reading small chassis-mounted text -- control panel instructions, VIN and compliance
+# plates need a full-resolution rendition. See "1600px is not enough" in
+# routines/04-graph-access.md.
+THUMB_SIZE = 1600
 
 CREDS = ("GRAPH_TENANT_ID", "GRAPH_CLIENT_ID", "GRAPH_CLIENT_SECRET")
 _ctx = ssl.create_default_context()

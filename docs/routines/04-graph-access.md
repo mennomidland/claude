@@ -218,22 +218,52 @@ Four things cost time here; all are encoded in `tools/graph_check.py`.
    `image.height` so the crop is a no-op: `c1600x1200_Crop` on a 4000x3000 original
    returns a true 1600x1200. `c2048x1536_Crop` also works, so there is headroom.
 
-### This answers the `md` rendition question
+### RESOLVED — and 1600px is not enough
 
-`routines/03-media-library-api.md` left open whether the media library's `md.webp` is at
-least 1600px on the long edge, and flagged that VIN plates and chassis-marked job numbers
-are the only real identity signals — so a small rendition would cost the ability to say
-*which* trailer is in shot.
+`routines/03-media-library-api.md` guessed that "if `md` is 1600px+ on the long edge it is
+fine." **Checked by eye against a real frame, that is wrong.**
 
-Graph settles it independently: **a custom thumbnail at 1600px or 2048px on the long
-edge, auto-oriented, is available per item.** The vision pass never needs a
-full-resolution original and never needs the media library's rendition, so `md`'s long
-edge stops being on the critical path. It still wants confirming before anything depends
-on `md` specifically, but nothing does now.
+Test: `20241010_084259.jpg` (4000x3000), a side view whose auto twist lock control panel
+carries the instruction text the folder test called "the whole point of several frames."
+The same crop, from renditions at three sizes:
 
-Legibility at 1600px has **not** been eyeball-checked yet — that needs `*.svc.ms`
-allowlisted so a rendition can actually be fetched and looked at. Treat 1600px as the
-requirement, not as a verified sufficiency.
+| Rendition | Panel text | Midland logo |
+|---|---|---|
+| 1600x1200 | illegible smear | illegible |
+| 2048x1536 | still illegible | still illegible |
+| **4000x3000** | **"THAT BOTH VALVES MUST BE RELEASED", "SYSTEM PRESSURE" all readable** | **readable** |
+
+The 4000px rendition is indistinguishable from the original. So for **small
+chassis-mounted text in a wide frame** — control panel instructions, VIN and compliance
+plates, chassis-marked job numbers — nothing below full resolution works. 1600px is fine
+for scene-level judgements (shot type, usability, body type, counting axles that are in
+frame); it is not fine for `visible_text` or for saying *which* trailer is in shot.
+
+**Use two tiers**, since the cheap one covers most frames:
+
+| Purpose | Size | Bytes |
+|---|---|---|
+| Scene classification — most of the library | 1600px long edge | ~160 KB |
+| `visible_text`, identity, component detail | full resolution | ~724 KB |
+
+### The full-resolution rendition beats `/content` outright
+
+Graph honours a custom size up to the item's own resolution, and that rendition is
+**724 KB against the original's 3.1 MB** — same legibility, 4.3x fewer bytes, because the
+original is a camera JPEG and the rendition is re-encoded. Two consequences:
+
+- **Prefer the rendition over `/content` even at full resolution.** It is cheaper on
+  egress and on vision tokens, and it needs no `*.sharepoint.com` redirect hop.
+- **Renditions are auto-oriented, and that retires the rotation problem.**
+  `20251029_150916.jpg` is stored 4000x3000 with EXIF orientation 6 — the file the folder
+  test found "stored rotated 90 degrees" and rejected on that basis. Its rendition comes
+  back 1200x1600, physically upright, with no EXIF tag at all.
+
+**Trap: use Graph's `image` facet for the aspect ratio, never the file's own pixel
+dimensions.** For that rotated file Graph reports `3000x4000` (the *display* dimensions,
+post-rotation) while the stored pixels are `4000x3000`. Compute the `_Crop` box from
+Graph's numbers and it is a no-op; compute it from the stored pixels and you request a
+landscape box for a portrait image, and `_Crop` throws away half the trailer.
 
 ## Consequence for the enumeration routine
 
