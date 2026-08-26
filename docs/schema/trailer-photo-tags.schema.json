@@ -1,182 +1,635 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://midlandind.com.au/schema/trailer-photo-tags/v1",
-  "title": "Midland sales photo tag record (v1)",
+  "$id": "https://midlandind.com.au/schema/trailer-photo-tags/v2",
+  "title": "Midland media library tag record (v2)",
   "description": "One record per image in Sales/1. Trailer Photos. `photo` and `path_derived` are populated by code during enumeration. `vision` is the ONLY object a model is ever asked to produce, and it must be produced without being shown `path_derived` -- see docs/routines/02-thursday-iteration.md for why.",
   "type": "object",
   "additionalProperties": false,
-  "required": ["photo", "path_derived"],
+  "required": [
+    "photo",
+    "path_derived"
+  ],
   "properties": {
-    "schema_version": { "const": "1.0" },
-
+    "schema_version": {
+      "const": "2.0"
+    },
     "photo": {
       "type": "object",
       "description": "Populated by the enumeration walk. No model involvement.",
       "additionalProperties": false,
-      "required": ["drive_id", "item_id", "path", "filename", "extension", "media_class"],
+      "required": [
+        "drive_id",
+        "item_id",
+        "path",
+        "filename",
+        "extension",
+        "media_class"
+      ],
       "properties": {
-        "drive_id": { "type": "string" },
-        "item_id": { "type": "string" },
-        "path": { "type": "string", "description": "Full path from the library root." },
-        "filename": { "type": "string" },
-        "extension": { "type": "string", "description": "Lowercased, no leading dot." },
+        "drive_id": {
+          "type": "string"
+        },
+        "item_id": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string",
+          "description": "Full path from the library root."
+        },
+        "filename": {
+          "type": "string"
+        },
+        "extension": {
+          "type": "string",
+          "description": "Lowercased, no leading dot."
+        },
         "media_class": {
           "description": "Decided by extension during enumeration, so video never reaches a vision call.",
-          "enum": ["image", "video", "document", "other"]
+          "enum": [
+            "image",
+            "video",
+            "document",
+            "other"
+          ]
         },
-        "size_bytes": { "type": ["integer", "null"], "minimum": 0 },
-        "last_modified": { "type": ["string", "null"], "format": "date-time" },
-        "depth": { "type": ["integer", "null"], "minimum": 1, "description": "Folder depth below the library root. Used to sanity-check that the walk actually recursed." },
+        "size_bytes": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "last_modified": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "depth": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1,
+          "description": "Folder depth below the library root. Used to sanity-check that the walk actually recursed."
+        },
         "filename_is_descriptive": {
-          "type": ["boolean", "null"],
+          "type": [
+            "boolean",
+            "null"
+          ],
           "description": "False for camera defaults (IMG_/DSC/DSCN/P10/timestamp patterns). True filenames are a free validation signal."
         },
         "shoot_group": {
-          "type": ["string", "null"],
+          "type": [
+            "string",
+            "null"
+          ],
           "description": "Stable id for a run of consecutive camera-default filenames within one folder. Shoot-level attributes may propagate across a group; per-frame attributes (shot_type, defects, usability) may NOT."
         },
-        "shoot_group_position": { "type": ["integer", "null"], "minimum": 1 }
+        "shoot_group_position": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1
+        }
       }
     },
-
     "path_derived": {
       "type": "object",
       "description": "Parsed from the folder path. Authoritative -- the path is Midland's own filing decision, and is trusted over anything a model reports. A model is never asked for these.",
       "additionalProperties": false,
-      "required": ["product_category"],
+      "required": [
+        "product_category"
+      ],
       "properties": {
-        "product_category": { "type": "string", "description": "Level-1 folder, e.g. \"Drop Deck Trailers\"." },
-        "variant": { "type": ["string", "null"], "description": "Level-2 folder with any leading \"N.\" stripped, e.g. \"Semi Drop Deck Trailers\"." },
+        "product_category": {
+          "type": "string",
+          "description": "Level-1 folder, e.g. \"Drop Deck Trailers\"."
+        },
+        "variant": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Level-2 folder with any leading \"N.\" stripped, e.g. \"Semi Drop Deck Trailers\"."
+        },
         "axle_config_from_path": {
           "description": "Only where the path states it. Two axles is Tandem; `bogie` is not a value in this schema.",
-          "enum": ["single", "tandem", "tri", "quad", "unstated"]
+          "enum": [
+            "single",
+            "tandem",
+            "tri",
+            "quad",
+            "unstated"
+          ]
         },
-        "customer": { "type": ["string", "null"] },
-        "build_date": { "type": ["string", "null"], "description": "As filed, e.g. \"2025.08\"." },
+        "customer": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "build_date": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "As filed, e.g. \"2025.08\"."
+        },
         "job_numbers": {
           "type": "array",
           "description": "All job numbers named in the path. More than one means the folder holds more than one trailer, so the path cannot say which trailer is in a given frame.",
-          "items": { "type": "string" }
+          "items": {
+            "type": "string"
+          }
         },
         "content_expectation": {
           "description": "Set from the folder, and the reason a frame can be checked against where it is filed. `competitor` marks z. Opposition Trailers.",
-          "enum": ["midland_trailer", "competitor", "render", "drawing", "brochure_or_document", "component_detail", "aerial", "second_hand_or_misc", "unknown"]
+          "enum": [
+            "midland_trailer",
+            "competitor",
+            "render",
+            "drawing",
+            "brochure_or_document",
+            "component_detail",
+            "aerial",
+            "second_hand_or_misc",
+            "unknown"
+          ]
         },
-        "folder_path": { "type": "string" }
+        "folder_path": {
+          "type": "string"
+        }
       }
     },
-
     "vision": {
       "type": "object",
       "description": "The model's entire output. Every enum admits `unknown`, and where a feature could simply be out of frame, `not_visible` is offered as distinct from `unknown`: use `not_visible` when the feature is confidently outside the frame or occluded, `unknown` when it is in frame but cannot be judged. A model forced to always emit a substantive value will invent one; these two escapes exist so it never has to. Emitting `unknown` is a correct answer and is never penalised.",
       "additionalProperties": false,
       "required": [
-        "media_kind", "is_midland_product", "subject_type", "shot_type",
-        "build_state", "axle_count", "marketing_usability", "overall_confidence"
+        "media_kind",
+        "subject_type",
+        "shot_type",
+        "content_purpose",
+        "trailers",
+        "competitor_branding_present",
+        "marketing_usability",
+        "overall_confidence"
       ],
       "properties": {
         "media_kind": {
           "description": "What kind of image this is, before anything about its content.",
-          "enum": ["photograph", "aerial_photograph", "cgi_render", "engineering_drawing", "document_or_screenshot", "composite_or_marketing_graphic", "unknown"]
-        },
-        "is_midland_product": {
-          "description": "Whether the trailer shown is Midland-built. `competitor` where another manufacturer's branding or a distinctly non-Midland build is visible; `not_a_trailer` for documents, parts and renders with no trailer; `unknown` where there is no evidence either way -- which is the honest answer for most unbranded trailers and must not be guessed.",
-          "enum": ["midland", "competitor", "not_a_trailer", "unknown"]
+          "enum": [
+            "photograph",
+            "aerial_photograph",
+            "cgi_render",
+            "engineering_drawing",
+            "document_or_screenshot",
+            "composite_or_marketing_graphic",
+            "unknown"
+          ]
         },
         "subject_type": {
-          "enum": ["complete_trailer", "partial_build", "chassis_only", "component_detail", "trailer_with_prime_mover", "multiple_trailers", "non_trailer", "unknown"]
+          "enum": [
+            "complete_trailer",
+            "partial_view_cropped",
+            "partial_build",
+            "chassis_only",
+            "component_detail",
+            "trailer_with_prime_mover",
+            "multiple_trailers",
+            "non_trailer",
+            "unknown"
+          ],
+          "description": "`partial_view_cropped` is for a frame of a whole trailer where the framing cuts off part of it - common, and not the same as a deliberate component detail."
         },
         "shot_type": {
-          "enum": ["three_quarter_front", "three_quarter_rear", "side_elevation", "front_elevation", "rear_elevation", "top_down_aerial", "oblique_other", "detail_close_up", "deck_or_interior", "underside", "in_service_loaded", "unknown"]
-        },
-        "build_state": {
-          "enum": ["finished", "in_build_painted", "in_build_unpainted", "not_applicable", "unknown"]
-        },
-
-        "axle_count": {
-          "description": "Count the axles on the trailer only, excluding any prime mover. Midland house vocabulary: two axles is TANDEM. The word `bogie` is not a permitted value anywhere in this schema and must not appear in any free-text field.",
-          "enum": ["single", "tandem", "tri", "quad", "five_or_more", "not_visible", "unknown"]
-        },
-        "trailer_configuration": {
-          "enum": ["semi_trailer", "dog_trailer", "tag_trailer", "converter_dolly", "road_train_combination", "not_visible", "unknown"]
-        },
-        "body_type": {
-          "enum": ["skeletal", "skeletal_retractable", "flat_top", "drop_deck", "drop_deck_extendable", "step_deck", "float_or_low_loader", "deck_widener", "plant_trailer", "tipper", "skip_bin_transfer", "hay_spec", "pole_jinker", "steel_mezz_deck", "curtainsider", "water_tank", "other", "not_visible", "unknown"]
-        },
-
-        "front_load_restraint": { "enum": ["fixed_headboard", "loadrack", "none", "not_visible", "unknown"] },
-        "rear_load_restraint": { "enum": ["fixed_headboard", "loadrack", "none", "not_visible", "unknown"] },
-        "front_ramp": { "enum": ["none", "fixed", "slide_out", "not_visible", "unknown"] },
-        "rear_ramp": { "enum": ["none", "fixed", "slide_out", "bifold", "not_visible", "unknown"] },
-        "floor_type": { "enum": ["flush", "raised_coaming", "no_floor_skeletal", "not_visible", "unknown"] },
-        "coaming_type": { "enum": ["channel", "flush_only", "none", "not_visible", "unknown"] },
-        "suspension_mount": { "enum": ["over_slung", "under_slung", "not_visible", "unknown"] },
-        "coupling_type": { "enum": ["kingpin_fifth_wheel", "ball_race", "drawbar_pin", "none_visible", "unknown"] },
-        "is_loaded": { "enum": ["loaded", "empty", "not_visible", "unknown"] },
-        "load_type": {
-          "enum": ["shipping_containers", "construction_plant", "agricultural_machinery", "hay_bales", "steel_or_building_products", "skip_bins", "other", "none", "not_visible", "unknown"]
-        },
-        "chassis_colour": {
-          "enum": ["flame_red", "pearl_white", "midland_treeline_green", "black", "grey_or_silver", "blue", "yellow", "green_other", "unpainted_or_primer", "other", "not_visible", "unknown"]
+          "enum": [
+            "three_quarter_front",
+            "three_quarter_rear",
+            "side_elevation",
+            "front_elevation",
+            "rear_elevation",
+            "top_down_aerial",
+            "oblique_other",
+            "detail_close_up",
+            "deck_or_interior",
+            "underside",
+            "in_service_loaded",
+            "unknown"
+          ]
         },
         "setting": {
-          "enum": ["workshop_interior", "yard_or_hardstand", "on_road", "customer_site", "paddock_or_farm", "trade_show", "studio_or_plain_background", "not_visible", "unknown"]
+          "enum": [
+            "workshop_interior",
+            "yard_or_hardstand",
+            "on_road",
+            "customer_site",
+            "paddock_or_farm",
+            "trade_show",
+            "studio_or_plain_background",
+            "not_visible",
+            "unknown"
+          ]
         },
-
         "visible_text": {
           "type": "array",
           "description": "Text legible in the frame -- customer signage, branding, unit or job numbers, VIN plates. Transcribe only what is actually legible; never complete a partially readable string. Main route to identifying which unit is in frame when the folder names several.",
-          "items": { "type": "string" },
+          "items": {
+            "type": "string"
+          },
           "maxItems": 12
         },
-
         "marketing_usability": {
           "description": "hero = publishable as a lead image; good = usable in collateral; usable = fine as a supporting or record shot; record_only = keep for the record, not for marketing; reject = do not use.",
-          "enum": ["hero", "good", "usable", "record_only", "reject", "unknown"]
+          "enum": [
+            "hero",
+            "good",
+            "usable",
+            "record_only",
+            "reject",
+            "unknown"
+          ]
         },
         "defects": {
           "type": "array",
-          "description": "Empty array means none observed.",
+          "description": "Empty array means none observed. Image ORIENTATION is not a defect - rotated files are corrected in the viewer, so tag the content as if it were upright.",
           "items": {
-            "enum": ["blurry", "poor_lighting", "backlit", "cluttered_background", "workshop_clutter", "obstructed_subject", "people_visible", "partial_crop", "watermark_or_overlay_text", "competitor_branding_visible", "unknown"]
+            "enum": [
+              "blurry",
+              "poor_lighting",
+              "backlit",
+              "cluttered_background",
+              "workshop_clutter",
+              "obstructed_subject",
+              "people_visible",
+              "partial_crop",
+              "watermark_or_overlay_text",
+              "competitor_branding_visible",
+              "unknown"
+            ]
           },
           "uniqueItems": true
         },
-
-        "overall_confidence": { "enum": ["high", "medium", "low"] },
-        "needs_human_review": { "type": "boolean" },
+        "overall_confidence": {
+          "enum": [
+            "high",
+            "medium",
+            "low"
+          ]
+        },
+        "needs_human_review": {
+          "type": "boolean"
+        },
         "notes": {
-          "type": ["string", "null"],
+          "type": [
+            "string",
+            "null"
+          ],
           "description": "At most one sentence, and only where it says something the enums cannot. Not a place to restate enum values, and not a place to speculate about specifications, dimensions, part numbers or ratings -- none of those are legible in a photograph. The word `bogie` must not appear.",
           "maxLength": 240
+        },
+        "trailers": {
+          "type": "array",
+          "description": "ONE ENTRY PER TRAILER VISIBLE IN THE FRAME. A frame showing a four-unit road train produces four entries, each tagged on its own merits - never one averaged entry, and never one entry's values copied across the rest. Units differ within a single combination, and a cropped frame may show the axles of one unit and not another, so each entry carries its own axle_count and its own confidence. Empty array where no trailer is present (a document, a bare component, a drawing).",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "position_in_frame",
+              "axle_count",
+              "is_midland_product",
+              "confidence"
+            ],
+            "properties": {
+              "axle_count": {
+                "description": "Count the axles on the trailer only, excluding any prime mover. Midland house vocabulary: two axles is TANDEM. The word `bogie` is not a permitted value anywhere in this schema and must not appear in any free-text field.",
+                "enum": [
+                  "single",
+                  "tandem",
+                  "tri",
+                  "quad",
+                  "five_or_more",
+                  "not_visible",
+                  "unknown"
+                ]
+              },
+              "trailer_configuration": {
+                "enum": [
+                  "semi_trailer",
+                  "dog_trailer",
+                  "tag_trailer",
+                  "converter_dolly",
+                  "road_train_combination",
+                  "not_visible",
+                  "unknown"
+                ]
+              },
+              "body_type": {
+                "enum": [
+                  "skeletal",
+                  "skeletal_retractable",
+                  "flat_top",
+                  "drop_deck",
+                  "drop_deck_extendable",
+                  "step_deck",
+                  "float_or_low_loader",
+                  "deck_widener",
+                  "plant_trailer",
+                  "tipper",
+                  "skip_bin_transfer",
+                  "hay_spec",
+                  "pole_jinker",
+                  "steel_mezz_deck",
+                  "curtainsider",
+                  "water_tank",
+                  "other",
+                  "not_visible",
+                  "unknown"
+                ]
+              },
+              "front_load_restraint": {
+                "enum": [
+                  "fixed_headboard",
+                  "loadrack",
+                  "none",
+                  "not_visible",
+                  "unknown"
+                ]
+              },
+              "rear_load_restraint": {
+                "enum": [
+                  "fixed_headboard",
+                  "loadrack",
+                  "none",
+                  "not_visible",
+                  "unknown"
+                ]
+              },
+              "front_ramp": {
+                "enum": [
+                  "none",
+                  "fixed",
+                  "slide_out",
+                  "not_visible",
+                  "unknown"
+                ]
+              },
+              "rear_ramp": {
+                "enum": [
+                  "none",
+                  "fixed",
+                  "slide_out",
+                  "bifold",
+                  "not_visible",
+                  "unknown"
+                ]
+              },
+              "floor_type": {
+                "enum": [
+                  "flush",
+                  "raised_coaming",
+                  "no_floor_skeletal",
+                  "not_visible",
+                  "unknown"
+                ]
+              },
+              "coaming_type": {
+                "enum": [
+                  "channel",
+                  "flush_only",
+                  "none",
+                  "not_visible",
+                  "unknown"
+                ]
+              },
+              "suspension_mount": {
+                "enum": [
+                  "over_slung",
+                  "under_slung",
+                  "not_visible",
+                  "unknown"
+                ]
+              },
+              "coupling_type": {
+                "enum": [
+                  "kingpin_fifth_wheel",
+                  "ball_race",
+                  "drawbar_pin",
+                  "none_visible",
+                  "unknown"
+                ]
+              },
+              "is_loaded": {
+                "enum": [
+                  "loaded",
+                  "empty",
+                  "not_visible",
+                  "unknown"
+                ]
+              },
+              "load_type": {
+                "enum": [
+                  "shipping_containers",
+                  "construction_plant",
+                  "agricultural_machinery",
+                  "hay_bales",
+                  "steel_or_building_products",
+                  "skip_bins",
+                  "other",
+                  "none",
+                  "not_visible",
+                  "unknown"
+                ]
+              },
+              "chassis_colour": {
+                "enum": [
+                  "flame_red",
+                  "pearl_white",
+                  "midland_treeline_green",
+                  "black",
+                  "grey_or_silver",
+                  "blue",
+                  "yellow",
+                  "green_other",
+                  "unpainted_or_primer",
+                  "other",
+                  "not_visible",
+                  "unknown"
+                ]
+              },
+              "build_state": {
+                "enum": [
+                  "finished",
+                  "in_build_painted",
+                  "in_build_unpainted",
+                  "not_applicable",
+                  "unknown"
+                ]
+              },
+              "is_midland_product": {
+                "description": "Whether the trailer shown is Midland-built. `competitor` where another manufacturer's branding or a distinctly non-Midland build is visible; `not_a_trailer` for documents, parts and renders with no trailer; `unknown` where there is no evidence either way -- which is the honest answer for most unbranded trailers and must not be guessed.",
+                "enum": [
+                  "midland",
+                  "competitor",
+                  "not_a_trailer",
+                  "unknown"
+                ]
+              },
+              "position_in_frame": {
+                "description": "Which unit this is, so the tags can be matched back to what a viewer sees. Ordered from the prime mover backwards where a combination is coupled.",
+                "enum": [
+                  "only_trailer",
+                  "lead",
+                  "second",
+                  "third",
+                  "fourth",
+                  "fifth_or_later",
+                  "unattached",
+                  "unknown"
+                ]
+              },
+              "identifying_text": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "maxItems": 6,
+                "description": "Text legible ON THIS UNIT that identifies it - plate, VIN, unit number. Plates link the same trailer across separate shoots, which shoot grouping cannot."
+              },
+              "confidence": {
+                "enum": [
+                  "high",
+                  "medium",
+                  "low"
+                ]
+              },
+              "notes": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "maxLength": 200
+              }
+            }
+          }
+        },
+        "content_purpose": {
+          "description": "What this image was taken FOR. The media library holds more than marketing, and the folder it sits in does not reliably say which - condition and warranty shots are filed alongside product photography. Set `non_marketing` whenever the frame is evidently not marketing-worthy material: damage, wear, rust, defect documentation, weighbridge or compliance records, or an incidental record shot.",
+          "enum": [
+            "marketing_photography",
+            "non_marketing",
+            "condition_or_warranty_record",
+            "delivery_record",
+            "build_record",
+            "compliance_or_weighbridge_record",
+            "unknown"
+          ]
+        },
+        "non_marketing_reason": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "maxLength": 200,
+          "description": "Required when content_purpose is non_marketing or a record type: one clause on what makes it unsuitable, so a human can overrule it."
+        },
+        "competitor_branding_present": {
+          "description": "Whether another manufacturer's branding is anywhere in the frame, including behind or beside a Midland unit. Separate from each trailer's is_midland_product, because the subject can be Midland's while a competitor's trailer sits in the background - which is how it gets published by accident.",
+          "enum": [
+            "none",
+            "in_background",
+            "on_subject",
+            "unknown"
+          ]
+        },
+        "competitor_names": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 6,
+          "description": "Manufacturer names actually legible, e.g. \"Krueger\". Do not guess a make from a silhouette."
+        },
+        "duplicate_group": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Shared id across near-identical frames of one framing, so the best of a burst surfaces and the rest stay findable."
         }
       }
     },
-
     "audit": {
       "type": "object",
       "description": "Computed after tagging, by comparing vision against path_derived. Disagreement is the signal worth acting on: either the frame is filed in the wrong folder, or the tagger is wrong. Both are worth knowing and neither is detectable from one source alone.",
       "additionalProperties": false,
       "properties": {
-        "axle_agreement": { "enum": ["agree", "disagree", "path_unstated", "vision_unknown"] },
-        "category_agreement": { "enum": ["agree", "disagree", "not_comparable", "vision_unknown"] },
+        "axle_agreement": {
+          "enum": [
+            "agree",
+            "disagree",
+            "path_unstated",
+            "vision_unknown",
+            "multiple_units_differ"
+          ]
+        },
+        "category_agreement": {
+          "enum": [
+            "agree",
+            "disagree",
+            "not_comparable",
+            "vision_unknown"
+          ]
+        },
         "provenance_conflict": {
-          "type": ["boolean", "null"],
+          "type": [
+            "boolean",
+            "null"
+          ],
           "description": "True where path_derived.content_expectation is `competitor` but vision says `midland`, or the reverse. Always route these to human review."
+        },
+        "non_marketing_in_marketing_folder": {
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "description": "True where content_purpose is not marketing_photography but the folder implied it was. The single most useful audit signal found in the first folder test."
         }
       }
     },
-
     "provenance": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "model": { "type": "string" },
-        "prompt_version": { "type": "string" },
-        "batch_id": { "type": "string" },
-        "tagged_at": { "type": "string", "format": "date-time" },
-        "input_tokens": { "type": ["integer", "null"] },
-        "output_tokens": { "type": ["integer", "null"] }
+        "model": {
+          "type": "string"
+        },
+        "prompt_version": {
+          "type": "string"
+        },
+        "batch_id": {
+          "type": "string"
+        },
+        "tagged_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "input_tokens": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "output_tokens": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        }
       }
     }
   }

@@ -24,8 +24,8 @@ vision calls, one of them a 102 MB mp4 that would have killed a run mid-batch.
 | Usability | n | | Axle count | n |
 |---|---|---|---|---|
 | hero | 5 | | tri | 10 |
-| good | 12 | | tandem | 1 |
-| usable | 3 | | not_visible | 12 |
+| good | 12 | | not_visible (corrected) | 13 |
+| usable | 3 | 
 | record_only | 5 | | unknown | 7 |
 | reject | 5 | | | |
 
@@ -45,12 +45,25 @@ so axle count can attach to the primary unit rather than being abandoned.
 crop of a loaded skel: not a component, not a complete trailer, not a partial build.
 Tagged `component_detail` under protest. Add `partial_view_cropped`.
 
-**3. Shoot-level propagation of `axle_count` would be actively wrong.**
-`20251029_152010.jpg` is a **Tandem** unit in the same combination, same shoot, same
-minute as the tri-axle units either side of it — and `20251029_153354.jpg` shows a tri
-group and a tandem group in one frame. The schema already forbids propagating per-frame
-attributes, but axle count reads like a shoot-level attribute and is not one. Worth
-stating explicitly in the enumeration doc.
+**3. CORRECTED — and the correction is itself the finding.** This section first claimed
+a Tandem unit sat in the same combination as tri-axle units, citing
+`20251029_152010.jpg`. That was wrong. Re-read at full resolution, that frame's axle
+group is **cropped at the frame edge**, and the same rig reads tri-axle throughout in
+`153352` and `153354`. It was a miscount of a partial tri group, tagged `tandem` with
+*high* confidence — the exact failure mode this schema is supposed to prevent, produced
+by the schema's own author.
+
+The no-propagation rule survives on better grounds. The real hazard is not that units
+differ within a combination (in this folder they do not — every unit is tri). It is that
+**a cropped frame cannot be counted at all**, and propagating a shoot-level value would
+paper over precisely those frames with a confident number. 13 of 30 frames here are
+`not_visible` on axle count. Propagation would have converted all 13 into confident
+`tri` — right by luck in this folder, and wrong the moment a shoot contains two
+configurations.
+
+It also says something about confidence calibration: `high` was recorded on a frame
+whose subject was partly out of shot. Cropping should cap confidence, and that belongs
+in the prompt.
 
 **4. Folder-level content expectation is unreliable, and dangerously so.** The
 subfolder is not marketing photography at all — it is **condition/warranty
@@ -82,15 +95,20 @@ Add an `image_rotated` defect value, and expect this class across the library.
   one framing, all hero-grade. Marketing wants one. Worth a `duplicate_group` so the
   best of a run surfaces and the rest stay findable.
 
-## Recommended schema changes before sign-off
+## Schema changes agreed and applied (v2)
 
-| Change | Why |
+| Change | Decision |
 |---|---|
-| Add `subject_scope`: `single_unit` / `combination` / `unknown` | Recovers axle data on 23% of frames |
-| Add `subject_type`: `partial_view_cropped` | Real, common, currently unrepresentable |
-| Add `content_purpose`: `marketing_photography` / `condition_or_warranty_record` / `delivery_record` / `build_record` / `unknown` | The single highest-value field this test produced |
-| Add `defects`: `image_rotated` | Observed, and will recur |
-| Add `duplicate_group` | Three hero near-duplicates in 30 frames |
+| `vision.trailers[]` — one tagged entry per trailer in frame, each with its own `axle_count`, `body_type`, loading and `confidence` | Applied. Replaces the single averaged subject. A four-unit road train now produces four tag groups |
+| `subject_type`: `partial_view_cropped` | Applied |
+| `content_purpose` incl. `non_marketing`, plus `non_marketing_reason` | Applied. The library will hold more than marketing, so this is set per frame, never inherited from the folder |
+| `competitor_branding_present` promoted to its own field, with `competitor_names` | Applied. Was only a defect flag; the subject can be Midland's while a competitor sits in the background |
+| `image_rotated` defect | **Not** added — orientation is handled in the viewer, so frames are tagged as if upright. `150916` re-tagged on its content |
+| `duplicate_group` | Applied |
+| Confidence must be capped where the subject is cropped | Prompt rule, not a schema change |
+
+Worked example of the per-trailer structure on a real two-unit frame:
+`v2-worked-example.json`.
 
 ## Caveat on this test
 

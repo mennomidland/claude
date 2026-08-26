@@ -436,13 +436,13 @@
      "MAERSK",
      "MIDLAND"
     ],
-    "marketing_usability": "reject",
+    "marketing_usability": "record_only",
     "defects": [
      "partial_crop"
     ],
     "overall_confidence": "low",
     "needs_human_review": true,
-    "notes": "File is stored rotated 90 degrees; orientation must be corrected before any use."
+    "notes": "Stored rotated 90 degrees; orientation is corrected downstream in the viewer."
    },
    "audit": {
     "axle_agreement": "path_unstated",
@@ -455,7 +455,7 @@
     "batch_id": "auto-twist-lock-skels-full-folder",
     "tagged_at": "2026-08-26T11:20:00Z"
    },
-   "_reviewer_note": "ROTATION DEFECT: served sideways, EXIF orientation not applied."
+   "_reviewer_note": "Rotation is a viewer concern, not a tag defect. Re-tagged on content."
   },
   {
    "schema_version": "1.0",
@@ -622,7 +622,7 @@
     "subject_type": "complete_trailer",
     "shot_type": "side_elevation",
     "build_state": "finished",
-    "axle_count": "tandem",
+    "axle_count": "not_visible",
     "trailer_configuration": "semi_trailer",
     "body_type": "skeletal",
     "is_loaded": "loaded",
@@ -638,10 +638,12 @@
      "LONG VEHICLE"
     ],
     "marketing_usability": "good",
-    "defects": [],
-    "overall_confidence": "high",
-    "needs_human_review": false,
-    "notes": null
+    "defects": [
+     "partial_crop"
+    ],
+    "overall_confidence": "low",
+    "needs_human_review": true,
+    "notes": "Axle group is cropped at the frame edge; the total cannot be counted from this frame."
    },
    "audit": {
     "axle_agreement": "path_unstated",
@@ -654,7 +656,7 @@
     "batch_id": "auto-twist-lock-skels-full-folder",
     "tagged_at": "2026-08-26T11:20:00Z"
    },
-   "_reviewer_note": "KEY CASE: a TANDEM unit in the same combination as the tri-axle units above."
+   "_reviewer_note": "CORRECTED: first tagged tandem/high. The group is cut off at the frame edge and the same rig reads tri-axle in 153352 and 153354. Miscount of a cropped tri group."
   },
   {
    "schema_version": "1.0",
@@ -1225,7 +1227,7 @@
     "defects": [],
     "overall_confidence": "high",
     "needs_human_review": false,
-    "notes": "Both a tri group and a tandem group are visible on different units in this frame."
+    "notes": null
    },
    "audit": {
     "axle_agreement": "path_unstated",
@@ -1238,7 +1240,7 @@
     "batch_id": "auto-twist-lock-skels-full-folder",
     "tagged_at": "2026-08-26T11:20:00Z"
    },
-   "_reviewer_note": "Side elevation showing tri and tandem units together - the propagation trap."
+   "_reviewer_note": "Side elevation, tri group visible on the near unit."
   },
   {
    "schema_version": "1.0",
