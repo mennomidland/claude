@@ -85,9 +85,69 @@ Practical approach: add the three above, then run a single-file download test an
 the actual redirect host out of the failure or the `Location` header before adding more.
 Better to discover that on one file than 30,000.
 
+## Verified state — 2026-08-26, from the `Midland` environment
+
+Measured in session `session_016EmSbCtVTxyNtCkqCimdwn`, environment
+`env_0175ZY9ro2ikpeDDEHXq7R4t`. Run `python3 tools/graph_check.py` to re-measure.
+
+| Host | Result | Meaning |
+|---|---|---|
+| `qm3staging.midlandind.com.au` | **401** | Step 1 passes. Host up, wanting auth |
+| `login.microsoftonline.com` | **302** | Allowlisted. Step 2's egress host is fine |
+| `midlandind.sharepoint.com` | **403** | Allowlisted mid-session. Tunnel opens; the 403 is SharePoint wanting auth |
+| `graph.microsoft.com` | **CONNECT 403** | **Not allowlisted.** Blocks steps 3-6 |
+| `pypi.org`, `registry.npmjs.org` | 200 | Reachable — but via the proxy's `noProxy` bypass, not the tick |
+| `raw.githubusercontent.com` | 301 | Allowed through the gateway |
+
+So the package-manager question is answered — installs work — though note the mechanism
+is the bypass list, so it is not evidence about the allowlist itself.
+
+**`graph.microsoft.com` is the one host still missing.** Everything else Graph needs is
+in place.
+
+Distinguish the two 403s carefully, because they read alike and mean opposite things:
+a **CONNECT 403** is the gateway refusing to open the tunnel (host not allowlisted),
+while a plain **HTTP 403** means the tunnel opened and the *server* answered. The first
+is a policy problem, the second is progress.
+
+### CORRECTED — an allowlist change *does* reach a running session
+
+This file previously stated that network policy is bound at container start and that
+"a *running* session never picks up an egress change, so verification always needs a
+freshly started session." **That is wrong, and it was disproved here.**
+`*.sharepoint.com` was added mid-session and went from CONNECT 403 to a live HTTP 403
+with no restart — the proxy's own `recentRelayFailures` log shows the rejections stopping
+at the moment of the change. Do not burn a session restart on an allowlist edit; re-probe
+the host instead.
+
+### Environment variables *are* bound at container start
+
+The credentials are a genuinely different case, and the distinction matters:
+
+`GRAPH_TENANT_ID`, `GRAPH_CLIENT_ID`, `GRAPH_CLIENT_SECRET` and `MEDIA_INGEST_KEY` are
+absent from **PID 1's** environment, not merely unset in the shell — so they were never
+passed to this container. Variables are inherited by the process tree at start, so unlike
+the allowlist they cannot arrive mid-session. Adding one to the environment config
+requires a **fresh session** before any process can read it.
+
+Short version: **allowlist changes are live, variable changes need a new session.**
+
+### The redirect trap also catches your diagnostics
+
+`login.microsoftonline.com` first appeared blocked. It is not — it answers `302` to
+`https://www.office.com/login`, and it is *that* host which is denied. Any client
+following redirects automatically reports the denial against the **original** host, so a
+reachable host looks blocked and the allowlist entry gets added in the wrong place.
+
+`tools/graph_check.py` therefore follows redirects manually, one hop at a time, and names
+the host of the hop that actually failed. It also drops the `Authorization` header when
+crossing to a redirect target — Graph's storage URL is pre-authenticated, and forwarding
+a bearer token to another host leaks it.
+
 ## Test order
 
-Cheapest-first, so each step's failure is unambiguous:
+Cheapest-first, so each step's failure is unambiguous. Automated in
+`tools/graph_check.py`, which runs steps 1-6 and stops at the first failure:
 
 1. Token from `login.microsoftonline.com` — proves credentials and the first egress host.
 2. `GET /sites/{...}/drives` — proves `Sites.Selected` was actually granted on the site.
