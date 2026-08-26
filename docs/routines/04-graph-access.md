@@ -129,17 +129,27 @@ with no restart — the proxy's own `recentRelayFailures` log shows the rejectio
 at the moment of the change. Do not burn a session restart on an allowlist edit; re-probe
 the host instead.
 
-### Environment variables *are* bound at container start
+### CORRECTED — environment variables also reach a running session
 
-The credentials are a genuinely different case, and the distinction matters:
+An earlier draft of this section claimed the opposite: that variables are inherited at
+process start and therefore need a fresh session. **That is wrong.** All four credentials
+were added mid-session and became readable with no restart, in the same session that had
+reported them missing minutes earlier.
 
-`GRAPH_TENANT_ID`, `GRAPH_CLIENT_ID`, `GRAPH_CLIENT_SECRET` and `MEDIA_INGEST_KEY` are
-absent from **PID 1's** environment, not merely unset in the shell — so they were never
-passed to this container. Variables are inherited by the process tree at start, so unlike
-the allowlist they cannot arrive mid-session. Adding one to the environment config
-requires a **fresh session** before any process can read it.
+The reasoning behind the wrong claim is worth recording, because the diagnostic that
+produced it is still misleading. The variables do **not** appear in **PID 1's**
+environment even once they are working — the runner injects them into the agent process,
+not into container init. So `/proc/1/environ` is **not** a valid test of whether a
+variable is available; it reports absent for a variable that is present and usable.
 
-Short version: **allowlist changes are live, variable changes need a new session.**
+Check the shell's own environment instead, which is what `tools/graph_check.py` does:
+
+```sh
+[ -n "$GRAPH_CLIENT_ID" ] && echo set     # never echo the value
+```
+
+Short version: **both allowlist and variable changes are live. Neither needs a new
+session — re-probe instead of restarting.**
 
 ### The redirect trap also catches your diagnostics
 

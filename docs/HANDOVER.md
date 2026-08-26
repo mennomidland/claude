@@ -31,12 +31,12 @@ environment, `env_0175ZY9ro2ikpeDDEHXq7R4t`. `Default`
 Egress confirmed from `Midland`: `https://qm3staging.midlandind.com.au/` → **401**
 (tunnel opens, TLS completes, server answers wanting auth).
 
-**CORRECTED: an allowlist change reaches a running session.** This file previously said
-network policy is bound at container start and needs a fresh session to verify. It does
-not — `*.sharepoint.com` was added mid-session on 2026-08-26 and went live with no
-restart. Re-probe the host rather than restarting. **Environment variables are the
-opposite**: they are inherited at process start and genuinely cannot arrive mid-session,
-so a newly added variable needs a fresh session. See `routines/04-graph-access.md`.
+**CORRECTED: config changes reach a running session — do not restart to pick them up.**
+This file previously said network policy is bound at container start and needs a fresh
+session. It does not: `*.sharepoint.com` was added mid-session on 2026-08-26 and went
+live within ~2 minutes, no restart. The same turned out to be true of **environment
+variables** — all four credentials arrived mid-session in that same session. Re-probe;
+do not restart. See `routines/04-graph-access.md`.
 
 Allowlist state as measured 2026-08-26 (`python3 tools/graph_check.py` re-measures):
 
@@ -70,11 +70,13 @@ variables have no secrets store and are readable by anyone using the environment
 these want short expiries or certificate credentials. `MEDIA_INGEST_KEY` was pasted into
 a chat transcript at one point and should be rotated.
 
-As of 2026-08-26 all four are **absent from the container** — checked against PID 1's
-environment, so they were never passed in, rather than merely unset in a shell. Because
-variables bind at process start, they need a **fresh session** after being added to the
-environment config. `tools/graph_check.py` reports which are missing by name, never by
-value.
+As of 2026-08-26 all four are **present and working** — step 2 acquires a Graph token, so
+the client credentials are valid.
+
+**Do not test for them with `/proc/1/environ`.** The runner injects variables into the
+agent process, not container init, so they never appear there even when they are working
+— a check that reported them absent while they were in fact usable. Test the shell's own
+environment, as `tools/graph_check.py` does; it names missing variables, never values.
 
 ## Do these next, in this order
 
@@ -89,8 +91,9 @@ It never prints a credential or a token, and it does **not** do step 7. Full det
 
 1. Confirm egress: `https://qm3staging.midlandind.com.au/` → expect `401`, not `000`. **PASSING.**
 2. Graph token from `login.microsoftonline.com` — proves credentials + first egress host.
-   **Blocked: the three `GRAPH_*` variables are not in the container.**
+   **PASSING** — token acquired, so the client credentials are valid.
 3. `GET /sites/{...}/drives` — proves `Sites.Selected` was actually granted on the site.
+   **Blocked: `graph.microsoft.com` is not allowlisted.** This is the only thing in the way.
 4. `GET /drives/{driveId}/items/{itemId}` on one known file — proves item access.
 5. `GET .../content` — **most likely step to fail**, because it 302s to a storage host.
    Read the real redirect host from the `Location` header before adding allowlist entries.
