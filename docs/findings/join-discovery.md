@@ -1,5 +1,9 @@
 # Finding: the spec join is available directly from SharePoint
 
+> **STATUS: PARKED.** Scope was narrowed to the sales photo library only
+> (`Sales/1. Trailer Photos/`). Spec joining against job cards is out of scope at
+> this stage. Kept because the finding stands and the join is cheap when wanted.
+
 Date: 2026-08-26. Verified by direct inspection via the Microsoft 365 connector.
 
 ## The question this answers
