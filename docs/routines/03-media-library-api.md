@@ -9,8 +9,103 @@ Body (JSON, one asset per call):
 Returns: { mediaId, isNew, deduped, sha256, kind, appliedTags, skippedTags, albumId }
 ```
 
-Status: **API in build.** Migration 125 is being re-cut with the occurrence split below.
-No client written yet — deliberately, until the last few shapes settle.
+Status: **live and tested end to end, 2026-08-27.** Three assets ingested into staging
+from real library files via Graph. See "End-to-end test" below for what is confirmed
+working, what turned out not to be implemented yet, and the one semantic that could not be
+verified from outside.
+
+## End-to-end test — 2026-08-27
+
+Graph bytes → schema-v2 tag record → `POST /api/media/ingest`. Three assets created in
+staging (`mediaId` 4, 5, 6), plus re-POSTs of the first to exercise dedup and correction.
+
+### Confirmed working
+
+| | Evidence |
+|---|---|
+| Full pipeline | `HTTP 200`, 49 tags applied, 0 skipped |
+| **Occurrence split** | `occurrenceId` returned — 1, 2, 3 across three files |
+| SHA dedup | Re-POST of identical bytes → `isNew=false, deduped=true`, occurrence preserved |
+| `driveId` / `itemId` / `sourcePath` | Accepted as first-class fields, as promised |
+| `createMissingAlbum` guard | Unknown album name → `skippedTags:["album:…"]`, `albumId:null`. **A typo 404s rather than spawning a junk album** |
+| Per-trailer flat tags | `t1:axle:not-visible`, `t2:midland:midland` etc. all applied |
+
+### Not implemented yet — and it fails *silently*
+
+Probing the validator with deliberately wrong types returns errors for exactly these
+fields: `filename`, `dataBase64`, `contentType`, `tags`, `createMissingTags`, `tagGroup`,
+`trailer`, `job`, `caption`, `entityType`, `albumName`, `createMissingAlbum`, `sourcePath`,
+`driveId`, `itemId`.
+
+**`attributes`, `model`, `promptVersion` and `taggedAt` are not among them**, and neither
+is a deliberately bogus field. The schema is **non-strict**: unknown keys are accepted
+without error and dropped. So the structured `attributes.trailers[]` model can be sent, and
+the call returns `200`, and nothing is stored. Nothing tells you.
+
+Two consequences:
+
+- **`tools/tag_vocabulary.py` is the PRIMARY path, not the fallback this file called it.**
+  Until `attributes` lands, the flat `tags[]` bag is the only route that stores anything,
+  which is exactly why the `unknown` / `not_visible` distinction must be emitted
+  explicitly — an absent tag and an unknown one are indistinguishable in a flat bag.
+- **Set-level provenance is not available.** `model` / `promptVersion` / `taggedAt` must
+  travel as tags (`model:claude-opus-5`, `promptver:v2.0`), which `tags_for()` already does.
+
+### Could NOT be verified: replace vs. union
+
+`x-media-key` authorises **only** `/api/media/ingest` — `GET` on it returns `405`, and every
+other route tried (`/api/media/{id}`, `/api/media/{id}/tags`, `/api/media/search`,
+`/api/media/occurrences`) returns `401`. There is no read-back.
+
+So the claim that a re-POST is **PUT-replace per (asset, namespace)** could not be tested.
+A re-POST with a deliberately smaller corrected set (5 tags, down from 49) returned
+`200 … tags=5`, which is consistent with replace *and* with union — the response only
+echoes what was sent.
+
+**This is the single most important thing left to confirm**, because the whole correction
+story rests on it: if tags union instead of replacing, a corrected `axle:not_visible` never
+displaces the wrong `axle:tandem`, and every re-tag after a prompt revision leaves stale
+wrong tags behind forever. Ask the builder to confirm, or to expose a read endpoint the
+ingest key can reach.
+
+### The size cap bites on the payload, and reports itself as a JSON error
+
+The documented cap is 40 MB. It applies to the **base64 payload**, not the raw file, and
+base64 inflates by 4/3.
+
+`Midland Trailors CivicCast 13.jpg` — 36.4 MB, the largest image in the library — becomes a
+**48.6 MB** payload and is rejected with:
+
+```
+HTTP 400  {"success":false,"message":"Invalid JSON body"}
+```
+
+That message is misleading: the body is truncated by a size limit before it is parsed, so a
+size failure presents as a malformed-payload bug. A routine would log it in the wrong place.
+
+**Exactly 1 image of 40,452 exceeds the cap** — but see the fix below, which removes the
+problem rather than special-casing it.
+
+### Ingest the full-resolution rendition, not `/content`
+
+Re-fetching that same file as a full-resolution Graph thumbnail (`c8256x5504_Crop`) gives
+**3.6 MB at identical resolution — 10x smaller** — and it ingests cleanly:
+
+```
+payload 4.9 MB (was 48.6 MB)  ->  HTTP 200  mediaId=6 occurrenceId=3 isNew=true
+```
+
+This should be the default for the whole run, for four reasons:
+
+1. **It removes the size-cap failure** without special-casing anything.
+2. **It is auto-oriented**, so EXIF-rotated files store upright.
+3. **Wire volume.** 136.1 GB of originals is ~181 GB once base64-encoded. Renditions cut
+   that by roughly 4x on typical frames and 10x on the largest.
+4. Same pixels, same legibility — verified in `04-graph-access.md`.
+
+The one thing it gives up is byte-exact originals. If the library must hold the true
+original file, that is a reason to build the multipart or presigned path rather than to
+push 181 GB through base64.
 
 ## Egress: confirmed, but only from the `Midland` environment
 
@@ -67,10 +162,10 @@ vision.trailers[1].axle_count = "not_visible"   ->   trailers[1].axle = "not_vis
 
 Two consequences worth noting:
 
-- **`tools/tag_vocabulary.py` drops from primary to fallback.** It exists to flatten the
-  typed schema into a keyword bag; with structured attributes the schema *is* the
-  contract. Keep it for the flat `tags[]` path and in case a controlled vocabulary needs
-  pre-registering, but it is no longer the main route.
+- ~~**`tools/tag_vocabulary.py` drops from primary to fallback.**~~ **Not yet — see the
+  end-to-end test above.** `attributes` is not in the API's validator, so the flat `tags[]`
+  bag remains the only route that actually stores anything. This reverts to fallback only
+  once `attributes` ships and a read-back confirms it persists.
 - **The `unknown` / `not_visible` distinction is now safe.** That was the thing most at
   risk in a flat tag bag, where an absent tag and an unknown one are indistinguishable.
   In a typed field it survives, and it is the mechanism that stops a model inventing

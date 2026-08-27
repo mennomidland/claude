@@ -103,8 +103,21 @@ It never prints a credential or a token, and it does **not** do step 7. Full det
 6. `GET .../thumbnails` at a large custom size — **FAILING, one allowlist entry short.**
    The custom size is honoured (1600x1200, aspect-preserved, auto-oriented) but the URL
    is on `australiaeast1-mediap.svc.ms`, which is blocked. **Add `*.svc.ms`.**
-7. Only then one end-to-end ingest of a single asset into staging. **Not automated, and
-   not to be run without saying so first** — it is the first step that writes anything.
+7. End-to-end ingest — **DONE, 2026-08-27.** Three assets in staging (`mediaId` 4, 5, 6).
+   Pipeline works: occurrence split, SHA dedup and the `createMissingAlbum` guard all
+   confirmed. Three things came out of it that change the routine design:
+
+   - **`attributes` is not in the API validator yet, and unknown fields are dropped
+     silently** — a structured payload returns `200` and stores nothing. So
+     `tools/tag_vocabulary.py` is still the **primary** path, not the fallback, and
+     provenance travels as `model:` / `promptver:` tags.
+   - **Ingest the full-resolution Graph rendition, not `/content`.** It is ~4x smaller
+     (10x on the largest file), auto-oriented, and identical in resolution. Via `/content`
+     the library is ~181 GB of base64 over the wire, and the single largest image
+     (36.4 MB → 48.6 MB encoded) is rejected as `400 "Invalid JSON body"` — a size limit
+     wearing a parser error's clothes.
+   - **Replace-vs-union is still unverified** and it is the one that matters. See
+     `routines/03-media-library-api.md`.
 
 **Enumeration is done.** `routines/01-enumeration.md` is rewritten around Graph `/delta`
 and implemented in `tools/enumerate_delta.py`; a full run over the library completed and
