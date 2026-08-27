@@ -143,7 +143,19 @@ Three things it found that change the plan:
 
 - **Per-trailer tagging.** One tag group per trailer visible in a frame, each with its own
   axle count and confidence. Never one averaged entry, never copied across units.
-  Schema v2's `vision.trailers[]` maps 1:1 onto the API's `attributes.trailers[]`.
+- **Schema v3 adds findability.** v2 classified trailers well and left the library
+  unsearchable — a close shot of the twist lock control panel tagged out as
+  `subject:partial-view-cropped, shot:side-elevation, body:skeletal`, all of it either
+  already in the folder name or useless to someone hunting a photo of that system. v3 adds
+  `components_visible[]` and `features_present[]` per trailer, and `demonstrates[]` per
+  frame — the last being the answer to "why would anyone pull this photo out".
+  **Positive-only: never record a feature you cannot see.** An invented toolbox gets shown
+  to a customer as what they are buying.
+- **Two tag namespaces.** `trailer-photo:vision` carries what the photo shows and is what
+  people search; `trailer-photo:state` carries every `unknown` / `not_visible`. The
+  absence tags were 43% of the bag on a real frame — keep them (they are how you detect a
+  badly defined field, and letting the model say "cannot tell" is what stops it inventing
+  specs), but keep them out of the search index. Both verified ingesting to staging.
 - **Ingest semantics**, confirmed with the API builder: PUT-replace per
   (asset, namespace); tags key on the `(driveId,itemId)` **occurrence**, not the
   SHA-deduped blob; human corrections live in a separate namespace and are overlaid on

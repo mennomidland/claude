@@ -73,6 +73,27 @@ week and it is not delegable.
 > lead a campaign with, `reject` for one you would not publish. Workshop clutter, people
 > in shot, backlighting and partial crops all matter here, and belong in `defects` too.
 >
+> **Record what is in the picture, not just what kind of trailer it is.** Three fields
+> carry this and they are the ones a person actually searches on:
+>
+> - `components_visible` — the parts of each unit you can see: control panel, air lines,
+>   twist locks, kingpin, landing legs, wheels and rims, mudguards, marker lamps, coaming,
+>   deck floor, and so on. **Positive only** — list what is there and omit the rest.
+> - `features_present` — equipment visibly fitted: auto twist locks, a bifold ramp, a
+>   toolbox, a tyre carrier, load racks, gates.
+> - `demonstrates` — what this frame is *evidence of*. A close side view of a control
+>   panel demonstrates `twist_lock_system`, whatever the folder says the trailer is.
+>
+> **Never record a feature you cannot see.** Do not infer a toolbox from the product
+> category, from the folder name, or from what such a trailer usually has. A hallucinated
+> feature is worse than a missing one: it will be found by a search and shown to a customer
+> as the thing they are buying. An empty `features_present` is a fine answer.
+>
+> Note that a component can be visible while its property is not. The axle group is plainly
+> in frame in a cropped side view — `components_visible` includes `axle_group` — and the
+> axle count is still `not_visible` because the group runs off the edge. Those are
+> different questions; answer them separately.
+>
 > Set `needs_human_review` true whenever you are unsure in a way that matters — a frame
 > you think may be a competitor's, a render you are not certain is a render, a trailer
 > you cannot categorise.
@@ -89,6 +110,10 @@ audit becomes a tautology.
 2. Score against `goldset-labels.json`: per-field agreement, and separately the rate of
    `unknown` per field. A field that is almost always `unknown` is badly defined; a
    field that is never `unknown` is being guessed at. Both are prompt bugs.
+   For `components_visible` and `features_present`, score **precision before recall**: a
+   missed toolbox costs a search hit, an invented one gets shown to a customer. Any feature
+   claimed that a human cannot find in the frame is a stop-and-fix, exactly like a
+   competitor frame tagged `midland`.
 3. Check the audit signals: `axle_agreement`, `category_agreement`, and every
    `provenance_conflict`. Any competitor frame tagged `midland` is a stop-and-fix.
 4. Revise the prompt or the enums — one change at a time — and re-run **the same 40**.

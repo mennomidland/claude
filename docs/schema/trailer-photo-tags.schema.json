@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://midlandind.com.au/schema/trailer-photo-tags/v2",
-  "title": "Midland media library tag record (v2)",
+  "$id": "https://midlandind.com.au/schema/trailer-photo-tags/v3",
+  "title": "Midland media library tag record (v3)",
   "description": "One record per image in Sales/1. Trailer Photos. `photo` and `path_derived` are populated by code during enumeration. `vision` is the ONLY object a model is ever asked to produce, and it must be produced without being shown `path_derived` -- see docs/routines/02-thursday-iteration.md for why.",
   "type": "object",
   "additionalProperties": false,
@@ -11,7 +11,7 @@
   ],
   "properties": {
     "schema_version": {
-      "const": "2.0"
+      "const": "3.0"
     },
     "photo": {
       "type": "object",
@@ -177,7 +177,8 @@
         "trailers",
         "competitor_branding_present",
         "marketing_usability",
-        "overall_confidence"
+        "overall_confidence",
+        "demonstrates"
       ],
       "properties": {
         "media_kind": {
@@ -302,7 +303,9 @@
               "position_in_frame",
               "axle_count",
               "is_midland_product",
-              "confidence"
+              "confidence",
+              "components_visible",
+              "features_present"
             ],
             "properties": {
               "axle_count": {
@@ -523,6 +526,80 @@
                   "illegible",
                   "unknown"
                 ]
+              },
+              "components_visible": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "axle_group",
+                    "wheels_rims",
+                    "tyres",
+                    "mudguards",
+                    "chassis_rail",
+                    "kingpin",
+                    "landing_legs",
+                    "suspension",
+                    "brake_components",
+                    "control_panel",
+                    "air_lines",
+                    "electrical_lines",
+                    "marker_lamps",
+                    "tail_lamps",
+                    "mudflaps",
+                    "reflective_markings",
+                    "deck_floor",
+                    "coaming",
+                    "headboard",
+                    "rear_frame",
+                    "twist_locks",
+                    "toolbox",
+                    "tyre_carrier",
+                    "ramps",
+                    "gates",
+                    "load_racks",
+                    "catwalk_walkway",
+                    "ladder",
+                    "spare_wheel",
+                    "drawbar",
+                    "turntable",
+                    "none_identifiable"
+                  ]
+                },
+                "uniqueItems": true,
+                "description": "Parts of THIS unit actually visible in the frame. POSITIVE ONLY -- list what you can see and omit everything else; an empty array means no part of this unit is identifiable. Never list a part because the trailer must have one. This is what makes a photo findable by what it shows: 'a frame with the kingpin in it' is a real request, 'a frame where the kingpin is not visible' is not."
+              },
+              "features_present": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "auto_twist_locks",
+                    "manual_twist_locks",
+                    "bifold_ramp",
+                    "fixed_ramp",
+                    "slide_out_ramp",
+                    "toolbox",
+                    "tyre_carrier",
+                    "load_racks",
+                    "chain_anchor_points",
+                    "gates",
+                    "rope_rails",
+                    "catwalk_walkway",
+                    "ladder",
+                    "spare_wheel_carrier",
+                    "winches",
+                    "headboard",
+                    "curtain",
+                    "mezz_deck",
+                    "extendable_chassis",
+                    "self_steer_axle",
+                    "water_tank",
+                    "none_visible"
+                  ]
+                },
+                "uniqueItems": true,
+                "description": "Equipment and options VISIBLY fitted to this unit, using Midland's own job-card accessory vocabulary. POSITIVE ONLY. Only record a feature you can actually see -- do not infer a toolbox from the product category, and do not infer one from the job card. A hallucinated feature is worse than no tag: it will be found by a search and shown to a customer as what they are buying. Use `none_visible` only when the unit is clearly in frame and carries no listed equipment."
               }
             }
           }
@@ -570,6 +647,33 @@
             "null"
           ],
           "description": "Shared id across near-identical frames of one framing, so the best of a burst surfaces and the rest stay findable."
+        },
+        "demonstrates": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "whole_trailer_appearance",
+              "twist_lock_system",
+              "ramp_operation",
+              "load_restraint_in_use",
+              "toolbox_mounting",
+              "coupling_detail",
+              "suspension_detail",
+              "wheel_finish",
+              "chassis_colour_reference",
+              "coaming_or_floor_detail",
+              "deck_configuration",
+              "branding_or_livery",
+              "loaded_in_service",
+              "build_progress",
+              "damage_or_wear",
+              "dimensional_reference",
+              "nothing_specific"
+            ]
+          },
+          "uniqueItems": true,
+          "description": "What this FRAME is evidence of -- the answer to 'why would anyone pull this photo out of the library'. This is the most search-relevant field in the schema and the only one that describes the photograph's purpose rather than the trailer's specification. A close side view of a control panel demonstrates `twist_lock_system` even though the trailer is a skel and the folder already said so. Use `nothing_specific` for a frame that records a trailer without showing anything in particular."
         }
       }
     },

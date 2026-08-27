@@ -59,35 +59,80 @@ def vocabulary(max_trailers=6):
                 out.append(f"t{n}:{ns}:{slug(e)}")
         out.append(f"trailers:{n}")
     out.append("trailers:0")
+    # Component / feature / demonstrates are unprefixed: they answer "is X in this photo",
+    # not "which unit was it attached to", so they do not multiply by max_trailers.
+    for e in v["demonstrates"]["items"]["enum"]:
+        out.append(f"demonstrates:{slug(e)}")
+    for e in t["components_visible"]["items"]["enum"]:
+        out.append(f"component:{slug(e)}")
+    for e in t["features_present"]["items"]["enum"]:
+        out.append(f"feature:{slug(e)}")
     return sorted(set(out))
 
+ABSENT = ("unknown", "not-visible", "not-applicable")
+
+VISION_NAMESPACE = "trailer-photo:vision"   # positive: what the photo shows
+STATE_NAMESPACE = "trailer-photo:state"     # absence: looked, could not tell
+
 def tags_for(record, prompt_version, model):
-    """Flatten one schema-v2 record into the tags[] array for an ingest call."""
-    v = record["vision"]; out = []
+    """Flatten one schema-v3 record into ingest tag sets, keyed by namespace.
+
+    Returns {namespace: [tags]} rather than one list, because the two kinds of tag serve
+    different readers and must not share a search index:
+
+    * `trailer-photo:vision` -- what the photo actually shows. This is what a person
+      searches. Component, feature and `demonstrates` tags are emitted UNPREFIXED and
+      unioned across units: someone looking for a frame with a control panel in it does
+      not care whether it belonged to unit 1 or unit 2.
+    * `trailer-photo:state` -- every field that came back `unknown` / `not_visible`.
+      Worthless to a searcher and 43% of the bag on a real frame, but it is how you tell a
+      badly defined field (always unknown) from a guessed one (never unknown), and keeping
+      the model free to say "cannot tell" is what stops it inventing specifications.
+
+    Both are written per (asset, namespace), so a re-tag of one leaves the other alone.
+    """
+    v = record["vision"]
+    search, state = [], []
+
+    def put(tag):
+        (state if tag.rsplit(":", 1)[-1] in ABSENT else search).append(tag)
+
     for f, ns in FRAME_NS.items():
         if v.get(f) is not None:
-            out.append(f"{ns}:{slug(v[f])}")
-    d = v.get("defects") or []
-    out += [f"defect:{slug(x)}" for x in d] or ["defect:none"]
+            put(f"{ns}:{slug(v[f])}")
+    search += [f"defect:{slug(x)}" for x in (v.get("defects") or [])] or ["defect:none"]
     if v.get("needs_human_review"):
-        out.append("review:needed")
+        search.append("review:needed")
     for name in v.get("competitor_names") or []:
-        out.append(f"competitor-name:{slug(name).replace(' ', '-')}")
+        search.append(f"competitor-name:{slug(name).replace(' ', '-')}")
+
+    # The frame-level answer to "why would anyone pull this photo out of the library".
+    for d in v.get("demonstrates") or []:
+        search.append(f"demonstrates:{slug(d)}")
+
     trailers = v.get("trailers") or []
-    out.append(f"trailers:{len(trailers)}")
+    search.append(f"trailers:{len(trailers)}")
     for i, tr in enumerate(trailers, start=1):
         for f, ns in TRAILER_NS.items():
             if tr.get(f) is not None:
-                out.append(f"t{i}:{ns}:{slug(tr[f])}")
+                put(f"t{i}:{ns}:{slug(tr[f])}")
+        # Unprefixed and unioned -- these answer "is X in this photo", not "which unit".
+        for c in tr.get("components_visible") or []:
+            if c != "none_identifiable":
+                search.append(f"component:{slug(c)}")
+        for ft in tr.get("features_present") or []:
+            if ft != "none_visible":
+                search.append(f"feature:{slug(ft)}")
+
     # provenance travels as tags because the API exposes no provenance field
-    out.append(f"promptver:{slug(prompt_version)}")
-    out.append(f"model:{slug(model)}")
+    search += [f"promptver:{slug(prompt_version)}", f"model:{slug(model)}"]
     pd = record.get("path_derived") or {}
     if pd.get("product_category"):
-        out.append(f"category:{slug(pd['product_category']).replace(' ', '-')}")
+        search.append(f"category:{slug(pd['product_category']).replace(' ', '-')}")
     if pd.get("variant"):
-        out.append(f"variant:{slug(pd['variant']).replace(' ', '-')}")
-    return sorted(set(out))
+        search.append(f"variant:{slug(pd['variant']).replace(' ', '-')}")
+
+    return {VISION_NAMESPACE: sorted(set(search)), STATE_NAMESPACE: sorted(set(state))}
 
 if __name__ == "__main__":
     vocab = vocabulary()
