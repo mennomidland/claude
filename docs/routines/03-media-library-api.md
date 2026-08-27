@@ -107,6 +107,27 @@ The one thing it gives up is byte-exact originals. If the library must hold the 
 original file, that is a reason to build the multipart or presigned path rather than to
 push 181 GB through base64.
 
+### Pick one byte source and never change it mid-run
+
+Re-ingesting `20251029_153352.jpg` from the **rendition**, having first ingested it from
+**`/content`**, produced a **new `mediaId` (7) against the same `occurrenceId` (2)**.
+
+That is both halves of the design working exactly as intended, and a trap:
+
+- The occurrence is keyed on `(driveId, itemId)`, so it correctly stayed the same file.
+- Dedup is keyed on the SHA of the bytes, and rendition bytes are not original bytes, so
+  the library correctly stored a second blob.
+
+Net effect: `mediaId` 5 is now an orphaned blob of the same photograph. Re-running the
+library with a different byte source would orphan a blob **per image** — 40,452 of them.
+
+Confirmed by the control case in the same run: re-ingesting the CivilCast frame from the
+rendition, having also ingested it from the rendition, returned `mediaId 6` unchanged and
+deduped. Same bytes dedup; different bytes do not.
+
+**Decide `/content` vs. rendition before the bulk run, not during it.** The recommendation
+above is rendition, for size, orientation and the 40 MB cap.
+
 ## Egress: confirmed, but only from the `Midland` environment
 
 | Environment | id | Reaches the host |
