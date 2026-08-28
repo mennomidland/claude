@@ -31,29 +31,35 @@ RECORDS = {
     "demonstrates": ["whole_trailer_appearance", "loaded_in_service",
                      "branding_or_livery", "wheel_finish"],
     "trailers": [
-      t(position_in_frame="lead", axle_count="not_visible", body_type="skeletal",
+      t(position_in_frame="lead", axle_count="tri", body_type="skeletal",
+        trailer_configuration="road_train_combination",
         is_midland_product="midland", build_state="finished", is_loaded="loaded",
         load_type="shipping_containers", chassis_colour="grey_or_silver",
-        components_visible=["chassis_rail", "twist_locks", "landing_legs", "mudflaps"],
-        features_present=[], identifying_text=["MIDLAND"], confidence="medium",
-        notes="Carries two 20ft MSC boxes. Its axle group is shadowed and not separable "
-              "from the following unit's in this frame."),
-      t(position_in_frame="second", axle_count="tri", body_type="skeletal",
-        is_midland_product="midland", build_state="finished", is_loaded="loaded",
-        load_type="shipping_containers", chassis_colour="grey_or_silver",
-        components_visible=["axle_group", "wheels_rims", "tyres", "mudguards",
-                            "mudflaps", "chassis_rail", "suspension", "twist_locks"],
+        components_visible=["axle_group", "wheels_rims", "tyres", "mudguards", "mudflaps",
+                            "chassis_rail", "suspension", "twist_locks", "landing_legs"],
         features_present=[], identifying_text=["MIDLAND"], confidence="high",
-        notes="Tri group fully in frame: three axles, white guards, polished alloy rims."),
+        notes="A-trailer carrying two 20ft MSC boxes. Its tri group -- three axles, white "
+              "guards, polished alloy rims -- carries the fifth wheel for the following "
+              "unit, so it sits beneath the SECOND trailer's front while belonging to "
+              "this one."),
+      t(position_in_frame="second", axle_count="not_visible", body_type="skeletal",
+        trailer_configuration="road_train_combination",
+        is_midland_product="midland", build_state="finished", is_loaded="loaded",
+        load_type="shipping_containers", chassis_colour="grey_or_silver",
+        components_visible=["chassis_rail", "twist_locks"],
+        features_present=[], identifying_text=["MIDLAND"], confidence="medium",
+        notes="Coupled onto the lead trailer's fifth wheel. Its own axle group is beyond "
+              "the right frame edge."),
     ],
     "visible_text": ["MEDITERRANEAN SHIPPING CO", "MSC", "MIDLAND",
                      "TASMAN LOGISTICS SERVICES", "22G1"],
     "marketing_usability": "hero", "defects": [], "duplicate_group": None,
     "overall_confidence": "high", "needs_human_review": True,
-    "notes": "Twist lock hardware is visible on the rail but the auto actuator is not "
-             "legible at this resolution, so auto_twist_locks is NOT claimed despite the "
-             "folder name. Also: the v2 worked example attributes the tri group to the "
-             "LEAD unit; read here it sits under the second. Needs a human call.",
+    "notes": "A-double. The visible tri group belongs to the LEAD trailer, which carries "
+             "the fifth wheel above it for the second unit -- reading it as the second "
+             "trailer's because it sits under that body is the classic error. Twist lock "
+             "hardware is visible on the rail but the auto actuator is not legible at this "
+             "resolution, so auto_twist_locks is NOT claimed despite the folder name.",
   },
   "audit": {"axle_agreement": "path_unstated", "category_agreement": "agree",
             "provenance_conflict": False, "non_marketing_in_marketing_folder": False},
@@ -90,10 +96,11 @@ RECORDS = {
                      "EXPERT ADVICE", "LARGE STOCKS", "FAST LEAD TIMES"],
     "marketing_usability": "good", "defects": ["people_visible"],
     "duplicate_group": None, "overall_confidence": "high", "needs_human_review": True,
-    "notes": "Professionally shot. Folder path reads '2 Axle Dog Trailer' but three axles "
-             "are clearly visible on the loaded unit -- flagged as an axle disagreement "
-             "for a human to resolve: either the frame is filed in the wrong folder, or "
-             "the folder term counts something other than axles.",
+    "notes": "Professionally shot. Folder path reads '2 Axle Dog Trailer' and three axles "
+             "are visible under the loaded deck. NOT asserted as a misfiling: in a dog "
+             "trailer combination the running gear under one body can belong to another "
+             "unit, the same way an A-trailer's group sits under the trailer behind it. "
+             "Flagged for someone who knows the configuration to resolve.",
   },
   "audit": {"axle_agreement": "disagree", "category_agreement": "not_comparable",
             "provenance_conflict": False, "non_marketing_in_marketing_folder": False},

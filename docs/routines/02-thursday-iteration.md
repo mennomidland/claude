@@ -69,6 +69,21 @@ week and it is not delegable.
 > **Count axles on the trailer only**, excluding any prime mover in the frame. If the
 > rear axles are hidden behind a load or cropped out, that is `not_visible`.
 >
+> **An axle group does not belong to the trailer it appears to sit under.** This is the
+> single most reliable way to get a multi-trailer frame wrong. An **A-trailer** carries a
+> fifth wheel mounted *above its own rear axle group*, and the following trailer's kingpin
+> sits on that fifth wheel. So in an A-double the lead trailer's axle group sits directly
+> beneath the **front of the second trailer's body** — and looks, to anyone reading the
+> picture as a picture, like it belongs to the second unit. It does not.
+>
+> Assign an axle group by **tracing the chassis rail back to the body it is attached to**,
+> never by which container or deck happens to be above it. If the chassis is obscured and
+> you cannot trace it, the correct answer is `not_visible` on both units — not a guess
+> based on position.
+>
+> The same caution applies to dog trailers and B-doubles, where the drawbar or the extended
+> rear of the lead unit puts running gear in visually misleading places.
+>
 > Judge `marketing_usability` as a marketing manager would: `hero` for a frame you would
 > lead a campaign with, `reject` for one you would not publish. Workshop clutter, people
 > in shot, backlighting and partial crops all matter here, and belong in `defects` too.
