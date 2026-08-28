@@ -70,19 +70,32 @@ week and it is not delegable.
 > rear axles are hidden behind a load or cropped out, that is `not_visible`.
 >
 > **An axle group does not belong to the trailer it appears to sit under.** This is the
-> single most reliable way to get a multi-trailer frame wrong. An **A-trailer** carries a
-> fifth wheel mounted *above its own rear axle group*, and the following trailer's kingpin
-> sits on that fifth wheel. So in an A-double the lead trailer's axle group sits directly
-> beneath the **front of the second trailer's body** — and looks, to anyone reading the
-> picture as a picture, like it belongs to the second unit. It does not.
+> single most reliable way to get a multi-trailer frame wrong, and reading the picture as a
+> picture gets it wrong every time. Three geometries to know:
+>
+> - **B-double.** The lead trailer carries a fifth wheel / turntable on a tail section
+>   mounted **directly above its own rear axle group**, and the second trailer's kingpin
+>   sits on it. So that axle group sits beneath the **front of the second trailer's body
+>   while belonging to the lead trailer.** Two close-coupled trailers with one axle group
+>   at the join is this.
+> - **A-double / road train.** The units are joined by a **drawbar to a converter dolly**,
+>   which has **its own axles and its own fifth wheel**. Those dolly axles belong to
+>   neither trailer. Look for the drawbar and the gap between units.
+> - **Dog trailer.** Drawbar at the front onto a turntable, with a front axle group under
+>   its own front end as well as a rear group.
 >
 > Assign an axle group by **tracing the chassis rail back to the body it is attached to**,
 > never by which container or deck happens to be above it. If the chassis is obscured and
 > you cannot trace it, the correct answer is `not_visible` on both units — not a guess
 > based on position.
 >
-> The same caution applies to dog trailers and B-doubles, where the drawbar or the extended
-> rear of the lead unit puts running gear in visually misleading places.
+> **Watch the A/B naming, it is genuinely ambiguous.** On the workshop floor the lead
+> trailer of a B-double is commonly called the *A-trailer* and the rear one the
+> *B-trailer*, positionally. The regulator and engineering usage is the opposite sense:
+> an **A-trailer** is any trailer with a **drawbar** coupling and a **B-trailer** is one
+> with a **fifth-wheel** coupling — which makes a B-double's lead trailer a "B-trailer".
+> Do not put either sense in a tag. Record the physical facts (`trailer_configuration`,
+> `coupling_type`, `axle_count`) and let the words stay out of it.
 >
 > Judge `marketing_usability` as a marketing manager would: `hero` for a frame you would
 > lead a campaign with, `reject` for one you would not publish. Workshop clutter, people

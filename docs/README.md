@@ -13,6 +13,10 @@ mostly camera defaults and carry no meaning.
 3. `schema/trailer-photo-tags.schema.json` — the tag record (**v3**)
 4. `routines/02-thursday-iteration.md` — how the schema gets frozen before any volume
 
+`findings/domain-knowledge.md` records what the tagger has to understand about trailers
+before it can read a photo of one -- combination geometry, the A/B naming trap, and why
+the folder is only a hypothesis.
+
 `findings/join-discovery.md` is parked: it records that photo folder job numbers join
 exactly to the Manufacturing Job Cards, which is out of scope for now but cheap when
 wanted.
@@ -28,7 +32,10 @@ the word appears in no enum.
 
 - **Never ask a model for what the path already says.** Product category, variant, axle
   configuration, customer, build date and job number are all in the folder path. They
-  are parsed, not inferred.
+  are parsed, not inferred. **But the path is a hypothesis, not truth** — Midland confirm
+  photos are sometimes filed in the wrong folder, so where vision and path disagree the
+  disagreement is the finding. That is what the `audit` block is for, and why the vision
+  pass is run **blind** to the path. See `findings/domain-knowledge.md`.
 - **Every field accepts `unknown`.** A model forced to always emit a value invents one,
   and invented specifications are what made the first attempt read as garbage.
 - **Tag what the photo shows, not just what the trailer is** (added in v3). The first two
