@@ -1,0 +1,693 @@
+{
+  "meta": {
+    "generated": "2026-08-31",
+    "brief": "docs/research-brief.md @ claude/continue-with-this-tef77k",
+    "convention": "Every proposed field also accepts 'unknown'; every field marked photo_visible:true also accepts 'not_visible'.",
+    "reading_note": "confidence 'low' means DO NOT add this as a tagger-facing value yet. See findings.md section 6."
+  },
+
+  "proposals": [
+
+    {
+      "field": "suspension_type",
+      "status": "new_field",
+      "value": "air_bag",
+      "label": "Air bag suspension",
+      "photo_visible": true,
+      "visual_discriminator": "Rubber bellows (air spring) sitting between the trailing arm and the chassis rail above the axle, with air lines running along the chassis and a levelling valve near the axle group. No stacked steel leaves.",
+      "confidence": "medium",
+      "note": "Midland advertise 'Air or Spring Suspension' as a customer choice on nearly every model, so the field is commercially required. Rated medium not high because Midland's own airbag-vs-spring article is a selection guide with no visual test; the component description is assembled from general suspension sources, several US-origin. Components are identical globally and Midland specify global brands (BPW, Hendrickson, K-Hitch).",
+      "sources": [
+        "https://midlandind.com.au/showcase/drop-deck-trailers",
+        "https://midlandind.com.au/news/airbag-vs-spring-suspension-on-truck-trailers",
+        "https://blog.premiertrailerleasing.com/airride"
+      ]
+    },
+    {
+      "field": "suspension_type",
+      "status": "new_field",
+      "value": "spring_leaf",
+      "label": "Spring (leaf) suspension",
+      "photo_visible": true,
+      "visual_discriminator": "A stack of curved steel leaves clamped together, U-bolted to the axle, with an eye at each end mounted to the chassis via hangers and shackles. No rubber bellows, no air lines to the axle.",
+      "confidence": "medium",
+      "note": "Midland's own terms are 'Spring', 'Spring or Airbag', 'spring suspension'. Same sourcing caveat as air_bag.",
+      "sources": [
+        "https://midlandind.com.au/showcase/flat-top-trailers",
+        "https://blog.premiertrailerleasing.com/airride"
+      ]
+    },
+
+    {
+      "field": "suspension_mount",
+      "status": "rename",
+      "value": "over_slung / under_slung -> retain values, force not_visible",
+      "photo_visible": false,
+      "confidence": "low",
+      "note": "DO NOT let the vision pass populate this. Over-slung/under-slung describes where the leaf spring sits relative to the axle beam. Every source found is US-origin and about light trailers; no Australian heavy-trailer source uses the terms and Midland's site never does. On air-bag trailing-arm suspension the distinction becomes the axle seat position on the beam, which is not externally visible at all. Keep the field for job-card data; have the tagger always emit not_visible.",
+      "sources": [
+        "https://mechanicalelements.com/overslung-underslung-trailer-springs/",
+        "https://www.blueswiftaxles.com/the-pros-and-cons-of-overslung-and-underslung-axles/",
+        "https://patents.justia.com/patent/9050875"
+      ]
+    },
+
+    {
+      "field": "deck_material",
+      "status": "new_field",
+      "value": "checker_plate",
+      "label": "Checker / chequer plate deck",
+      "photo_visible": true,
+      "visual_discriminator": "Raised repeating pattern across the full deck surface, catching light differently to the smooth chassis. Hot-rolled plate with a raised checkered surface on one side; also sold as 'floor plate'.",
+      "confidence": "high",
+      "aliases": ["checker plate", "chequer plate", "floor plate", "floorplate"],
+      "note": "Midland use BOTH spellings on their own site ('Checker Plate' on drop deck, 'chequer plate' on dog/tag/pig/beekeeper). All spellings must be search aliases, not separate values.",
+      "sources": [
+        "https://midlandind.com.au/showcase/drop-deck-trailers",
+        "https://midlandind.com.au/showcase/dog-trailers",
+        "https://www.steelprofilecutting.com.au/blog/grades-of-steel-plate/"
+      ]
+    },
+    {
+      "field": "deck_material",
+      "status": "new_field",
+      "value": "smooth_wear_plate",
+      "label": "Smooth high-tensile wear plate deck",
+      "photo_visible": true,
+      "visual_discriminator": "Uniform smooth plate with no raised pattern. Distinguishable from checker plate, but the BRAND is not distinguishable — see note.",
+      "confidence": "high",
+      "note": "CRITICAL. Do NOT create 'bisalloy' or 'hardox' enum values. Bisalloy is an Australian brand (Bisalloy Steels Pty Ltd, Bisplate BIS320-BIS600); Hardox is Swedish (SSAB). Both are quenched-and-tempered abrasion-resistant plate supplied smooth, and they are visually identical. A tag naming either brand from a photo is a fabricated specification. Put brand in a separate job-card-only field.",
+      "sources": [
+        "https://midlandind.com.au/showcase/low-loader-trailers",
+        "https://blog.thepipingmart.com/metals/hardox-vs-bisalloy-whats-the-difference/",
+        "https://www.industry.gov.au/sites/default/files/adc/public-record/037-verificationreport-australianindustry-bisalloysteelsptyltd.pdf"
+      ]
+    },
+    {
+      "field": "deck_material",
+      "status": "new_field",
+      "value": "timber",
+      "label": "Timber deck",
+      "photo_visible": true,
+      "visual_discriminator": "Visible plank joints running the deck length, wood grain, colour variation between boards.",
+      "confidence": "low",
+      "note": "Listed in the brief but I found NO Midland reference to timber decking anywhere on their site. Confirm Midland actually build these before adding.",
+      "sources": []
+    },
+    {
+      "field": "deck_material",
+      "status": "new_field",
+      "value": "none_skeletal",
+      "label": "No deck (skeletal frame)",
+      "photo_visible": true,
+      "visual_discriminator": "Longitudinal rails and cross members with no continuous deck surface between them; ground visible through the frame.",
+      "confidence": "high",
+      "sources": ["https://midlandind.com.au/news/va06vw06bm2dycqbl0bz58tjx8wycv"]
+    },
+    {
+      "field": "deck_material_brand",
+      "status": "new_field",
+      "value": "bisalloy | hardox | other | unknown",
+      "label": "Deck plate brand (job card only)",
+      "photo_visible": false,
+      "confidence": "high",
+      "note": "Job card only, never the vision pass. Search aliases must include Midland's own misspellings: 'Bissalloy', 'Bissaloy'. Correct brand spelling is Bisalloy.",
+      "sources": [
+        "https://midlandind.com.au/showcase/drop-deck-trailers",
+        "https://midlandind.com.au/showcase/steel-spec-trailers"
+      ]
+    },
+
+    {
+      "field": "body_type",
+      "status": "merge",
+      "value": "step_deck -> drop_deck",
+      "confidence": "high",
+      "note": "Midland state directly in their own FAQ that drop deck and step deck are the same trailer type with no differences between the two, and that semi drop deck is the same again. Holding both as separate enum values guarantees inconsistent tagging of identical trailers. Merge to drop_deck; keep 'step deck' and 'semi drop deck' as aliases. Corroborated by independent Australian sources.",
+      "sources": [
+        "https://midlandind.com.au/showcase/drop-deck-trailers",
+        "https://www.spartanquip.com.au/6-essential-types-of-trailers-and-their-smart-uses-in-australia/"
+      ]
+    },
+    {
+      "field": "body_type",
+      "status": "new_value",
+      "value": "double_drop_deck",
+      "label": "Double drop deck",
+      "photo_visible": true,
+      "visual_discriminator": "TWO steps down in deck height rather than one, creating a centre well at roughly 700mm against a standard drop deck well at roughly 1,020mm and a top deck at roughly 1,500mm (on 19.5-inch axles). The well is bounded by a step at each end.",
+      "confidence": "high",
+      "note": "Midland build this and it is absent from the schema. Their published deck heights make it the most numerically well-specified visual discriminator in this whole set.",
+      "sources": ["https://midlandind.com.au/news/what-is-a-drop-deck-trailer-your-complete-australian-guide"]
+    },
+    {
+      "field": "body_type",
+      "status": "new_value",
+      "value": "tanker",
+      "label": "Tanker / water cart",
+      "photo_visible": true,
+      "visual_discriminator": "Cylindrical closed vessel in place of a deck, with piping and discharge fittings at the rear or side.",
+      "confidence": "high",
+      "note": "Midland sell Tanker Trailers in 'Bulk Tankers or Water Cart setup'. Schema currently has only 'water_tank', which is listed both as a body_type and as a feature — that conflation should be resolved: a water tank fitted as an accessory to a flat top is a feature; a tanker is a body type.",
+      "sources": ["https://midlandind.com.au/showcase/tanker-trailers"]
+    },
+    {
+      "field": "body_type",
+      "status": "new_value",
+      "value": "beekeeper",
+      "label": "Beekeeper trailer",
+      "photo_visible": true,
+      "visual_discriminator": "Flat platform with customisable load racks sized for hive stacks; Midland spec 3mm chequer plate floor and ring feeder hitch.",
+      "confidence": "medium",
+      "note": "A Midland product line with its own page. Visually close to a flat top with load racks, so may not be separable from body_type=flat_top plus features=load_racks. Consider making it an application tag rather than a body type.",
+      "sources": ["https://midlandind.com.au/showcase/beekeeper-trailers"]
+    },
+    {
+      "field": "body_type",
+      "status": "new_value",
+      "value": "moving_floor",
+      "label": "Moving floor",
+      "photo_visible": false,
+      "confidence": "medium",
+      "note": "COMPETITOR EQUIPMENT. Barker Trailers list Moving Floors as one of only four product categories, so a moving floor trailer in this library is far more likely Barker than Midland — which is exactly the costly-failure case the brief names. Not visible externally when closed; the tell is the operator's branding and the rear door arrangement. Add the value so it can be flagged, not so it can be confidently detected.",
+      "sources": ["https://barkertrailers.com.au"]
+    },
+    {
+      "field": "body_type",
+      "status": "new_value",
+      "value": "side_tipper",
+      "label": "Side tipper",
+      "photo_visible": true,
+      "visual_discriminator": "Bin body with tipping rams mounted to discharge sideways rather than to the rear.",
+      "confidence": "medium",
+      "note": "COMPETITOR EQUIPMENT. FWR Australia list Side Tippers and the AZMEB range. Schema has 'tipper' only. Midland do not appear to build side tippers.",
+      "sources": ["https://fwr.com.au"]
+    },
+    {
+      "field": "body_type",
+      "status": "new_value",
+      "value": "super_tilt",
+      "label": "Super tilt",
+      "photo_visible": true,
+      "visual_discriminator": "Whole deck tilts as one plane to ground level for loading, rather than using separate ramps.",
+      "confidence": "medium",
+      "note": "COMPETITOR EQUIPMENT (FWR). Included because the library deliberately contains competitor gear and this is visually distinctive when deployed.",
+      "sources": ["https://fwr.com.au"]
+    },
+    {
+      "field": "body_type",
+      "status": "new_value",
+      "value": "car_carrier",
+      "label": "Car carrier / transporter",
+      "photo_visible": true,
+      "visual_discriminator": "Multiple vehicle decks with wheel channels; NHVR define a vehicle carrier as a combination built to carry vehicles on more than one deck.",
+      "confidence": "medium",
+      "note": "COMPETITOR EQUIPMENT (FWR). Also an NHVR class 2 category in its own right.",
+      "sources": [
+        "https://fwr.com.au",
+        "https://www.nhvr.gov.au/files/201409-0155-classes-of-heavy-vehicles.pdf"
+      ]
+    },
+    {
+      "field": "body_type",
+      "status": "new_value",
+      "value": "drop_deck_widener",
+      "label": "Drop deck widener",
+      "photo_visible": true,
+      "visual_discriminator": "Drop deck profile plus extendable outer deck sections; Midland's widen from 2490mm to 4000mm. Retracted, the outer sections sit flush against the inner frame with a join line running the deck length.",
+      "confidence": "medium",
+      "note": "Midland's own product name, and Midland state a Lowboy is the same thing as a Drop Deck Widener and their Low Loaders. Schema has 'deck_widener' and 'float_or_low_loader' separately; whether Midland treat these as one family or three is a question for their engineering, not the web. See findings.md section 6 item 7.",
+      "sources": [
+        "https://midlandind.com.au/lowboy-trailers",
+        "https://midlandind.com.au/showcase/tri-axle-low-loaders"
+      ]
+    },
+
+    {
+      "field": "trailer_configuration",
+      "status": "new_value",
+      "value": "pig_trailer",
+      "label": "Pig trailer",
+      "photo_visible": true,
+      "visual_discriminator": "Drawbar trailer with ONE axle or axle group positioned roughly in the CENTRE of the trailer, not at the ends. This is the ATA's defining geometry and it is directly countable in a side-on photo.",
+      "confidence": "high",
+      "note": "Midland sell Pig Trailers as a product line and the ATA defines the geometry. Its complete absence from the schema is a significant gap. NHVR apply reduced axle mass limits to pig trailers specifically.",
+      "sources": [
+        "https://midlandind.com.au/showcase/pig-trailers",
+        "https://www.truck.net.au/sites/default/files/TAPs%20-%20description%20of%20truck%20configuration%20September%202016.pdf"
+      ]
+    },
+    {
+      "field": "trailer_configuration",
+      "status": "rename",
+      "value": "tag_trailer -> drawbar_plant_trailer",
+      "confidence": "high",
+      "note": "HIGHEST-PRIORITY RENAME. 'Tag trailer' carries at least three incompatible meanings, two of them on Midland's own website: (1) Midland's plant trailer product — fixed drawbar and hitch, no steering front axle group, load transferred onto the tow truck's rear axle, runs behind a rigid or body truck only; (2) the REAR unit of a B-double or road train, per Midland's own Steel Spec page offering 'lead and tag trailers'; (3) Midland's folder naming '2. Tandem Axle Tag Trailer'. A tagger applying meaning 2 to a photo of meaning 1 mislabels both configuration and axle attribution. Rename the value, keep 'tag trailer' as a search alias only, and capture meaning 2 via the new combination_role field.",
+      "sources": [
+        "https://midlandind.com.au/news/ukuzxbf43uv5zr7ehu7aj7z2wb37xz",
+        "https://midlandind.com.au/showcase/steel-spec-trailers",
+        "https://midlandind.com.au/showcase/tag-trailers"
+      ]
+    },
+    {
+      "field": "trailer_configuration",
+      "status": "new_value",
+      "value": "super_dog",
+      "label": "Super dog trailer",
+      "photo_visible": true,
+      "visual_discriminator": "Dog trailer with a SINGLE axle group at the front (on the steering turntable) and a TANDEM axle group at the rear. Three axles total. Countable directly.",
+      "confidence": "high",
+      "note": "Midland publish a dedicated guide and note the term is consistent industry shorthand rather than a formal NHVR classification.",
+      "sources": ["https://midlandind.com.au/news/rdkh657ggdd99n7z6a4gi94vgt449b"]
+    },
+    {
+      "field": "trailer_configuration",
+      "status": "new_value",
+      "value": "quad_dog",
+      "label": "Quad dog trailer",
+      "photo_visible": true,
+      "visual_discriminator": "Dog trailer with additional axles beyond the standard tandem-front/tandem-rear four, typically by extending the rear axle group. Five or more axles.",
+      "confidence": "medium",
+      "note": "Midland name it but describe it loosely ('additional axles again, typically extending the rear axle group'), so the boundary against a standard dog is soft. Standard dog = tandem front + tandem rear = 4 axles.",
+      "sources": ["https://midlandind.com.au/news/rdkh657ggdd99n7z6a4gi94vgt449b"]
+    },
+
+    {
+      "field": "combination_role",
+      "status": "new_field",
+      "value": "lead_trailer | middle_trailer | rear_trailer | standalone_semi | converter_dolly | unknown",
+      "label": "Role of this trailer within its combination",
+      "photo_visible": true,
+      "visual_discriminator": "For a trailer photographed ALONE: a second fifth wheel on a tail section at its own rear means it is a lead-trailer-capable unit. Midland state an A-trailer needs that rear fifth wheel fitted and positioned for the specific B-trailer it will run with, and that a semi-trailer without one can only run standalone or in the rear position. For a combination: front-to-back position.",
+      "confidence": "high",
+      "note": "DELIBERATELY AVOIDS 'a_trailer' / 'b_trailer'. Those terms have three live readings — coupling type (regulators/engineers: A = drawbar-coupled, so a B-double has NO A-trailer), position (Midland's published position: A = lead, B = rear), and Midland's looser use of 'B trailer' for either unit of a B-double set. Keep 'A trailer'/'B trailer' as search aliases mapping to lead_trailer/rear_trailer, because that is what Midland's own sales and marketing staff will type. NOTE: lead_trailer must be non-unique — the ATA describe a B-triple as two A-or-lead trailers followed by a B or semi-trailer.",
+      "sources": [
+        "https://midlandind.com.au/news/64wci6egusrx2na3ez5krs7iw3ln8c",
+        "https://www.trucksales.com.au/editorial/details/do-you-know-your-a-from-your-b-118045/",
+        "https://www.truck.net.au/sites/default/files/TAPs%20-%20description%20of%20truck%20configuration%20September%202016.pdf",
+        "https://midlandind.com.au/showcase/b-double-combination-trailers"
+      ]
+    },
+
+    {
+      "field": "combination_type",
+      "status": "new_field",
+      "value": "rigid | semi | b_double | b_triple | a_double | a_triple | ab_triple | bab_quad | truck_and_dog | truck_and_pig | not_a_combination | unknown",
+      "label": "Combination visible in the frame",
+      "photo_visible": true,
+      "visual_discriminator": "B-type: two bodies close-coupled, rear body's nose resting on the tail of the one in front, NO drawbar and NO gap. A-type: drawbar and a visible gap between bodies with an axle group under the gap (that group is the dolly's). Truck-and-dog: drawbar and gap, front axle group steering on a turntable, axle group at each end of one body.",
+      "confidence": "high",
+      "note": "Replaces the single 'road_train_combination' value, which collapses A-double, A-triple, AB-triple and B-triple into one bucket. NHVR label an A-double a Type 1 road train and an A-triple a Type 2, and class B-triples as road trains too — so 'road train' is a legal class, not a shape, and is the wrong axis for a visual schema. Do NOT add 'pocket_road_train': the ATA use 'pocket' for a 19m 7-axle B-double while BTT Engineering use 'pocket road train' for a 2-2-2 A-double up to 26m. Different vehicles, unresolved.",
+      "sources": [
+        "https://www.nhvr.gov.au/files/201409-0155-classes-of-heavy-vehicles.pdf",
+        "https://midlandind.com.au/news/64wci6egusrx2na3ez5krs7iw3ln8c",
+        "https://samove.raa.com.au/whats-a-b-double-truck/",
+        "https://www.truck.net.au/sites/default/files/TAPs%20-%20description%20of%20truck%20configuration%20September%202016.pdf",
+        "https://bttengineering.com.au/pbs-certification/combinations"
+      ]
+    },
+
+    {
+      "field": "ata_configuration_code",
+      "status": "new_field",
+      "value": "free text, e.g. B1233",
+      "label": "ATA configuration code",
+      "photo_visible": true,
+      "visual_discriminator": "Built by counting: R = rigid truck, A = prime mover plus semi-trailer, T = drawbar or converter-dolly trailer, B = trailer coupled via a turntable on the forward trailer; each digit is the number of axles in that group. B1233 = B-double, single steer, tandem drive, tri lead, tri rear. A123T23 = Type 1 road train. R12T11 = 3-axle rigid with 2-axle dog.",
+      "confidence": "high",
+      "note": "STRONGEST SINGLE RECOMMENDATION IN THIS SET. Every symbol is countable from a side-on photograph, the code encodes combination type AND axle counts AND axle attribution in one string, it degrades gracefully when only part of the combination is in frame, it is human-checkable, and it is the notation Australian engineers and regulators already use. Free text rather than enum precisely so partial codes are expressible.",
+      "sources": ["https://www.truck.net.au/sites/default/files/TAPs%20-%20description%20of%20truck%20configuration%20September%202016.pdf"]
+    },
+
+    {
+      "field": "axle_group_layout",
+      "status": "new_field",
+      "value": "rear_group_only | group_each_end | single_group_centre | split_group | unknown",
+      "label": "Where the axle groups sit along the trailer",
+      "photo_visible": true,
+      "visual_discriminator": "rear_group_only = semi-trailer or tag trailer. group_each_end = dog trailer (front group on a steering turntable). single_group_centre = pig trailer, per the ATA. split_group = one axle separated from the rest of the group by a long run of bare chassis (PBS split axle requires at least 2.5m spacing).",
+      "confidence": "medium",
+      "note": "The pig and dog rows are directly from the ATA. The tag row's axle position is INFERRED from Midland's load-transfer mechanics (a tag trailer transfers part of its load onto the tow truck's rear axle, which implies a rearward group), not stated by any source I found. Confirm with Midland engineering before this goes into a tagger prompt. See findings.md section 6 item 2.",
+      "sources": [
+        "https://www.truck.net.au/sites/default/files/TAPs%20-%20description%20of%20truck%20configuration%20September%202016.pdf",
+        "https://midlandind.com.au/news/ukuzxbf43uv5zr7ehu7aj7z2wb37xz",
+        "https://midlandind.com.au/news/what-is-a-dog-trailer-your-complete-australian-guide"
+      ]
+    },
+
+    {
+      "field": "coupling_type",
+      "status": "new_value",
+      "value": "ringfeder_tow_eye",
+      "label": "Ringfeder / tow eye",
+      "photo_visible": true,
+      "visual_discriminator": "Ring-and-jaw coupling at the drawbar eye, or the receiving unit fitted at the rear of a trailer for road train work.",
+      "confidence": "high",
+      "aliases": ["ring feder", "ring feeder", "ringfeder", "tow eye"],
+      "note": "Midland offer it as a hitch option across dog, pig, beekeeper and skip bin trailers, and as a rear fitment for road train combinations. Midland spell it THREE ways on their own site ('Ring Feder', 'Ring feder', 'Ring feeder') — all must be aliases. Correct brand spelling is Ringfeder.",
+      "sources": [
+        "https://midlandind.com.au/showcase/dog-trailers",
+        "https://midlandind.com.au/showcase/skip-bin-transfer-trailers",
+        "https://midlandind.com.au/showcase/tri-axle-low-loaders"
+      ]
+    },
+    {
+      "field": "coupling_type",
+      "status": "new_value",
+      "value": "pintle_hook",
+      "label": "Pintle hook",
+      "photo_visible": true,
+      "visual_discriminator": "Hook-and-latch coupling on the tow vehicle receiving a drawbar eye.",
+      "confidence": "high",
+      "aliases": ["pintle hook", "pintel hook"],
+      "note": "Midland offer it on tag, pig and pole jinker trailers. They misspell it 'Pintel Hook' on the tag trailer page — include as alias.",
+      "sources": [
+        "https://midlandind.com.au/showcase/tag-trailers",
+        "https://midlandind.com.au/showcase/pig-trailers"
+      ]
+    },
+    {
+      "field": "coupling_type",
+      "status": "new_value",
+      "value": "bartlett_ball",
+      "label": "Bartlett ball",
+      "photo_visible": true,
+      "visual_discriminator": "Large ball coupling, distinct from both a fifth wheel plate and a ring coupling.",
+      "confidence": "high",
+      "note": "Midland offer it on tag, pig and dog trailers. NOT the same as the existing 'ball_race' value — see the ball_race clarification below.",
+      "sources": [
+        "https://midlandind.com.au/showcase/tag-trailers",
+        "https://midlandind.com.au/showcase/dog-trailers"
+      ]
+    },
+    {
+      "field": "coupling_type",
+      "status": "rename",
+      "value": "ball_race -> ball_race_turntable",
+      "confidence": "medium",
+      "note": "Disambiguation. 'Ball race' in Australian heavy trailer use is a low-profile turntable, offered by Midland as an alternative to a dolly's fifth wheel specifically to lower coupling height and improve roll stability. It is NOT a Bartlett ball. The current bare 'ball_race' value invites a tagger to conflate the two.",
+      "sources": ["https://midlandind.com.au/news/optimised-a-double-skel-trailers-for-dg-iso-containers-midland-trailers"]
+    },
+
+    {
+      "field": "coaming_type",
+      "status": "new_value",
+      "value": "tfb",
+      "label": "TFB coaming",
+      "photo_visible": false,
+      "confidence": "low",
+      "note": "DO NOT ADD YET. Midland list 'Combing Styles: Select from Flush, TFB or C-channel' on the drop deck page. I could not establish what TFB stands for or what it looks like — no definition found on Midland's site, any competitor site, or any industry source. Asking a tagger to identify something nobody can describe guarantees invented tags. This needs to come from Midland's drawing office. Flagged in findings.md section 6 item 1.",
+      "sources": ["https://midlandind.com.au/showcase/drop-deck-trailers"]
+    },
+    {
+      "field": "coaming_type",
+      "status": "new_value",
+      "value": "profile",
+      "label": "Profile coaming rail",
+      "photo_visible": true,
+      "visual_discriminator": "Shaped/profiled rail section along the deck edge as distinct from a plain channel or a flush edge.",
+      "confidence": "medium",
+      "note": "Midland's dog trailer page offers 'Coaming Rails: Profile or standard'. A fourth coaming vocabulary on the same site — see the note below on this field generally.",
+      "sources": ["https://midlandind.com.au/showcase/dog-trailers"]
+    },
+    {
+      "field": "coaming_type",
+      "status": "rename",
+      "value": "flush_only -> flush",
+      "confidence": "high",
+      "note": "Midland's own term is simply 'Flush'. The '_only' suffix adds nothing and won't match their vocabulary. Separately: Midland describe coaming FOUR different ways across their site — 'Combing Styles: Flush, TFB or C-channel', 'Coaming Rails: Profile or standard', '4 or 5 inch Coaming Rails', 'flush or raised coaming', plus 'Rails: 4 or 5 inch Combing options'. Recommend splitting into coaming_profile (flush / channel / profile / none) and coaming_height (4_inch / 5_inch / unknown), with 'combing' as a spelling alias throughout.",
+      "sources": [
+        "https://midlandind.com.au/showcase/drop-deck-trailers",
+        "https://midlandind.com.au/showcase/flat-top-trailers",
+        "https://midlandind.com.au/showcase/hay-spec-combination-trailers"
+      ]
+    },
+
+    {
+      "field": "front_ramp / rear_ramp",
+      "status": "new_value",
+      "value": "heavy_duty",
+      "label": "H.D (heavy duty) ramp",
+      "photo_visible": true,
+      "visual_discriminator": "Visibly heavier ramp section than a standard single ramp; Midland list it as a distinct third option alongside single and bi-fold.",
+      "confidence": "medium",
+      "note": "Midland's wording is 'Single, bi-fold or H.D (heavy duty) ramps available' on low loader and drop deck pages. Distinguishing H.D from single by eye may not be reliable — expect frequent not_visible.",
+      "sources": ["https://midlandind.com.au/showcase/tri-axle-low-loaders"]
+    },
+    {
+      "field": "front_ramp",
+      "status": "new_value",
+      "value": "flip_over",
+      "label": "Flip-over front ramp",
+      "photo_visible": true,
+      "visual_discriminator": "Ramp hinged over the deck step on a drop deck, bridging top deck to lower deck. Midland also offer pull-out steel ramps to the top deck as the alternative.",
+      "confidence": "medium",
+      "sources": ["https://midlandind.com.au/showcase/drop-deck-trailers"]
+    },
+    {
+      "field": "rear_ramp",
+      "status": "new_value",
+      "value": "beavertail",
+      "label": "Beavertail rear",
+      "photo_visible": true,
+      "visual_discriminator": "The rear section of the DECK ITSELF angles down toward the ground — there is no separate ramp object. Read the deck profile, not the presence of a ramp.",
+      "confidence": "medium",
+      "note": "Midland use 'beavertail-style' for tag trailer plant ramps. Important because beavertail and 'fixed' are both easily mistagged as 'none' — there is nothing ramp-shaped in frame.",
+      "sources": ["https://midlandind.com.au/news/ukuzxbf43uv5zr7ehu7aj7z2wb37xz"]
+    },
+
+    {
+      "field": "features_present",
+      "status": "new_value",
+      "value": "split_axle_group",
+      "label": "Split axle group",
+      "photo_visible": true,
+      "visual_discriminator": "One axle separated from the rest of the group by a long visible run of bare chassis — PBS split axle requires at least 2.5m spacing, so the gap is large and unmistakable side-on. The split axle is steerable.",
+      "confidence": "high",
+      "note": "Midland sell 'Split Axle Group with Steer Axle' across steel spec, flat top extendable, B-double combination and retractable skel ranges, and have published an article on it. Absent from the schema. One of the most photographable features on the entire list.",
+      "sources": [
+        "https://midlandind.com.au/news/pbs-split-axle-semi-trailers-increase-payload-without-increasing-tare",
+        "https://midlandind.com.au/showcase/steel-spec-trailers"
+      ]
+    },
+    {
+      "field": "features_present",
+      "status": "new_value",
+      "value": "lift_axle_raised",
+      "label": "Lift axle, raised",
+      "photo_visible": true,
+      "visual_discriminator": "Wheels clearly off the ground with the axle tucked up against the chassis while the other axles carry load. Unambiguous when raised.",
+      "confidence": "high",
+      "note": "Midland offer 'Lift and Steer axles'. Deliberately scoped to RAISED only — a lowered lift axle is indistinguishable from a fixed axle, so a plain 'lift_axle' value would invite guessing. NHVR reference lift axles complying with ADR 43/04.",
+      "sources": [
+        "https://midlandind.com.au/showcase/drop-deck-trailers",
+        "https://www.nhvr.gov.au/road-access/performance-based-standards/quad-axle-group-vehicle-combinations"
+      ]
+    },
+    {
+      "field": "features_present",
+      "status": "rename",
+      "value": "self_steer_axle -> retain, downgrade to job card",
+      "photo_visible": false,
+      "confidence": "low",
+      "note": "A self-steer axle that is lowered and pointing straight looks like any other axle. Sometimes identifiable from the steering linkage and centring mechanism at the axle, and it is usually the rearmost of the group — but not reliably. NHVR require at least plus/minus 12 degrees articulation and a centring mechanism. Recommend job card, with the tagger emitting not_visible.",
+      "sources": ["https://www.nhvr.gov.au/road-access/performance-based-standards/quad-axle-group-vehicle-combinations"]
+    },
+    {
+      "field": "features_present",
+      "status": "new_value",
+      "value": "rear_fifth_wheel",
+      "label": "Rear fifth wheel fitted (lead-trailer capable)",
+      "photo_visible": true,
+      "visual_discriminator": "A fifth wheel coupling plate mounted on a tail section at the rear of the trailer, above its own rear axle group.",
+      "confidence": "high",
+      "note": "The single most valuable feature for this library, because most factory photos show ONE trailer and this is what makes that trailer identifiable as a B-double lead unit. Midland state an A-trailer needs the rear fifth wheel fitted and positioned to match its specific B-trailer, and that a trailer without one can only run standalone or in the rear position. NOTE for the tagger prompt: the axle group directly beneath this tail section belongs to THIS trailer, not to whatever couples on behind it — this is the exact error described in the brief.",
+      "sources": ["https://midlandind.com.au/news/64wci6egusrx2na3ez5krs7iw3ln8c"]
+    },
+    {
+      "field": "features_present",
+      "status": "new_value",
+      "value": "outriggers",
+      "label": "Outriggers",
+      "photo_visible": true,
+      "visual_discriminator": "Extendable lateral arms projecting from the chassis to support over-width loads.",
+      "confidence": "medium",
+      "note": "Listed by Midland under available options and upgrades on drop deck and low loader ranges.",
+      "sources": ["https://midlandind.com.au/showcase/tri-axle-low-loaders"]
+    },
+    {
+      "field": "features_present",
+      "status": "new_value",
+      "value": "container_pedestals",
+      "label": "Container pedestals",
+      "photo_visible": true,
+      "visual_discriminator": "Raised pedestal blocks carrying the twist locks above deck level, rather than locks set flush into the deck.",
+      "confidence": "medium",
+      "note": "Midland list 'Container pins and pedestals' as an option across most ranges. Schema has twist_locks but no pedestals.",
+      "sources": ["https://midlandind.com.au/showcase/steel-spec-trailers"]
+    },
+    {
+      "field": "features_present",
+      "status": "new_value",
+      "value": "side_loader_pads",
+      "label": "Side loader pads",
+      "photo_visible": true,
+      "visual_discriminator": "Reinforced bearing pads along the chassis side for sideloader legs.",
+      "confidence": "medium",
+      "note": "Midland: 'Up to 4-way container pins with optional side loader pads' on container and retractable skels.",
+      "sources": ["https://midlandind.com.au/showcase/container-skel-trailers"]
+    },
+    {
+      "field": "features_present",
+      "status": "new_value",
+      "value": "top_deck",
+      "label": "Top deck",
+      "photo_visible": true,
+      "visual_discriminator": "Additional deck level above the main deck. Distinct from a drop deck's gooseneck front section.",
+      "confidence": "medium",
+      "note": "Midland list 'Top decks' as an option and 'pull out steel ramps to top deck'.",
+      "sources": ["https://midlandind.com.au/showcase/tri-axle-low-loaders"]
+    },
+    {
+      "field": "features_present",
+      "status": "new_value",
+      "value": "bolsters",
+      "label": "Bolsters (straight or stepped)",
+      "photo_visible": true,
+      "visual_discriminator": "Transverse load-bearing beams across the deck. Midland offer straight or stepped versions on steel spec, and adjustable load bolsters on pole jinkers.",
+      "confidence": "medium",
+      "sources": [
+        "https://midlandind.com.au/showcase/steel-spec-trailers",
+        "https://midlandind.com.au/showcase/pole-jinker-trailers"
+      ]
+    },
+    {
+      "field": "features_present",
+      "status": "new_value",
+      "value": "webrail",
+      "label": "Webrail / web rail fall protection",
+      "photo_visible": true,
+      "visual_discriminator": "Rail system along the deck edge used for fall protection on steel spec trailers.",
+      "confidence": "medium",
+      "aliases": ["webrail", "web rail"],
+      "note": "Midland use both spellings on the steel spec page: 'Bolsters and Webrail Applications' and 'Web rail fall protection if required'.",
+      "sources": ["https://midlandind.com.au/showcase/steel-spec-trailers"]
+    },
+    {
+      "field": "features_present",
+      "status": "new_value",
+      "value": "folding_gates",
+      "label": "Folding top and bottom gates",
+      "photo_visible": true,
+      "visual_discriminator": "Hinged gate panels at top and bottom deck levels on a mezz deck trailer.",
+      "confidence": "medium",
+      "note": "Midland: 'Mezz Decks with Folding Top and Bottom Gates', 'Top and bottom gates systems'. Schema has a bare 'gates' value which doesn't distinguish these.",
+      "sources": ["https://midlandind.com.au/showcase/steel-spec-trailers"]
+    },
+    {
+      "field": "features_present",
+      "status": "new_value",
+      "value": "hydraulic_front_leg",
+      "label": "Hydraulic front leg",
+      "photo_visible": true,
+      "visual_discriminator": "Hydraulic ram leg at the front of a tag trailer, in place of manual landing legs.",
+      "confidence": "medium",
+      "note": "Midland tag trailers: 'Front Leg: Hydraulic front leg' and 'drop down rear legs for loading'.",
+      "sources": ["https://midlandind.com.au/showcase/tag-trailers"]
+    },
+    {
+      "field": "features_present",
+      "status": "new_value",
+      "value": "skid_plate",
+      "label": "Skid plate",
+      "photo_visible": false,
+      "confidence": "low",
+      "note": "Midland offer 'Single or double position skid plate' across most ranges, and hay spec specify an 8mm skidplate. Almost always obscured by the coupling itself. Job card only.",
+      "sources": ["https://midlandind.com.au/showcase/hay-spec-combination-trailers"]
+    },
+    {
+      "field": "features_present",
+      "status": "new_value",
+      "value": "moving_floor_mechanism",
+      "label": "Moving floor",
+      "photo_visible": false,
+      "confidence": "low",
+      "note": "Competitor equipment (Barker). Not visible externally when closed. Included so a photo can be flagged for manual review rather than confidently tagged.",
+      "sources": ["https://barkertrailers.com.au"]
+    },
+
+    {
+      "field": "container_capability",
+      "status": "new_field",
+      "value": "20ft | 40ft | 45ft | 2x20ft | multi | unknown | not_visible",
+      "label": "Container capability, read from lock positions",
+      "photo_visible": true,
+      "visual_discriminator": "Count and space the twist lock positions along the frame. ISO 1161 fixes corner-fitting geometry and ISO 668 fixes lengths (20ft 6.06m, 40ft 12.19m, 45ft 13.72m high cube), so lock positions must match. Four locks at the extremes = 40ft only. Locks at BOTH 20ft and 40ft intervals (up to 12 total) = 1x40ft or 2x20ft, with mid-position locks folding down for a single 40ft box. 45ft generally needs a retractable or extendable chassis rather than fixed locks.",
+      "confidence": "medium",
+      "note": "Answers the brief's Q2 question 'can twist lock positions tell you?' with a qualified yes. Works best on an EMPTY frame photographed side-on. IMPORTANT LIMIT: lock positions tell you what the trailer CAN carry, never what it is rated or plated for. Tag capability only. Midland's own option wording is 'up to 3-way container pins' (drop decks) and 'up to 4-way container pins' (skels).",
+      "sources": [
+        "https://midlandind.com.au/news/va06vw06bm2dycqbl0bz58tjx8wycv",
+        "https://genrontrucktrailer.com/40ft-skeleton-trailer-dimensions/",
+        "https://midlandind.com.au/showcase/container-skel-trailers"
+      ]
+    },
+
+    {
+      "field": "manufacturer_decal_text",
+      "status": "new_field",
+      "value": "free text",
+      "label": "Builder's decal or plate text, as read",
+      "photo_visible": true,
+      "visual_discriminator": "READ the text on the builder's decal or plate — typically on the headboard, front bulkhead, or chassis rail near the front. Do NOT infer a manufacturer from livery: trailer colours and signage belong to the OPERATOR, not the builder. Brand-specific product names count as decals: 'Kurtainer' is Krueger's own curtainsider name; 'Super Tilt' and 'AZMEB' are FWR's.",
+      "confidence": "high",
+      "note": "Paired with manufacturer_confidence below. This is the honest answer to the brief's Q5: I found NO sourced, reliable livery or build cues for Australian trailer manufacturers, and inventing them would produce exactly the failure the brief warns about. Text on a plate is the only general-purpose cue.",
+      "sources": [
+        "https://krueger.com.au",
+        "https://fwr.com.au",
+        "https://barkertrailers.com.au"
+      ]
+    },
+    {
+      "field": "manufacturer_confidence",
+      "status": "new_field",
+      "value": "decal_legible | provenance_only | unknown",
+      "label": "Basis for the manufacturer attribution",
+      "photo_visible": false,
+      "confidence": "high",
+      "note": "Default to 'unknown'. Only ever record manufacturer = Midland where a Midland decal is actually legible OR the photo's file provenance establishes it. The brief names a competitor trailer published as Midland's own work as the costly failure; an unknown-manufacturer tag that blocks publication costs nothing, a wrong 'midland' tag is the failure. Never let the vision pass guess the builder.",
+      "sources": []
+    },
+
+    {
+      "field": "axle_count",
+      "status": "merge",
+      "value": "five_or_more -> keep, but note the real range",
+      "confidence": "medium",
+      "note": "No change needed to the values, but worth recording the real bounds so 'five_or_more' isn't treated as an error case. The ATA state semi-trailers have been produced with 1 to 4 axles, pig trailers with 1 to 3, dollies with 2 to 4, and dog trailers with 2 to 6. Midland's skip bin transfer trailers go up to 6 axles.",
+      "sources": [
+        "https://www.truck.net.au/sites/default/files/TAPs%20-%20description%20of%20truck%20configuration%20September%202016.pdf",
+        "https://midlandind.com.au/showcase/skip-bin-transfer-trailers"
+      ]
+    },
+
+    {
+      "field": "floor_type",
+      "status": "merge",
+      "value": "floor_type -> split into deck_material + coaming_profile",
+      "confidence": "high",
+      "note": "The existing floor_type values (flush, raised_coaming, no_floor_skeletal) conflate three separate things: the coaming profile (flush vs raised), the deck material, and whether there is a deck at all. Midland's flat top page shows all three as independent choices in one sentence — 'Hardox / checker or Flat plate decking with flush or raised coaming'. Recommend retiring floor_type in favour of deck_material (above), coaming_profile, and coaming_height.",
+      "sources": ["https://midlandind.com.au/showcase/flat-top-trailers"]
+    },
+
+    {
+      "field": "_input_aliases",
+      "status": "new_field",
+      "value": "see note",
+      "label": "Filename and folder input aliases (never output values)",
+      "photo_visible": false,
+      "confidence": "high",
+      "note": "These strings will appear in the existing 40,000 filenames and folder names and must map to canonical values on INPUT only. Confirmed present in Midland's own website image filenames: the deprecated four-letter term for a two-axle group appears in files named 'Bogie+Axle+Semi+Drop+Deck+Trailer.0.JPG' onward, served on the drop deck showcase page ALONGSIDE 'Tri+Axle+Semi+Drop+Deck+Trailer.0.JPG'. Map it to 'tandem' on input; it must never be an output tag value. Other input aliases: combing->coaming, chequer->checker, Bissaloy/Bissalloy->bisalloy, Ring Feder/Ring feeder->ringfeder, Pintel->pintle, Mez->mezz, step deck->drop deck, lowboy->low_loader, float->low_loader, A trailer->lead_trailer, B trailer->rear_trailer, skeletal/skeleton->skel, tautliner->curtainsider.",
+      "sources": ["https://midlandind.com.au/showcase/drop-deck-trailers"]
+    }
+  ]
+}
