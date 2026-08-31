@@ -1,0 +1,132 @@
+{
+ "photos": 40,
+ "folders": 38,
+ "trailers_tagged": 52,
+ "needs_human_review": 12,
+ "usability": {
+  "good": 15,
+  "hero": 8,
+  "record_only": 8,
+  "reject": 2,
+  "usable": 7
+ },
+ "media_kind": {
+  "photograph": 37,
+  "aerial_photograph": 2,
+  "engineering_drawing": 1
+ },
+ "content_purpose": {
+  "marketing_photography": 24,
+  "build_record": 8,
+  "delivery_record": 5,
+  "condition_or_warranty_record": 1,
+  "non_marketing": 2
+ },
+ "setting": {
+  "yard_or_hardstand": 27,
+  "workshop_interior": 3,
+  "on_road": 4,
+  "trade_show": 3,
+  "customer_site": 2,
+  "studio_or_plain_background": 1
+ },
+ "combination_type": {
+  "semi": 5,
+  "not_a_combination": 16,
+  "unknown": 15,
+  "truck_and_dog": 2,
+  "a_double": 1,
+  "b_double": 1
+ },
+ "body_type": {
+  "unknown": 3,
+  "drop_deck": 8,
+  "plant_trailer": 1,
+  "flat_top": 20,
+  "skeletal": 1,
+  "not_visible": 10,
+  "steel_mezz_deck": 1,
+  "drop_deck_widener": 1,
+  "other": 5,
+  "tipper": 1,
+  "pole_jinker": 1
+ },
+ "trailer_configuration": {
+  "not_visible": 22,
+  "semi_trailer": 22,
+  "drawbar_plant_trailer": 1,
+  "dog_trailer": 3,
+  "super_dog": 1,
+  "converter_dolly": 3
+ },
+ "axle_count": {
+  "not_visible": 22,
+  "tri": 17,
+  "quad": 4,
+  "tandem": 9
+ },
+ "is_midland_product": {
+  "midland": 21,
+  "unknown": 31
+ },
+ "manufacturer_confidence": {
+  "decal_legible": 18,
+  "unknown": 29,
+  "provenance_only": 5
+ },
+ "plate_type": {
+  "no_plate_visible": 43,
+  "trade_plate": 4,
+  "registered_plate": 5
+ },
+ "chassis_colour": {
+  "not_visible": 5,
+  "pearl_white": 22,
+  "flame_red": 8,
+  "other": 3,
+  "blue": 9,
+  "grey_or_silver": 2,
+  "black": 2,
+  "midland_treeline_green": 1
+ },
+ "deck_material": {
+  "not_visible": 43,
+  "checker_plate": 3,
+  "unknown": 1,
+  "other": 1,
+  "none_skeletal": 4
+ },
+ "suspension_type": {
+  "not_visible": 51,
+  "spring_leaf": 1
+ },
+ "demonstrates": {
+  "branding_or_livery": 20,
+  "loaded_in_service": 4,
+  "whole_trailer_appearance": 24,
+  "deck_configuration": 12,
+  "toolbox_mounting": 3,
+  "wheel_finish": 2,
+  "ramp_operation": 7,
+  "chassis_colour_reference": 7,
+  "nothing_specific": 4,
+  "coupling_detail": 2,
+  "load_restraint_in_use": 2,
+  "suspension_detail": 1,
+  "coaming_or_floor_detail": 1,
+  "build_progress": 1,
+  "dimensional_reference": 1
+ },
+ "features": {
+  "load_racks": 12,
+  "toolbox": 5,
+  "headboard": 4,
+  "folding_gates": 1,
+  "mezz_deck": 1,
+  "rope_rails": 1,
+  "water_tank": 1,
+  "outriggers": 1,
+  "bolsters": 3,
+  "ladder": 1
+ }
+}

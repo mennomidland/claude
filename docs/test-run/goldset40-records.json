@@ -1,0 +1,3687 @@
+[
+ {
+  "item_id": "015HCHN4VEPJNR67MBKNHLDO7WBHGBAWWC",
+  "n": 1,
+  "filename": "DSC_0045.jpg",
+  "caption": "Western Star prime mover with loaded Midland drop deck, overcast yard",
+  "vision": {
+   "media_kind": "photograph",
+   "competitor_branding_present": "none",
+   "competitor_names": [],
+   "demonstrates": [
+    "branding_or_livery",
+    "loaded_in_service"
+   ],
+   "visible_text": [
+    "XW 62ID",
+    "Midland"
+   ],
+   "defects": [],
+   "duplicate_group": null,
+   "needs_human_review": false,
+   "notes": "Prime mover is the subject; the trailer is mostly beyond the frame so almost nothing about it can be judged.",
+   "ata_configuration_code": null,
+   "combination_type": "semi",
+   "non_marketing_reason": null,
+   "subject_type": "trailer_with_prime_mover",
+   "shot_type": "three_quarter_front",
+   "content_purpose": "marketing_photography",
+   "setting": "yard_or_hardstand",
+   "marketing_usability": "good",
+   "overall_confidence": "medium",
+   "trailers": [
+    {
+     "trailer_configuration": "not_visible",
+     "coupling_type": "not_visible",
+     "coaming_type": "not_visible",
+     "suspension_mount": "not_visible",
+     "suspension_type": "not_visible",
+     "deck_material": "not_visible",
+     "container_capability": "not_visible",
+     "axle_group_layout": "not_visible",
+     "front_load_restraint": "not_visible",
+     "rear_load_restraint": "not_visible",
+     "front_ramp": "not_visible",
+     "rear_ramp": "not_visible",
+     "plate_type": "no_plate_visible",
+     "manufacturer_confidence": "decal_legible",
+     "manufacturer_decal_text": [
+      "Midland"
+     ],
+     "components_visible": [
+      "mudflaps",
+      "chassis_rail",
+      "deck_floor"
+     ],
+     "features_present": [],
+     "identifying_text": [],
+     "chassis_colour": "not_visible",
+     "build_state": "finished",
+     "is_loaded": "loaded",
+     "load_type": "steel_or_building_products",
+     "body_type": "unknown",
+     "combination_role": "standalone_semi",
+     "position_in_frame": "only_trailer",
+     "axle_count": "not_visible",
+     "is_midland_product": "midland",
+     "confidence": "low",
+     "notes": "Only the front of the trailer enters the frame behind the prime mover."
+    }
+   ]
+  },
+  "audit": {
+   "axle_agreement": "vision_unknown",
+   "category_agreement": "vision_unknown",
+   "provenance_conflict": false,
+   "non_marketing_in_marketing_folder": false
+  }
+ },
+ {
+  "item_id": "015HCHN4SGFUJCRNAOP5HYCHE75KNKC7ET",
+  "n": 2,
+  "filename": "dji_fly_20251208_164146_637_1765248219372_photo.jpg",
+  "caption": "Drone view of the yard: two white drop decks with rear ramps, more trailers beyond",
+  "vision": {
+   "media_kind": "aerial_photograph",
+   "competitor_branding_present": "none",
+   "competitor_names": [],
+   "demonstrates": [
+    "whole_trailer_appearance",
+    "deck_configuration"
+   ],
+   "visible_text": [],
+   "defects": [],
+   "duplicate_group": null,
+   "needs_human_review": false,
+   "notes": "Elevated oblique drone frame. Useful as a facility/range shot rather than for any one trailer; detail on individual units is limited at this distance.",
+   "ata_configuration_code": null,
+   "combination_type": "not_a_combination",
+   "non_marketing_reason": null,
+   "subject_type": "multiple_trailers",
+   "shot_type": "oblique_other",
+   "content_purpose": "marketing_photography",
+   "setting": "yard_or_hardstand",
+   "marketing_usability": "good",
+   "overall_confidence": "medium",
+   "trailers": [
+    {
+     "trailer_configuration": "not_visible",
+     "coupling_type": "not_visible",
+     "coaming_type": "not_visible",
+     "suspension_mount": "not_visible",
+     "suspension_type": "not_visible",
+     "deck_material": "not_visible",
+     "container_capability": "not_visible",
+     "axle_group_layout": "rear_group_only",
+     "front_load_restraint": "not_visible",
+     "rear_load_restraint": "not_visible",
+     "front_ramp": "not_visible",
+     "rear_ramp": "not_visible",
+     "plate_type": "no_plate_visible",
+     "manufacturer_confidence": "unknown",
+     "manufacturer_decal_text": [],
+     "components_visible": [
+      "deck_floor",
+      "chassis_rail",
+      "ramps",
+      "load_racks"
+     ],
+     "features_present": [
+      "load_racks"
+     ],
+     "identifying_text": [],
+     "chassis_colour": "pearl_white",
+     "build_state": "finished",
+     "is_loaded": "empty",
+     "load_type": "none",
+     "body_type": "drop_deck",
+     "combination_role": "standalone_semi",
+     "position_in_frame": "only_trailer",
+     "axle_count": "not_visible",
+     "is_midland_product": "unknown",
+     "confidence": "medium",
+     "notes": "Left of the pair; rear ramps stood up, front load rack fitted."
+    },
+    {
+     "trailer_configuration": "not_visible",
+     "coupling_type": "not_visible",
+     "coaming_type": "not_visible",
+     "suspension_mount": "not_visible",
+     "suspension_type": "not_visible",
+     "deck_material": "not_visible",
+     "container_capability": "not_visible",
+     "axle_group_layout": "rear_group_only",
+     "front_load_restraint": "not_visible",
+     "rear_load_restraint": "not_visible",
+     "front_ramp": "not_visible",
+     "rear_ramp": "not_visible",
+     "plate_type": "no_plate_visible",
+     "manufacturer_confidence": "unknown",
+     "manufacturer_decal_text": [],
+     "components_visible": [
+      "deck_floor",
+      "chassis_rail",
+      "ramps"
+     ],
+     "features_present": [],
+     "identifying_text": [],
+     "chassis_colour": "pearl_white",
+     "build_state": "finished",
+     "is_loaded": "empty",
+     "load_type": "none",
+     "body_type": "drop_deck",
+     "combination_role": "standalone_semi",
+     "position_in_frame": "second",
+     "axle_count": "not_visible",
+     "is_midland_product": "unknown",
+     "confidence": "medium",
+     "notes": "Right of the pair; rear ramps in the lowered position."
+    }
+   ]
+  },
+  "audit": {
+   "axle_agreement": "vision_unknown",
+   "category_agreement": "agree",
+   "provenance_conflict": false,
+   "non_marketing_in_marketing_folder": false
+  }
+ },
+ {
+  "item_id": "015HCHN4UQNNZZUK2GJZFKQ54AEWG4JJOO",
+  "n": 3,
+  "filename": "WhatsApp Image 2024-12-02 at 10.07.40_020efe1e.jpg",
+  "caption": "Midland drop deck, tri-axle, rear ramps stowed \u2014 hero three-quarter",
+  "vision": {
+   "media_kind": "photograph",
+   "competitor_branding_present": "none",
+   "competitor_names": [],
+   "demonstrates": [
+    "whole_trailer_appearance",
+    "deck_configuration",
+    "toolbox_mounting",
+    "wheel_finish",
+    "branding_or_livery"
+   ],
+   "visible_text": [
+    "MIDLAND"
+   ],
+   "defects": [],
+   "duplicate_group": null,
+   "needs_human_review": false,
+   "notes": "Clean, well-lit hero frame of an empty drop deck. Ramps are stood up at the rear but no hinge line is resolvable, so the ramp TYPE is left unknown rather than guessed at bi-fold.",
+   "ata_configuration_code": null,
+   "combination_type": "semi",
+   "non_marketing_reason": null,
+   "subject_type": "complete_trailer",
+   "shot_type": "three_quarter_front",
+   "content_purpose": "marketing_photography",
+   "setting": "yard_or_hardstand",
+   "marketing_usability": "hero",
+   "overall_confidence": "high",
+   "trailers": [
+    {
+     "trailer_configuration": "semi_trailer",
+     "coupling_type": "not_visible",
+     "coaming_type": "flush",
+     "suspension_mount": "not_visible",
+     "suspension_type": "not_visible",
+     "deck_material": "not_visible",
+     "container_capability": "not_visible",
+     "axle_group_layout": "rear_group_only",
+     "front_load_restraint": "not_visible",
+     "rear_load_restraint": "not_visible",
+     "front_ramp": "not_visible",
+     "rear_ramp": "unknown",
+     "plate_type": "no_plate_visible",
+     "manufacturer_confidence": "decal_legible",
+     "manufacturer_decal_text": [
+      "Midland"
+     ],
+     "components_visible": [
+      "axle_group",
+      "wheels_rims",
+      "tyres",
+      "mudguards",
+      "chassis_rail",
+      "deck_floor",
+      "toolbox",
+      "ramps",
+      "headboard",
+      "marker_lamps",
+      "landing_legs",
+      "mudflaps",
+      "reflective_markings"
+     ],
+     "features_present": [
+      "toolbox",
+      "headboard"
+     ],
+     "identifying_text": [
+      "MIDLAND"
+     ],
+     "chassis_colour": "pearl_white",
+     "build_state": "finished",
+     "is_loaded": "empty",
+     "load_type": "none",
+     "body_type": "drop_deck",
+     "combination_role": "standalone_semi",
+     "position_in_frame": "only_trailer",
+     "axle_count": "tri",
+     "is_midland_product": "midland",
+     "confidence": "high",
+     "notes": "Tri group with polished alloy rims. Suspension type not called: the bellows or spring pack is not resolvable behind the mudguards at this angle."
+    }
+   ]
+  },
+  "audit": {
+   "axle_agreement": "path_unstated",
+   "category_agreement": "agree",
+   "provenance_conflict": false,
+   "non_marketing_in_marketing_folder": false
+  }
+ },
+ {
+  "item_id": "015HCHN4SHF2NHIUJ64ZCYL44KBTMMFBB7",
+  "n": 4,
+  "filename": "20241112_072952.jpg",
+  "caption": "Kenworth and white Midland drop deck outside the Kyneton shed",
+  "vision": {
+   "media_kind": "photograph",
+   "competitor_branding_present": "none",
+   "competitor_names": [],
+   "demonstrates": [
+    "whole_trailer_appearance",
+    "branding_or_livery"
+   ],
+   "visible_text": [
+    "XP 97DA",
+    "Midland",
+    "BEHIND YOU ALL THE WAY"
+   ],
+   "defects": [],
+   "duplicate_group": null,
+   "needs_human_review": false,
+   "notes": "Midland signage is on the BUILDING behind, not on the trailer -- provenance is the site, not a decal on the unit.",
+   "ata_configuration_code": null,
+   "combination_type": "semi",
+   "non_marketing_reason": null,
+   "subject_type": "trailer_with_prime_mover",
+   "shot_type": "three_quarter_front",
+   "content_purpose": "marketing_photography",
+   "setting": "yard_or_hardstand",
+   "marketing_usability": "good",
+   "overall_confidence": "medium",
+   "trailers": [
+    {
+     "trailer_configuration": "semi_trailer",
+     "coupling_type": "not_visible",
+     "coaming_type": "not_visible",
+     "suspension_mount": "not_visible",
+     "suspension_type": "not_visible",
+     "deck_material": "not_visible",
+     "container_capability": "not_visible",
+     "axle_group_layout": "rear_group_only",
+     "front_load_restraint": "not_visible",
+     "rear_load_restraint": "not_visible",
+     "front_ramp": "not_visible",
+     "rear_ramp": "unknown",
+     "plate_type": "no_plate_visible",
+     "manufacturer_confidence": "provenance_only",
+     "manufacturer_decal_text": [],
+     "components_visible": [
+      "axle_group",
+      "wheels_rims",
+      "tyres",
+      "mudguards",
+      "chassis_rail",
+      "deck_floor",
+      "ramps",
+      "load_racks",
+      "landing_legs"
+     ],
+     "features_present": [
+      "load_racks"
+     ],
+     "identifying_text": [],
+     "chassis_colour": "pearl_white",
+     "build_state": "finished",
+     "is_loaded": "empty",
+     "load_type": "none",
+     "body_type": "drop_deck",
+     "combination_role": "standalone_semi",
+     "position_in_frame": "only_trailer",
+     "axle_count": "quad",
+     "is_midland_product": "unknown",
+     "confidence": "medium",
+     "notes": "Four axles read at the rear group, but the trailer is distant and partly foreshortened; quad is the best reading rather than a certain one."
+    }
+   ]
+  },
+  "audit": {}
+ },
+ {
+  "item_id": "015HCHN4XBXMFOIMBHTNGLYCGDGAFKFECP",
+  "n": 5,
+  "filename": "20240404_145401.jpg",
+  "caption": "White drop deck under the shed, ramps up, Midland mudflaps \u2014 build/completion frame",
+  "vision": {
+   "media_kind": "photograph",
+   "competitor_branding_present": "none",
+   "competitor_names": [],
+   "demonstrates": [
+    "ramp_operation",
+    "deck_configuration",
+    "branding_or_livery"
+   ],
+   "visible_text": [
+    "Midland",
+    "BEHIND YOU ALL THE WAY",
+    "YO 92BA",
+    "DO NOT OVERTAKE TURNING VEHICLE"
+   ],
+   "defects": [
+    "people_visible",
+    "cluttered_background"
+   ],
+   "duplicate_group": null,
+   "needs_human_review": false,
+   "notes": "Factory frame: workers, pallets and steel stock in shot. Reads as a completion record rather than marketing material.",
+   "ata_configuration_code": null,
+   "combination_type": "not_a_combination",
+   "non_marketing_reason": null,
+   "subject_type": "complete_trailer",
+   "shot_type": "three_quarter_rear",
+   "content_purpose": "build_record",
+   "setting": "workshop_interior",
+   "marketing_usability": "record_only",
+   "overall_confidence": "high",
+   "trailers": [
+    {
+     "trailer_configuration": "semi_trailer",
+     "coupling_type": "not_visible",
+     "coaming_type": "not_visible",
+     "suspension_mount": "not_visible",
+     "suspension_type": "not_visible",
+     "deck_material": "not_visible",
+     "container_capability": "not_visible",
+     "axle_group_layout": "rear_group_only",
+     "front_load_restraint": "not_visible",
+     "rear_load_restraint": "not_visible",
+     "front_ramp": "not_visible",
+     "rear_ramp": "not_visible",
+     "plate_type": "trade_plate",
+     "manufacturer_confidence": "decal_legible",
+     "manufacturer_decal_text": [
+      "Midland"
+     ],
+     "components_visible": [
+      "axle_group",
+      "wheels_rims",
+      "tyres",
+      "mudguards",
+      "mudflaps",
+      "chassis_rail",
+      "deck_floor",
+      "ramps",
+      "tail_lamps",
+      "reflective_markings",
+      "rear_frame"
+     ],
+     "features_present": [],
+     "identifying_text": [
+      "Midland"
+     ],
+     "chassis_colour": "pearl_white",
+     "build_state": "finished",
+     "is_loaded": "empty",
+     "load_type": "none",
+     "body_type": "drop_deck",
+     "combination_role": "standalone_semi",
+     "position_in_frame": "only_trailer",
+     "axle_count": "tri",
+     "is_midland_product": "midland",
+     "confidence": "high",
+     "notes": "Hydraulic rams either side of the rear ramps. Ramps stand as single leaves with no hinge line across them, so not bi-fold."
+    }
+   ]
+  },
+  "audit": {}
+ },
+ {
+  "item_id": "015HCHN4VDQGLGTD52NVD22A43TEDMUOAX",
+  "n": 6,
+  "filename": "DSC01186.JPG",
+  "caption": "Flame red Midland drop deck at golden hour, checker plate deck, ramps up",
+  "vision": {
+   "media_kind": "photograph",
+   "competitor_branding_present": "none",
+   "competitor_names": [],
+   "demonstrates": [
+    "whole_trailer_appearance",
+    "chassis_colour_reference",
+    "ramp_operation",
+    "deck_configuration",
+    "branding_or_livery"
+   ],
+   "visible_text": [
+    "MIDLAND Industries",
+    "1300 301 570",
+    "TA 86 LM",
+    "DO NOT OVERTAKE TURNING VEHICLE"
+   ],
+   "defects": [
+    "cluttered_background"
+   ],
+   "duplicate_group": null,
+   "needs_human_review": false,
+   "notes": "Strong colour reference frame -- flame red in low sun, with the deck surface clearly readable as checker plate.",
+   "ata_configuration_code": null,
+   "combination_type": "semi",
+   "non_marketing_reason": null,
+   "subject_type": "complete_trailer",
+   "shot_type": "three_quarter_rear",
+   "content_purpose": "marketing_photography",
+   "setting": "on_road",
+   "marketing_usability": "hero",
+   "overall_confidence": "high",
+   "trailers": [
+    {
+     "trailer_configuration": "semi_trailer",
+     "coupling_type": "not_visible",
+     "coaming_type": "not_visible",
+     "suspension_mount": "not_visible",
+     "suspension_type": "not_visible",
+     "deck_material": "checker_plate",
+     "container_capability": "not_visible",
+     "axle_group_layout": "rear_group_only",
+     "front_load_restraint": "not_visible",
+     "rear_load_restraint": "not_visible",
+     "front_ramp": "not_visible",
+     "rear_ramp": "not_visible",
+     "plate_type": "registered_plate",
+     "manufacturer_confidence": "decal_legible",
+     "manufacturer_decal_text": [
+      "Midland Industries"
+     ],
+     "components_visible": [
+      "axle_group",
+      "wheels_rims",
+      "tyres",
+      "mudguards",
+      "mudflaps",
+      "chassis_rail",
+      "deck_floor",
+      "ramps",
+      "tail_lamps",
+      "reflective_markings",
+      "rear_frame"
+     ],
+     "features_present": [],
+     "identifying_text": [
+      "MIDLAND Industries",
+      "1300 301 570"
+     ],
+     "chassis_colour": "flame_red",
+     "build_state": "finished",
+     "is_loaded": "empty",
+     "load_type": "none",
+     "body_type": "drop_deck",
+     "combination_role": "standalone_semi",
+     "position_in_frame": "only_trailer",
+     "axle_count": "tri",
+     "is_midland_product": "midland",
+     "confidence": "high",
+     "notes": "Diamond pattern across the deck is unmistakable at this angle and light."
+    }
+   ]
+  },
+  "audit": {}
+ },
+ {
+  "item_id": "015HCHN4WKBIUFR2D3VZB2PUCGKGTEE6RL",
+  "n": 7,
+  "filename": "DSC03438.JPG",
+  "caption": "Orange drop deck, unattached, ramps stowed upright \u2014 overcast dealer yard",
+  "vision": {
+   "media_kind": "photograph",
+   "competitor_branding_present": "none",
+   "competitor_names": [],
+   "demonstrates": [
+    "whole_trailer_appearance",
+    "deck_configuration",
+    "chassis_colour_reference"
+   ],
+   "visible_text": [
+    "YAMAHA",
+    "FRANK SPICE"
+   ],
+   "defects": [
+    "poor_lighting"
+   ],
+   "duplicate_group": null,
+   "needs_human_review": false,
+   "notes": "Uncoupled, standing on its landing leg. Flat overcast light. Full side profile makes the deck step and the rear group easy to read.",
+   "ata_configuration_code": null,
+   "combination_type": "not_a_combination",
+   "non_marketing_reason": null,
+   "subject_type": "complete_trailer",
+   "shot_type": "side_elevation",
+   "content_purpose": "marketing_photography",
+   "setting": "yard_or_hardstand",
+   "marketing_usability": "good",
+   "overall_confidence": "high",
+   "trailers": [
+    {
+     "trailer_configuration": "semi_trailer",
+     "coupling_type": "not_visible",
+     "coaming_type": "not_visible",
+     "suspension_mount": "not_visible",
+     "suspension_type": "not_visible",
+     "deck_material": "not_visible",
+     "container_capability": "not_visible",
+     "axle_group_layout": "rear_group_only",
+     "front_load_restraint": "not_visible",
+     "rear_load_restraint": "not_visible",
+     "front_ramp": "not_visible",
+     "rear_ramp": "not_visible",
+     "plate_type": "no_plate_visible",
+     "manufacturer_confidence": "unknown",
+     "manufacturer_decal_text": [],
+     "components_visible": [
+      "axle_group",
+      "wheels_rims",
+      "tyres",
+      "mudguards",
+      "chassis_rail",
+      "deck_floor",
+      "ramps",
+      "landing_legs",
+      "marker_lamps",
+      "kingpin"
+     ],
+     "features_present": [],
+     "identifying_text": [],
+     "chassis_colour": "other",
+     "build_state": "finished",
+     "is_loaded": "empty",
+     "load_type": "none",
+     "body_type": "drop_deck",
+     "combination_role": "standalone_semi",
+     "position_in_frame": "unattached",
+     "axle_count": "tri",
+     "is_midland_product": "unknown",
+     "confidence": "high",
+     "notes": "No manufacturer decal legible. Colour is a bright orange with no matching value in chassis_colour, so recorded as other."
+    }
+   ]
+  },
+  "audit": {
+   "axle_agreement": "path_unstated",
+   "category_agreement": "agree",
+   "provenance_conflict": false,
+   "non_marketing_in_marketing_folder": false
+  }
+ },
+ {
+  "item_id": "015HCHN4VTJMOPYDOJLFA2RZVLDKUKW5QF",
+  "n": 8,
+  "filename": "20211214_125157.jpg",
+  "caption": "Rigid tipper towing a white Midland drawbar plant trailer, ramps up",
+  "vision": {
+   "media_kind": "photograph",
+   "competitor_branding_present": "none",
+   "competitor_names": [],
+   "demonstrates": [
+    "whole_trailer_appearance",
+    "deck_configuration",
+    "branding_or_livery"
+   ],
+   "visible_text": [
+    "MIDLAND PTY LTD"
+   ],
+   "defects": [],
+   "duplicate_group": null,
+   "needs_human_review": true,
+   "notes": "Drawbar trailer behind a RIGID truck, not a prime mover, with no steering front group -- Midland's own definition of a tag trailer. Left as combination_type unknown rather than forced to truck_and_pig: the axle group sits between centre and rear and the research could not establish a sourced geometric test separating tag from pig. This is the flagged gap, not a tagging failure.",
+   "ata_configuration_code": null,
+   "combination_type": "unknown",
+   "non_marketing_reason": null,
+   "subject_type": "trailer_with_prime_mover",
+   "shot_type": "three_quarter_rear",
+   "content_purpose": "marketing_photography",
+   "setting": "yard_or_hardstand",
+   "marketing_usability": "good",
+   "overall_confidence": "medium",
+   "trailers": [
+    {
+     "trailer_configuration": "drawbar_plant_trailer",
+     "coupling_type": "not_visible",
+     "coaming_type": "not_visible",
+     "suspension_mount": "not_visible",
+     "suspension_type": "not_visible",
+     "deck_material": "not_visible",
+     "container_capability": "not_visible",
+     "axle_group_layout": "unknown",
+     "front_load_restraint": "not_visible",
+     "rear_load_restraint": "not_visible",
+     "front_ramp": "not_visible",
+     "rear_ramp": "not_visible",
+     "plate_type": "no_plate_visible",
+     "manufacturer_confidence": "decal_legible",
+     "manufacturer_decal_text": [
+      "Midland Pty Ltd"
+     ],
+     "components_visible": [
+      "axle_group",
+      "wheels_rims",
+      "tyres",
+      "mudguards",
+      "mudflaps",
+      "chassis_rail",
+      "deck_floor",
+      "ramps",
+      "drawbar",
+      "load_racks",
+      "tail_lamps"
+     ],
+     "features_present": [
+      "load_racks"
+     ],
+     "identifying_text": [],
+     "chassis_colour": "pearl_white",
+     "build_state": "finished",
+     "is_loaded": "empty",
+     "load_type": "none",
+     "body_type": "plant_trailer",
+     "combination_role": "unknown",
+     "position_in_frame": "only_trailer",
+     "axle_count": "tandem",
+     "is_midland_product": "midland",
+     "confidence": "medium",
+     "notes": "Tandem group. Deck carries a front load rack and stood rear ramps with rams."
+    }
+   ]
+  },
+  "audit": {
+   "axle_agreement": "path_unstated",
+   "category_agreement": "agree",
+   "provenance_conflict": false,
+   "non_marketing_in_marketing_folder": false
+  }
+ },
+ {
+  "item_id": "015HCHN4XQBYHRMF7ZDFEJ4IJFVAEMJIIO",
+  "n": 9,
+  "filename": "DSC06776.JPG",
+  "caption": "White Midland dog trailer, rear three-quarter, ramps stowed",
+  "vision": {
+   "media_kind": "photograph",
+   "competitor_branding_present": "none",
+   "competitor_names": [],
+   "demonstrates": [
+    "whole_trailer_appearance",
+    "ramp_operation",
+    "branding_or_livery"
+   ],
+   "visible_text": [
+    "MIDLAND PTY LTD",
+    "DO NOT OVERTAKE TURNING VEHICLE"
+   ],
+   "defects": [],
+   "duplicate_group": null,
+   "needs_human_review": true,
+   "notes": "Axles read as a group at each end, which is dog geometry. axle_count=quad records FOUR AXLES IN TWO GROUPS, not a quad group -- the schema's axle_count cannot currently express that difference, and on a dog trailer it matters. Worth a per-group count rather than a per-trailer one.",
+   "ata_configuration_code": null,
+   "combination_type": "not_a_combination",
+   "non_marketing_reason": null,
+   "subject_type": "complete_trailer",
+   "shot_type": "three_quarter_rear",
+   "content_purpose": "marketing_photography",
+   "setting": "yard_or_hardstand",
+   "marketing_usability": "good",
+   "overall_confidence": "medium",
+   "trailers": [
+    {
+     "trailer_configuration": "dog_trailer",
+     "coupling_type": "not_visible",
+     "coaming_type": "not_visible",
+     "suspension_mount": "not_visible",
+     "suspension_type": "not_visible",
+     "deck_material": "not_visible",
+     "container_capability": "not_visible",
+     "axle_group_layout": "group_each_end",
+     "front_load_restraint": "not_visible",
+     "rear_load_restraint": "not_visible",
+     "front_ramp": "not_visible",
+     "rear_ramp": "not_visible",
+     "plate_type": "registered_plate",
+     "manufacturer_confidence": "decal_legible",
+     "manufacturer_decal_text": [
+      "Midland Pty Ltd"
+     ],
+     "components_visible": [
+      "axle_group",
+      "wheels_rims",
+      "tyres",
+      "mudguards",
+      "mudflaps",
+      "chassis_rail",
+      "deck_floor",
+      "ramps",
+      "tail_lamps",
+      "reflective_markings",
+      "rear_frame"
+     ],
+     "features_present": [],
+     "identifying_text": [],
+     "chassis_colour": "pearl_white",
+     "build_state": "finished",
+     "is_loaded": "empty",
+     "load_type": "none",
+     "body_type": "flat_top",
+     "combination_role": "unknown",
+     "position_in_frame": "only_trailer",
+     "axle_count": "quad",
+     "is_midland_product": "midland",
+     "confidence": "medium",
+     "notes": "Two axles per group. Chain and load binder hanging from the near ramp."
+    }
+   ]
+  },
+  "audit": {}
+ },
+ {
+  "item_id": "015HCHN4TQJFSP3DGIP5EJS5J7D5B6POHG",
+  "n": 10,
+  "filename": "DSC05835.JPG",
+  "caption": "Mack tipper and white dog trailer, JETT Earthmoving, street delivery frame",
+  "vision": {
+   "media_kind": "photograph",
+   "competitor_branding_present": "none",
+   "competitor_names": [],
+   "demonstrates": [
+    "whole_trailer_appearance",
+    "loaded_in_service",
+    "branding_or_livery"
+   ],
+   "visible_text": [
+    "JETT EARTHMOVING",
+    "CM 90 RT",
+    "www.jettearthmoving.com.au"
+   ],
+   "defects": [],
+   "duplicate_group": null,
+   "needs_human_review": false,
+   "notes": "Truck-and-dog: drawbar to a front group under the trailer's own nose, plus a rear group. Livery is the OPERATOR's, so it says nothing about who built the trailer.",
+   "ata_configuration_code": null,
+   "combination_type": "truck_and_dog",
+   "non_marketing_reason": null,
+   "subject_type": "trailer_with_prime_mover",
+   "shot_type": "three_quarter_front",
+   "content_purpose": "delivery_record",
+   "setting": "on_road",
+   "marketing_usability": "good",
+   "overall_confidence": "medium",
+   "trailers": [
+    {
+     "trailer_configuration": "dog_trailer",
+     "coupling_type": "not_visible",
+     "coaming_type": "not_visible",
+     "suspension_mount": "not_visible",
+     "suspension_type": "not_visible",
+     "deck_material": "not_visible",
+     "container_capability": "not_visible",
+     "axle_group_layout": "group_each_end",
+     "front_load_restraint": "not_visible",
+     "rear_load_restraint": "not_visible",
+     "front_ramp": "not_visible",
+     "rear_ramp": "not_visible",
+     "plate_type": "registered_plate",
+     "manufacturer_confidence": "unknown",
+     "manufacturer_decal_text": [],
+     "components_visible": [
+      "axle_group",
+      "wheels_rims",
+      "tyres",
+      "mudguards",
+      "chassis_rail",
+      "deck_floor",
+      "ramps",
+      "drawbar",
+      "load_racks"
+     ],
+     "features_present": [
+      "load_racks"
+     ],
+     "identifying_text": [],
+     "chassis_colour": "pearl_white",
+     "build_state": "finished",
+     "is_loaded": "empty",
+     "load_type": "none",
+     "body_type": "flat_top",
+     "combination_role": "unknown",
+     "position_in_frame": "only_trailer",
+     "axle_count": "quad",
+     "is_midland_product": "unknown",
+     "confidence": "medium",
+     "notes": "No builder decal legible at this distance; manufacturer deliberately left unknown despite the folder."
+    }
+   ]
+  },
+  "audit": {}
+ },
+ {
+  "item_id": "015HCHN4VQMH2BBVXUDZDZ2Y6IXEEYL3KZ",
+  "n": 11,
+  "filename": "20250116_142430.jpg",
+  "caption": "Distant rear view of a white trailer across the yard \u2014 record only",
+  "vision": {
+   "media_kind": "photograph",
+   "competitor_branding_present": "none",
+   "competitor_names": [],
+   "demonstrates": [
+    "nothing_specific"
+   ],
+   "visible_text": [],
+   "defects": [],
+   "duplicate_group": null,
+   "needs_human_review": false,
+   "notes": "Subject occupies a small fraction of the frame; the rest is sky and hardstand. Almost nothing about the trailer is resolvable. Kept as a yard record, not publishable.",
+   "ata_configuration_code": null,
+   "combination_type": "not_a_combination",
+   "non_marketing_reason": null,
+   "subject_type": "complete_trailer",
+   "shot_type": "rear_elevation",
+   "content_purpose": "build_record",
+   "setting": "yard_or_hardstand",
+   "marketing_usability": "reject",
+   "overall_confidence": "low",
+   "trailers": [
+    {
+     "trailer_configuration": "not_visible",
+     "coupling_type": "not_visible",
+     "coaming_type": "not_visible",
+     "suspension_mount": "not_visible",
+     "suspension_type": "not_visible",
+     "deck_material": "not_visible",
+     "container_capability": "not_visible",
+     "axle_group_layout": "not_visible",
+     "front_load_restraint": "not_visible",
+     "rear_load_restraint": "not_visible",
+     "front_ramp": "not_visible",
+     "rear_ramp": "not_visible",
+     "plate_type": "no_plate_visible",
+     "manufacturer_confidence": "unknown",
+     "manufacturer_decal_text": [],
+     "components_visible": [
+      "ramps",
+      "mudflaps"
+     ],
+     "features_present": [],
+     "identifying_text": [],
+     "chassis_colour": "pearl_white",
+     "build_state": "finished",
+     "is_loaded": "empty",
+     "load_type": "none",
+     "body_type": "unknown",
+     "combination_role": "unknown",
+     "position_in_frame": "only_trailer",
+     "axle_count": "not_visible",
+     "is_midland_product": "unknown",
+     "confidence": "low",
+     "notes": "Ramps stood and light-coloured mudflaps are all that can be made out."
+    }
+   ]
+  },
+  "audit": {
+   "axle_agreement": "vision_unknown",
+   "category_agreement": "vision_unknown",
+   "provenance_conflict": false,
+   "non_marketing_in_marketing_folder": false
+  }
+ },
+ {
+  "item_id": "015HCHN4X5V3NOHOW5YFFKLEBB2IWIIK7N",
+  "n": 12,
+  "filename": "DSC04267.JPG",
+  "caption": "Blue super dog, full side elevation \u2014 single front axle, tandem rear",
+  "vision": {
+   "media_kind": "photograph",
+   "competitor_branding_present": "none",
+   "competitor_names": [],
+   "demonstrates": [
+    "whole_trailer_appearance",
+    "deck_configuration",
+    "chassis_colour_reference"
+   ],
+   "visible_text": [
+    "Beaurepaires"
+   ],
+   "defects": [],
+   "duplicate_group": null,
+   "needs_human_review": false,
+   "notes": "Textbook side elevation and the clearest configuration read in the set: drawbar and jockey leg at the front, ONE axle under the front, deck step, TANDEM at the rear. Single front group plus tandem rear is Midland's super dog -- a value that did not exist before the research.",
+   "ata_configuration_code": null,
+   "combination_type": "not_a_combination",
+   "non_marketing_reason": null,
+   "subject_type": "complete_trailer",
+   "shot_type": "side_elevation",
+   "content_purpose": "marketing_photography",
+   "setting": "yard_or_hardstand",
+   "marketing_usability": "hero",
+   "overall_confidence": "high",
+   "trailers": [
+    {
+     "trailer_configuration": "super_dog",
+     "coupling_type": "not_visible",
+     "coaming_type": "not_visible",
+     "suspension_mount": "not_visible",
+     "suspension_type": "not_visible",
+     "deck_material": "checker_plate",
+     "container_capability": "not_visible",
+     "axle_group_layout": "group_each_end",
+     "front_load_restraint": "not_visible",
+     "rear_load_restraint": "not_visible",
+     "front_ramp": "not_visible",
+     "rear_ramp": "not_visible",
+     "plate_type": "no_plate_visible",
+     "manufacturer_confidence": "unknown",
+     "manufacturer_decal_text": [],
+     "components_visible": [
+      "axle_group",
+      "wheels_rims",
+      "tyres",
+      "mudguards",
+      "chassis_rail",
+      "deck_floor",
+      "ramps",
+      "drawbar",
+      "landing_legs",
+      "headboard",
+      "marker_lamps",
+      "coaming"
+     ],
+     "features_present": [
+      "headboard"
+     ],
+     "identifying_text": [],
+     "chassis_colour": "blue",
+     "build_state": "finished",
+     "is_loaded": "empty",
+     "load_type": "none",
+     "body_type": "drop_deck",
+     "combination_role": "unknown",
+     "position_in_frame": "unattached",
+     "axle_count": "tri",
+     "is_midland_product": "unknown",
+     "confidence": "high",
+     "notes": "axle_count=tri is 1+2 across two groups, not a tri group. No builder decal legible."
+    }
+   ]
+  },
+  "audit": {
+   "axle_agreement": "path_unstated",
+   "category_agreement": "disagree",
+   "provenance_conflict": false,
+   "non_marketing_in_marketing_folder": false
+  }
+ },
+ {
+  "item_id": "015HCHN4T3B2AQSDYXIJHZSCPC4AXCKQTR",
+  "n": 13,
+  "filename": "DSC00172.JPG",
+  "caption": "Johnex Explosives truck and dog carrying demountable magazine bodies",
+  "vision": {
+   "media_kind": "photograph",
+   "competitor_branding_present": "none",
+   "competitor_names": [],
+   "demonstrates": [
+    "loaded_in_service",
+    "whole_trailer_appearance"
+   ],
+   "visible_text": [
+    "JOHNEX explosives",
+    "AUSTRALIA'S EXPLOSIVES INNOVATORS",
+    "MIDLAND",
+    "1300 301 570"
+   ],
+   "defects": [],
+   "duplicate_group": null,
+   "needs_human_review": false,
+   "notes": "Operator livery on the bodies, Midland decal on the trailer mudflap -- a good example of why livery must never be read as the builder.",
+   "ata_configuration_code": null,
+   "combination_type": "truck_and_dog",
+   "non_marketing_reason": null,
+   "subject_type": "trailer_with_prime_mover",
+   "shot_type": "three_quarter_rear",
+   "content_purpose": "delivery_record",
+   "setting": "on_road",
+   "marketing_usability": "good",
+   "overall_confidence": "medium",
+   "trailers": [
+    {
+     "trailer_configuration": "dog_trailer",
+     "coupling_type": "not_visible",
+     "coaming_type": "not_visible",
+     "suspension_mount": "not_visible",
+     "suspension_type": "not_visible",
+     "deck_material": "not_visible",
+     "container_capability": "not_visible",
+     "axle_group_layout": "group_each_end",
+     "front_load_restraint": "not_visible",
+     "rear_load_restraint": "not_visible",
+     "front_ramp": "not_visible",
+     "rear_ramp": "not_visible",
+     "plate_type": "registered_plate",
+     "manufacturer_confidence": "decal_legible",
+     "manufacturer_decal_text": [
+      "Midland"
+     ],
+     "components_visible": [
+      "axle_group",
+      "wheels_rims",
+      "tyres",
+      "mudguards",
+      "mudflaps",
+      "chassis_rail",
+      "tail_lamps",
+      "reflective_markings",
+      "marker_lamps"
+     ],
+     "features_present": [],
+     "identifying_text": [],
+     "chassis_colour": "grey_or_silver",
+     "build_state": "finished",
+     "is_loaded": "loaded",
+     "load_type": "other",
+     "body_type": "skeletal",
+     "combination_role": "unknown",
+     "position_in_frame": "only_trailer",
+     "axle_count": "quad",
+     "is_midland_product": "midland",
+     "confidence": "medium",
+     "notes": "Frame carries a demountable magazine body rather than an ISO container, so load_type is other. body_type=skeletal is the best reading of the frame under it."
+    }
+   ]
+  },
+  "audit": {}
+ },
+ {
+  "item_id": "015HCHN4QX4XFXD3IBXRFYJOJHSDWDSLGI",
+  "n": 14,
+  "filename": "WhatsApp Image 2024-02-05 at 1.34.58 PM.jpeg",
+  "caption": "Overcast yard: prime mover, stacked containers, trailers in the background",
+  "vision": {
+   "media_kind": "photograph",
+   "competitor_branding_present": "none",
+   "competitor_names": [],
+   "demonstrates": [
+    "nothing_specific"
+   ],
+   "visible_text": [],
+   "defects": [
+    "cluttered_background",
+    "poor_lighting"
+   ],
+   "duplicate_group": null,
+   "needs_human_review": false,
+   "notes": "Yard-wide snapshot with the foreground given over to dry grass and a concrete apron. No single trailer is the subject and none is resolvable in detail.",
+   "ata_configuration_code": null,
+   "combination_type": "unknown",
+   "non_marketing_reason": null,
+   "subject_type": "multiple_trailers",
+   "shot_type": "oblique_other",
+   "content_purpose": "build_record",
+   "setting": "yard_or_hardstand",
+   "marketing_usability": "record_only",
+   "overall_confidence": "low",
+   "trailers": [
+    {
+     "trailer_configuration": "not_visible",
+     "coupling_type": "not_visible",
+     "coaming_type": "not_visible",
+     "suspension_mount": "not_visible",
+     "suspension_type": "not_visible",
+     "deck_material": "not_visible",
+     "container_capability": "not_visible",
+     "axle_group_layout": "not_visible",
+     "front_load_restraint": "not_visible",
+     "rear_load_restraint": "not_visible",
+     "front_ramp": "not_visible",
+     "rear_ramp": "not_visible",
+     "plate_type": "no_plate_visible",
+     "manufacturer_confidence": "unknown",
+     "manufacturer_decal_text": [],
+     "components_visible": [
+      "chassis_rail",
+      "load_racks"
+     ],
+     "features_present": [],
+     "identifying_text": [],
+     "chassis_colour": "not_visible",
+     "build_state": "finished",
+     "is_loaded": "not_visible",
+     "load_type": "not_visible",
+     "body_type": "unknown",
+     "combination_role": "unknown",
+     "position_in_frame": "only_trailer",
+     "axle_count": "not_visible",
+     "is_midland_product": "unknown",
+     "confidence": "low",
+     "notes": "A flat top with load racks sits behind the prime mover; nothing further can be read at this distance."
+    }
+   ]
+  },
+  "audit": {
+   "axle_agreement": "vision_unknown",
+   "category_agreement": "vision_unknown",
+   "provenance_conflict": false,
+   "non_marketing_in_marketing_folder": false
+  }
+ },
+ {
+  "item_id": "015HCHN4UPX2KMXD7BQVG3GT6GFT6T6HU5",
+  "n": 15,
+  "filename": "DSC04712.JPG",
+  "caption": "White converter dolly being carried on a flat top at golden hour",
+  "vision": {
+   "media_kind": "photograph",
+   "competitor_branding_present": "none",
+   "competitor_names": [],
+   "demonstrates": [
+    "whole_trailer_appearance",
+    "coupling_detail"
+   ],
+   "visible_text": [
+    "MIDLAND",
+    "CA 74 BU"
+   ],
+   "defects": [],
+   "duplicate_group": null,
+   "needs_human_review": false,
+   "notes": "A trailer ON a trailer: a new white converter dolly loaded onto an older flat top for delivery. The dolly is the subject; the flat top beneath it is the carrier and is not tagged as a product frame.",
+   "ata_configuration_code": null,
+   "combination_type": "not_a_combination",
+   "non_marketing_reason": null,
+   "subject_type": "complete_trailer",
+   "shot_type": "three_quarter_front",
+   "content_purpose": "delivery_record",
+   "setting": "yard_or_hardstand",
+   "marketing_usability": "usable",
+   "overall_confidence": "medium",
+   "trailers": [
+    {
+     "trailer_configuration": "converter_dolly",
+     "coupling_type": "drawbar_pin",
+     "coaming_type": "not_visible",
+     "suspension_mount": "not_visible",
+     "suspension_type": "not_visible",
+     "deck_material": "not_visible",
+     "container_capability": "not_visible",
+     "axle_group_layout": "rear_group_only",
+     "front_load_restraint": "not_visible",
+     "rear_load_restraint": "not_visible",
+     "front_ramp": "not_visible",
+     "rear_ramp": "not_visible",
+     "plate_type": "no_plate_visible",
+     "manufacturer_confidence": "decal_legible",
+     "manufacturer_decal_text": [
+      "Midland"
+     ],
+     "components_visible": [
+      "axle_group",
+      "wheels_rims",
+      "tyres",
+      "mudguards",
+      "chassis_rail",
+      "drawbar",
+      "turntable",
+      "air_lines",
+      "electrical_lines"
+     ],
+     "features_present": [],
+     "identifying_text": [],
+     "chassis_colour": "pearl_white",
+     "build_state": "finished",
+     "is_loaded": "empty",
+     "load_type": "none",
+     "body_type": "not_visible",
+     "combination_role": "converter_dolly",
+     "position_in_frame": "only_trailer",
+     "axle_count": "tandem",
+     "is_midland_product": "midland",
+     "confidence": "medium",
+     "notes": "Drawbar at the front and a turntable platform on top -- the coupling that carries the following trailer in an A-double. Its axles belong to the dolly, not to either trailer."
+    }
+   ]
+  },
+  "audit": {}
+ },
+ {
+  "item_id": "015HCHN4QOKQKNTELXTVC3RCQ2FPDJGK7Q",
+  "n": 16,
+  "filename": "20221208_070826.jpg",
+  "caption": "Blue and white Midland flat top on trade plates, rear three-quarter",
+  "vision": {
+   "media_kind": "photograph",
+   "competitor_branding_present": "none",
+   "competitor_names": [],
+   "demonstrates": [
+    "whole_trailer_appearance",
+    "deck_configuration",
+    "branding_or_livery"
+   ],
+   "visible_text": [
+    "MIDLAND",
+    "Behind you all the way",
+    "1300 301 570",
+    "06T020C",
+    "VICTORIA",
+    "DO NOT OVERTAKE TURNING VEHICLE"
+   ],
+   "defects": [],
+   "duplicate_group": null,
+   "needs_human_review": false,
+   "notes": "Carrying a Victorian TRADE plate hung on the rear rack, not a registered plate -- an unregistered new build being moved, which is exactly the pre-delivery state marketing wants. Read the plate for state, never for identity.",
+   "ata_configuration_code": null,
+   "combination_type": "semi",
+   "non_marketing_reason": null,
+   "subject_type": "complete_trailer",
+   "shot_type": "three_quarter_rear",
+   "content_purpose": "build_record",
+   "setting": "yard_or_hardstand",
+   "marketing_usability": "good",
+   "overall_confidence": "high",
+   "trailers": [
+    {
+     "trailer_configuration": "semi_trailer",
+     "coupling_type": "not_visible",
+     "coaming_type": "channel",
+     "suspension_mount": "not_visible",
+     "suspension_type": "not_visible",
+     "deck_material": "unknown",
+     "container_capability": "not_visible",
+     "axle_group_layout": "rear_group_only",
+     "front_load_restraint": "not_visible",
+     "rear_load_restraint": "loadrack",
+     "front_ramp": "not_visible",
+     "rear_ramp": "not_visible",
+     "plate_type": "trade_plate",
+     "manufacturer_confidence": "decal_legible",
+     "manufacturer_decal_text": [
+      "Midland"
+     ],
+     "components_visible": [
+      "axle_group",
+      "wheels_rims",
+      "tyres",
+      "mudguards",
+      "mudflaps",
+      "chassis_rail",
+      "deck_floor",
+      "coaming",
+      "load_racks",
+      "tail_lamps",
+      "reflective_markings",
+      "rear_frame",
+      "marker_lamps"
+     ],
+     "features_present": [
+      "load_racks"
+     ],
+     "identifying_text": [
+      "MIDLAND",
+      "1300 301 570"
+     ],
+     "chassis_colour": "blue",
+     "build_state": "finished",
+     "is_loaded": "empty",
+     "load_type": "none",
+     "body_type": "flat_top",
+     "combination_role": "standalone_semi",
+     "position_in_frame": "only_trailer",
+     "axle_count": "tri",
+     "is_midland_product": "midland",
+     "confidence": "high",
+     "notes": "Deck surface is dark and matte with no checker pattern resolvable, so the material is left unknown rather than guessed."
+    }
+   ]
+  },
+  "audit": {}
+ },
+ {
+  "item_id": "015HCHN4R7KX2DKWXCIRC3WGGNJGKETX54",
+  "n": 17,
+  "filename": "20220825_135306.jpg",
+  "caption": "Red and white flat top with toolboxes and stowed ramps, uncoupled",
+  "vision": {
+   "media_kind": "photograph",
+   "competitor_branding_present": "none",
+   "competitor_names": [],
+   "demonstrates": [
+    "whole_trailer_appearance",
+    "toolbox_mounting",
+    "chassis_colour_reference",
+    "ramp_operation"
+   ],
+   "visible_text": [
+    "MIDLAND"
+   ],
+   "defects": [],
+   "duplicate_group": null,
+   "needs_human_review": false,
+   "notes": "Subject stands on its landing legs. A second trailer runs into the left of frame and its axle group is easily mistaken for a front group on the subject -- the landing legs mark where the subject actually begins.",
+   "ata_configuration_code": null,
+   "combination_type": "not_a_combination",
+   "non_marketing_reason": null,
+   "subject_type": "multiple_trailers",
+   "shot_type": "side_elevation",
+   "content_purpose": "marketing_photography",
+   "setting": "yard_or_hardstand",
+   "marketing_usability": "good",
+   "overall_confidence": "medium",
+   "trailers": [
+    {
+     "trailer_configuration": "semi_trailer",
+     "coupling_type": "not_visible",
+     "coaming_type": "not_visible",
+     "suspension_mount": "not_visible",
+     "suspension_type": "not_visible",
+     "deck_material": "not_visible",
+     "container_capability": "not_visible",
+     "axle_group_layout": "rear_group_only",
+     "front_load_restraint": "not_visible",
+     "rear_load_restraint": "not_visible",
+     "front_ramp": "not_visible",
+     "rear_ramp": "not_visible",
+     "plate_type": "no_plate_visible",
+     "manufacturer_confidence": "decal_legible",
+     "manufacturer_decal_text": [
+      "Midland"
+     ],
+     "components_visible": [
+      "axle_group",
+      "wheels_rims",
+      "tyres",
+      "mudguards",
+      "chassis_rail",
+      "deck_floor",
+      "toolbox",
+      "ramps",
+      "landing_legs",
+      "coaming",
+      "marker_lamps"
+     ],
+     "features_present": [
+      "toolbox"
+     ],
+     "identifying_text": [],
+     "chassis_colour": "flame_red",
+     "build_state": "finished",
+     "is_loaded": "empty",
+     "load_type": "none",
+     "body_type": "flat_top",
+     "combination_role": "standalone_semi",
+     "position_in_frame": "lead",
+     "axle_count": "tri",
+     "is_midland_product": "midland",
+     "confidence": "medium",
+     "notes": "Red chassis and toolboxes against a white deck."
+    },
+    {
+     "trailer_configuration": "not_visible",
+     "coupling_type": "not_visible",
+     "coaming_type": "not_visible",
+     "suspension_mount": "not_visible",
+     "suspension_type": "not_visible",
+     "deck_material": "not_visible",
+     "container_capability": "not_visible",
+     "axle_group_layout": "not_visible",
+     "front_load_restraint": "not_visible",
+     "rear_load_restraint": "not_visible",
+     "front_ramp": "not_visible",
+     "rear_ramp": "not_visible",
+     "plate_type": "no_plate_visible",
+     "manufacturer_confidence": "unknown",
+     "manufacturer_decal_text": [],
+     "components_visible": [
+      "chassis_rail",
+      "deck_floor",
+      "toolbox"
+     ],
+     "features_present": [],
+     "identifying_text": [],
+     "chassis_colour": "flame_red",
+     "build_state": "finished",
+     "is_loaded": "empty",
+     "load_type": "none",
+     "body_type": "flat_top",
+     "combination_role": "unknown",
+     "position_in_frame": "second",
+     "axle_count": "not_visible",
+     "is_midland_product": "unknown",
+     "confidence": "low",
+     "notes": "Only the rear of a second red-chassis trailer enters the left edge."
+    }
+   ]
+  },
+  "audit": {}
+ },
+ {
+  "item_id": "015HCHN4WPYK72C7TSTVGY3ZB2QJXW47H6",
+  "n": 18,
+  "filename": "WhatsApp Image 2024-07-03 at 04.40.17_b0bd30d0.jpg",
+  "caption": "Ditton Bulk Haulage A-double loaded with bulk bags on a wet highway",
+  "vision": {
+   "media_kind": "photograph",
+   "competitor_branding_present": "none",
+   "competitor_names": [],
+   "demonstrates": [
+    "loaded_in_service",
+    "load_restraint_in_use",
+    "whole_trailer_appearance"
+   ],
+   "visible_text": [
+    "DITTON BULK HAULAGE",
+    "GLOBETROTTER"
+   ],
+   "defects": [],
+   "duplicate_group": null,
+   "needs_human_review": true,
+   "notes": "Read as an A-double: a gap between the two bodies with an axle group under it, which is dolly geometry rather than a B-double's shared group. Flagged for a human because the dolly is small in frame and this is exactly the call the project has already got wrong once.",
+   "ata_configuration_code": null,
+   "combination_type": "a_double",
+   "non_marketing_reason": null,
+   "subject_type": "multiple_trailers",
+   "shot_type": "side_elevation",
+   "content_purpose": "marketing_photography",
+   "setting": "on_road",
+   "marketing_usability": "hero",
+   "overall_confidence": "medium",
+   "trailers": [
+    {
+     "trailer_configuration": "semi_trailer",
+     "coupling_type": "not_visible",
+     "coaming_type": "not_visible",
+     "suspension_mount": "not_visible",
+     "suspension_type": "not_visible",
+     "deck_material": "not_visible",
+     "container_capability": "not_visible",
+     "axle_group_layout": "rear_group_only",
+     "front_load_restraint": "fixed_headboard",
+     "rear_load_restraint": "not_visible",
+     "front_ramp": "not_visible",
+     "rear_ramp": "not_visible",
+     "plate_type": "no_plate_visible",
+     "manufacturer_confidence": "unknown",
+     "manufacturer_decal_text": [],
+     "components_visible": [
+      "axle_group",
+      "wheels_rims",
+      "tyres",
+      "chassis_rail",
+      "deck_floor",
+      "headboard",
+      "load_racks"
+     ],
+     "features_present": [
+      "headboard",
+      "load_racks"
+     ],
+     "identifying_text": [],
+     "chassis_colour": "flame_red",
+     "build_state": "finished",
+     "is_loaded": "loaded",
+     "load_type": "other",
+     "body_type": "flat_top",
+     "combination_role": "lead_trailer",
+     "position_in_frame": "lead",
+     "axle_count": "tri",
+     "is_midland_product": "unknown",
+     "confidence": "medium",
+     "notes": "Bulk bags strapped down the length of the deck."
+    },
+    {
+     "trailer_configuration": "semi_trailer",
+     "coupling_type": "not_visible",
+     "coaming_type": "not_visible",
+     "suspension_mount": "not_visible",
+     "suspension_type": "not_visible",
+     "deck_material": "not_visible",
+     "container_capability": "not_visible",
+     "axle_group_layout": "rear_group_only",
+     "front_load_restraint": "not_visible",
+     "rear_load_restraint": "not_visible",
+     "front_ramp": "not_visible",
+     "rear_ramp": "not_visible",
+     "plate_type": "no_plate_visible",
+     "manufacturer_confidence": "unknown",
+     "manufacturer_decal_text": [],
+     "components_visible": [
+      "axle_group",
+      "wheels_rims",
+      "tyres",
+      "chassis_rail",
+      "deck_floor",
+      "load_racks"
+     ],
+     "features_present": [],
+     "identifying_text": [],
+     "chassis_colour": "flame_red",
+     "build_state": "finished",
+     "is_loaded": "loaded",
+     "load_type": "other",
+     "body_type": "flat_top",
+     "combination_role": "rear_trailer",
+     "position_in_frame": "second",
+     "axle_count": "tri",
+     "is_midland_product": "unknown",
+     "confidence": "medium",
+     "notes": "Rear unit, same livery and load."
+    },
+    {
+     "trailer_configuration": "converter_dolly",
+     "coupling_type": "not_visible",
+     "coaming_type": "not_visible",
+     "suspension_mount": "not_visible",
+     "suspension_type": "not_visible",
+     "deck_material": "not_visible",
+     "container_capability": "not_visible",
+     "axle_group_layout": "not_visible",
+     "front_load_restraint": "not_visible",
+     "rear_load_restraint": "not_visible",
+     "front_ramp": "not_visible",
+     "rear_ramp": "not_visible",
+     "plate_type": "no_plate_visible",
+     "manufacturer_confidence": "unknown",
+     "manufacturer_decal_text": [],
+     "components_visible": [
+      "axle_group",
+      "wheels_rims",
+      "drawbar"
+     ],
+     "features_present": [],
+     "identifying_text": [],
+     "chassis_colour": "not_visible",
+     "build_state": "finished",
+     "is_loaded": "empty",
+     "load_type": "none",
+     "body_type": "not_visible",
+     "combination_role": "converter_dolly",
+     "position_in_frame": "third",
+     "axle_count": "not_visible",
+     "is_midland_product": "unknown",
+     "confidence": "low",
+     "notes": "The group between the two bodies. Recorded separately precisely so its axles are not attributed to either trailer."
+    }
+   ]
+  },
+  "audit": {}
+ },
+ {
+  "item_id": "015HCHN4SIWXHEJ5EX2BEK43R53SQLSIFI",
+  "n": 19,
+  "filename": "G0021515.JPG",
+  "caption": "Midland stand at a field day \u2014 marquee, banners and display trailers",
+  "vision": {
+   "media_kind": "photograph",
+   "competitor_branding_present": "none",
+   "competitor_names": [],
+   "demonstrates": [
+    "branding_or_livery",
+    "whole_trailer_appearance"
+   ],
+   "visible_text": [
+    "MIDLAND PTY LTD",
+    "1300 301 570"
+   ],
+   "defects": [
+    "people_visible",
+    "cluttered_background"
+   ],
+   "duplicate_group": null,
+   "needs_human_review": false,
+   "notes": "Wide-angle GoPro frame with heavy barrel distortion and a large empty foreground. Useful as an event/brand-presence record rather than for any individual trailer.",
+   "ata_configuration_code": null,
+   "combination_type": "not_a_combination",
+   "non_marketing_reason": null,
+   "subject_type": "multiple_trailers",
+   "shot_type": "oblique_other",
+   "content_purpose": "marketing_photography",
+   "setting": "trade_show",
+   "marketing_usability": "usable",
+   "overall_confidence": "medium",
+   "trailers": [
+    {
+     "trailer_configuration": "not_visible",
+     "coupling_type": "not_visible",
+     "coaming_type": "not_visible",
+     "suspension_mount": "not_visible",
+     "suspension_type": "not_visible",
+     "deck_material": "not_visible",
+     "container_capability": "not_visible",
+     "axle_group_layout": "not_visible",
+     "front_load_restraint": "not_visible",
+     "rear_load_restraint": "not_visible",
+     "front_ramp": "not_visible",
+     "rear_ramp": "not_visible",
+     "plate_type": "no_plate_visible",
+     "manufacturer_confidence": "provenance_only",
+     "manufacturer_decal_text": [
+      "Midland Pty Ltd"
+     ],
+     "components_visible": [
+      "chassis_rail",
+      "deck_floor",
+      "ramps",
+      "wheels_rims"
+     ],
+     "features_present": [],
+     "identifying_text": [],
+     "chassis_colour": "pearl_white",
+     "build_state": "finished",
+     "is_loaded": "empty",
+     "load_type": "none",
+     "body_type": "flat_top",
+     "combination_role": "standalone_semi",
+     "position_in_frame": "lead",
+     "axle_count": "not_visible",
+     "is_midland_product": "midland",
+     "confidence": "low",
+     "notes": "Display trailer beside the Midland marquee, foreshortened."
+    },
+    {
+     "trailer_configuration": "not_visible",
+     "coupling_type": "not_visible",
+     "coaming_type": "not_visible",
+     "suspension_mount": "not_visible",
+     "suspension_type": "not_visible",
+     "deck_material": "not_visible",
+     "container_capability": "not_visible",
+     "axle_group_layout": "not_visible",
+     "front_load_restraint": "not_visible",
+     "rear_load_restraint": "not_visible",
+     "front_ramp": "not_visible",
+     "rear_ramp": "not_visible",
+     "plate_type": "no_plate_visible",
+     "manufacturer_confidence": "unknown",
+     "manufacturer_decal_text": [],
+     "components_visible": [
+      "chassis_rail",
+      "deck_floor",
+      "wheels_rims",
+      "load_racks"
+     ],
+     "features_present": [],
+     "identifying_text": [],
+     "chassis_colour": "pearl_white",
+     "build_state": "finished",
+     "is_loaded": "empty",
+     "load_type": "none",
+     "body_type": "flat_top",
+     "combination_role": "standalone_semi",
+     "position_in_frame": "second",
+     "axle_count": "not_visible",
+     "is_midland_product": "unknown",
+     "confidence": "low",
+     "notes": "Second display unit at the right edge, heavily distorted."
+    }
+   ]
+  },
+  "audit": {}
+ },
+ {
+  "item_id": "015HCHN4VQG6RQSWJQZJGIIEQES6H65PLN",
+  "n": 20,
+  "filename": "G0028055.JPG",
+  "caption": "Midland field day stand \u2014 GoPro frame from the same burst as 19 and 21",
+  "vision": {
+   "media_kind": "photograph",
+   "competitor_branding_present": "none",
+   "competitor_names": [],
+   "demonstrates": [
+    "branding_or_livery",
+    "whole_trailer_appearance"
+   ],
+   "visible_text": [
+    "MIDLAND PTY LTD",
+    "1300 301 570"
+   ],
+   "defects": [
+    "people_visible",
+    "cluttered_background"
+   ],
+   "duplicate_group": "fieldday-gopro-burst",
+   "needs_human_review": false,
+   "notes": "One of three near-identical frames seconds apart (19, 20, 21). Grouped so the best of the run surfaces and the rest stay findable rather than cluttering a search.",
+   "ata_configuration_code": null,
+   "combination_type": "not_a_combination",
+   "non_marketing_reason": null,
+   "subject_type": "multiple_trailers",
+   "shot_type": "oblique_other",
+   "content_purpose": "marketing_photography",
+   "setting": "trade_show",
+   "marketing_usability": "usable",
+   "overall_confidence": "medium",
+   "trailers": [
+    {
+     "trailer_configuration": "not_visible",
+     "coupling_type": "not_visible",
+     "coaming_type": "not_visible",
+     "suspension_mount": "not_visible",
+     "suspension_type": "not_visible",
+     "deck_material": "not_visible",
+     "container_capability": "not_visible",
+     "axle_group_layout": "not_visible",
+     "front_load_restraint": "not_visible",
+     "rear_load_restraint": "not_visible",
+     "front_ramp": "not_visible",
+     "rear_ramp": "not_visible",
+     "plate_type": "no_plate_visible",
+     "manufacturer_confidence": "provenance_only",
+     "manufacturer_decal_text": [
+      "Midland Pty Ltd"
+     ],
+     "components_visible": [
+      "chassis_rail",
+      "deck_floor",
+      "wheels_rims",
+      "ramps"
+     ],
+     "features_present": [],
+     "identifying_text": [],
+     "chassis_colour": "pearl_white",
+     "build_state": "finished",
+     "is_loaded": "empty",
+     "load_type": "none",
+     "body_type": "flat_top",
+     "combination_role": "standalone_semi",
+     "position_in_frame": "lead",
+     "axle_count": "not_visible",
+     "is_midland_product": "midland",
+     "confidence": "low",
+     "notes": "Display unit beside the Midland marquee."
+    },
+    {
+     "trailer_configuration": "not_visible",
+     "coupling_type": "not_visible",
+     "coaming_type": "not_visible",
+     "suspension_mount": "not_visible",
+     "suspension_type": "not_visible",
+     "deck_material": "not_visible",
+     "container_capability": "not_visible",
+     "axle_group_layout": "not_visible",
+     "front_load_restraint": "not_visible",
+     "rear_load_restraint": "not_visible",
+     "front_ramp": "not_visible",
+     "rear_ramp": "not_visible",
+     "plate_type": "no_plate_visible",
+     "manufacturer_confidence": "unknown",
+     "manufacturer_decal_text": [],
+     "components_visible": [
+      "chassis_rail",
+      "deck_floor",
+      "wheels_rims",
+      "load_racks"
+     ],
+     "features_present": [],
+     "identifying_text": [],
+     "chassis_colour": "pearl_white",
+     "build_state": "finished",
+     "is_loaded": "empty",
+     "load_type": "none",
+     "body_type": "flat_top",
+     "combination_role": "standalone_semi",
+     "position_in_frame": "second",
+     "axle_count": "not_visible",
+     "is_midland_product": "unknown",
+     "confidence": "low",
+     "notes": "Second display unit at the right edge."
+    }
+   ]
+  },
+  "audit": {}
+ },
+ {
+  "item_id": "015HCHN4TCWGHLPMHAPJDYDFJNP6LVLFAL",
+  "n": 21,
+  "filename": "G0029999.JPG",
+  "caption": "Midland field day stand \u2014 GoPro frame from the same burst as 19 and 20",
+  "vision": {
+   "media_kind": "photograph",
+   "competitor_branding_present": "none",
+   "competitor_names": [],
+   "demonstrates": [
+    "branding_or_livery",
+    "whole_trailer_appearance"
+   ],
+   "visible_text": [
+    "MIDLAND PTY LTD",
+    "1300 301 570"
+   ],
+   "defects": [
+    "people_visible",
+    "cluttered_background"
+   ],
+   "duplicate_group": "fieldday-gopro-burst",
+   "needs_human_review": false,
+   "notes": "Same burst again; the only differences from 20 are people moving in the middle distance. Exactly the near-duplicate case duplicate_group exists for.",
+   "ata_configuration_code": null,
+   "combination_type": "not_a_combination",
+   "non_marketing_reason": null,
+   "subject_type": "multiple_trailers",
+   "shot_type": "oblique_other",
+   "content_purpose": "marketing_photography",
+   "setting": "trade_show",
+   "marketing_usability": "usable",
+   "overall_confidence": "medium",
+   "trailers": [
+    {
+     "trailer_configuration": "not_visible",
+     "coupling_type": "not_visible",
+     "coaming_type": "not_visible",
+     "suspension_mount": "not_visible",
+     "suspension_type": "not_visible",
+     "deck_material": "not_visible",
+     "container_capability": "not_visible",
+     "axle_group_layout": "not_visible",
+     "front_load_restraint": "not_visible",
+     "rear_load_restraint": "not_visible",
+     "front_ramp": "not_visible",
+     "rear_ramp": "not_visible",
+     "plate_type": "no_plate_visible",
+     "manufacturer_confidence": "provenance_only",
+     "manufacturer_decal_text": [
+      "Midland Pty Ltd"
+     ],
+     "components_visible": [
+      "chassis_rail",
+      "deck_floor",
+      "wheels_rims",
+      "ramps"
+     ],
+     "features_present": [],
+     "identifying_text": [],
+     "chassis_colour": "pearl_white",
+     "build_state": "finished",
+     "is_loaded": "empty",
+     "load_type": "none",
+     "body_type": "flat_top",
+     "combination_role": "standalone_semi",
+     "position_in_frame": "lead",
+     "axle_count": "not_visible",
+     "is_midland_product": "midland",
+     "confidence": "low",
+     "notes": "Display unit beside the Midland marquee."
+    },
+    {
+     "trailer_configuration": "not_visible",
+     "coupling_type": "not_visible",
+     "coaming_type": "not_visible",
+     "suspension_mount": "not_visible",
+     "suspension_type": "not_visible",
+     "deck_material": "not_visible",
+     "container_capability": "not_visible",
+     "axle_group_layout": "not_visible",
+     "front_load_restraint": "not_visible",
+     "rear_load_restraint": "not_visible",
+     "front_ramp": "not_visible",
+     "rear_ramp": "not_visible",
+     "plate_type": "no_plate_visible",
+     "manufacturer_confidence": "unknown",
+     "manufacturer_decal_text": [],
+     "components_visible": [
+      "chassis_rail",
+      "deck_floor",
+      "wheels_rims",
+      "load_racks"
+     ],
+     "features_present": [],
+     "identifying_text": [],
+     "chassis_colour": "pearl_white",
+     "build_state": "finished",
+     "is_loaded": "empty",
+     "load_type": "none",
+     "body_type": "flat_top",
+     "combination_role": "standalone_semi",
+     "position_in_frame": "second",
+     "axle_count": "not_visible",
+     "is_midland_product": "unknown",
+     "confidence": "low",
+     "notes": "Second display unit at the right edge."
+    }
+   ]
+  },
+  "audit": {}
+ },
+ {
+  "item_id": "015HCHN4R2UA4S37Z3DJD323C7ILW7TRKG",
+  "n": 22,
+  "filename": "20180930_093630.jpg",
+  "caption": "Underside of a trailer: crossmembers, hangers and leaf spring packs",
+  "vision": {
+   "media_kind": "photograph",
+   "competitor_branding_present": "none",
+   "competitor_names": [],
+   "demonstrates": [
+    "suspension_detail"
+   ],
+   "visible_text": [],
+   "defects": [
+    "poor_lighting"
+   ],
+   "duplicate_group": null,
+   "needs_human_review": false,
+   "notes": "Looking up under the deck. The clearest suspension read in the set: stacked curved leaf packs at both hangers, so spring rather than air. Surfaces are weathered and streaked, which reads as an in-service unit rather than a new build.",
+   "ata_configuration_code": null,
+   "combination_type": "unknown",
+   "non_marketing_reason": null,
+   "subject_type": "component_detail",
+   "shot_type": "underside",
+   "content_purpose": "condition_or_warranty_record",
+   "setting": "workshop_interior",
+   "marketing_usability": "record_only",
+   "overall_confidence": "medium",
+   "trailers": [
+    {
+     "trailer_configuration": "not_visible",
+     "coupling_type": "not_visible",
+     "coaming_type": "not_visible",
+     "suspension_mount": "not_visible",
+     "suspension_type": "spring_leaf",
+     "deck_material": "not_visible",
+     "container_capability": "not_visible",
+     "axle_group_layout": "not_visible",
+     "front_load_restraint": "not_visible",
+     "rear_load_restraint": "not_visible",
+     "front_ramp": "not_visible",
+     "rear_ramp": "not_visible",
+     "plate_type": "no_plate_visible",
+     "manufacturer_confidence": "unknown",
+     "manufacturer_decal_text": [],
+     "components_visible": [
+      "suspension",
+      "brake_components",
+      "air_lines",
+      "chassis_rail",
+      "electrical_lines",
+      "axle_group"
+     ],
+     "features_present": [],
+     "identifying_text": [],
+     "chassis_colour": "not_visible",
+     "build_state": "finished",
+     "is_loaded": "not_visible",
+     "load_type": "not_visible",
+     "body_type": "not_visible",
+     "combination_role": "unknown",
+     "position_in_frame": "only_trailer",
+     "axle_count": "tandem",
+     "is_midland_product": "unknown",
+     "confidence": "medium",
+     "notes": "No manufacturer marking visible. Filed under opposition trailers, but nothing in the frame confirms or denies that, so is_midland_product stays unknown."
+    }
+   ]
+  },
+  "audit": {
+   "axle_agreement": "path_unstated",
+   "category_agreement": "not_comparable",
+   "provenance_conflict": false,
+   "non_marketing_in_marketing_folder": true
+  }
+ },
+ {
+  "item_id": "015HCHN4V2NMKB2YBDS5F2LXZJK6SZ3SY2",
+  "n": 23,
+  "filename": "20191214_141138.jpg",
+  "caption": "Open blue toolbox with chain storage, coolant and a spray can",
+  "vision": {
+   "media_kind": "photograph",
+   "competitor_branding_present": "none",
+   "competitor_names": [],
+   "demonstrates": [
+    "toolbox_mounting"
+   ],
+   "visible_text": [
+    "PRIMECOOL"
+   ],
+   "defects": [
+    "cluttered_background"
+   ],
+   "duplicate_group": null,
+   "needs_human_review": false,
+   "notes": "Shows how chain is stowed and where the box sits on the chassis. Useful as a reference for the toolbox itself; not publishable as marketing.",
+   "ata_configuration_code": null,
+   "combination_type": "unknown",
+   "non_marketing_reason": "Contents record of a toolbox in service -- loose consumables and a coolant bottle in shot, not a product presentation.",
+   "subject_type": "component_detail",
+   "shot_type": "detail_close_up",
+   "content_purpose": "non_marketing",
+   "setting": "yard_or_hardstand",
+   "marketing_usability": "record_only",
+   "overall_confidence": "high",
+   "trailers": [
+    {
+     "trailer_configuration": "not_visible",
+     "coupling_type": "not_visible",
+     "coaming_type": "not_visible",
+     "suspension_mount": "not_visible",
+     "suspension_type": "not_visible",
+     "deck_material": "not_visible",
+     "container_capability": "not_visible",
+     "axle_group_layout": "not_visible",
+     "front_load_restraint": "not_visible",
+     "rear_load_restraint": "not_visible",
+     "front_ramp": "not_visible",
+     "rear_ramp": "not_visible",
+     "plate_type": "no_plate_visible",
+     "manufacturer_confidence": "unknown",
+     "manufacturer_decal_text": [],
+     "components_visible": [
+      "toolbox",
+      "chassis_rail"
+     ],
+     "features_present": [
+      "toolbox"
+     ],
+     "identifying_text": [],
+     "chassis_colour": "blue",
+     "build_state": "finished",
+     "is_loaded": "not_visible",
+     "load_type": "not_visible",
+     "body_type": "not_visible",
+     "combination_role": "unknown",
+     "position_in_frame": "only_trailer",
+     "axle_count": "not_visible",
+     "is_midland_product": "unknown",
+     "confidence": "high",
+     "notes": "A coupling latch sits at the lower right but too little of it is in frame to call the coupling type."
+    }
+   ]
+  },
+  "audit": {
+   "axle_agreement": "vision_unknown",
+   "category_agreement": "not_comparable",
+   "provenance_conflict": false,
+   "non_marketing_in_marketing_folder": true
+  }
+ },
+ {
+  "item_id": "015HCHN4UKRBN53YZIM5CI3MEVDY5PHWJO",
+  "n": 24,
+  "filename": "beaver tail.jpg",
+  "caption": "Underside of a beavertail deck, grey chassis, awkward angle",
+  "vision": {
+   "media_kind": "photograph",
+   "competitor_branding_present": "none",
+   "competitor_names": [],
+   "demonstrates": [
+    "deck_configuration"
+   ],
+   "visible_text": [
+    "INTERSTATE TRAILERS"
+   ],
+   "defects": [
+    "partial_crop",
+    "cluttered_background"
+   ],
+   "duplicate_group": null,
+   "needs_human_review": true,
+   "notes": "'INTERSTATE TRAILERS' is legible but appears on a SIGN behind the vehicle, not as a decal on the unit, so it is recorded as frame text only and NOT as a manufacturer decal. Filed under opposition trailers; nothing in the frame confirms the builder either way.",
+   "ata_configuration_code": null,
+   "combination_type": "unknown",
+   "non_marketing_reason": null,
+   "subject_type": "partial_view_cropped",
+   "shot_type": "underside",
+   "content_purpose": "build_record",
+   "setting": "customer_site",
+   "marketing_usability": "record_only",
+   "overall_confidence": "medium",
+   "trailers": [
+    {
+     "trailer_configuration": "not_visible",
+     "coupling_type": "not_visible",
+     "coaming_type": "not_visible",
+     "suspension_mount": "not_visible",
+     "suspension_type": "not_visible",
+     "deck_material": "not_visible",
+     "container_capability": "not_visible",
+     "axle_group_layout": "not_visible",
+     "front_load_restraint": "not_visible",
+     "rear_load_restraint": "not_visible",
+     "front_ramp": "not_visible",
+     "rear_ramp": "not_visible",
+     "plate_type": "no_plate_visible",
+     "manufacturer_confidence": "unknown",
+     "manufacturer_decal_text": [],
+     "components_visible": [
+      "chassis_rail",
+      "deck_floor",
+      "air_lines"
+     ],
+     "features_present": [],
+     "identifying_text": [],
+     "chassis_colour": "grey_or_silver",
+     "build_state": "finished",
+     "is_loaded": "not_visible",
+     "load_type": "not_visible",
+     "body_type": "not_visible",
+     "combination_role": "unknown",
+     "position_in_frame": "only_trailer",
+     "axle_count": "not_visible",
+     "is_midland_product": "unknown",
+     "confidence": "medium",
+     "notes": "Crossmembers and bolted deck edge under a beavertail section."
+    }
+   ]
+  },
+  "audit": {
+   "axle_agreement": "vision_unknown",
+   "category_agreement": "not_comparable",
+   "provenance_conflict": false,
+   "non_marketing_in_marketing_folder": true
+  }
+ },
+ {
+  "item_id": "015HCHN4VCJBE6Q6S3OVCK7UEQBFOGT5KT",
+  "n": 25,
+  "filename": "DSC02634.JPG",
+  "caption": "Red mezz deck with folding gates and mesh flooring, interior view",
+  "vision": {
+   "media_kind": "photograph",
+   "competitor_branding_present": "none",
+   "competitor_names": [],
+   "demonstrates": [
+    "deck_configuration",
+    "coaming_or_floor_detail"
+   ],
+   "visible_text": [],
+   "defects": [],
+   "duplicate_group": null,
+   "needs_human_review": false,
+   "notes": "Interior of a two-level deck: red gate frames on spring latches over steel mesh flooring, with a second deck above. Reads as Midland's mezz deck with folding gates. A feature frame, not a whole-trailer one.",
+   "ata_configuration_code": null,
+   "combination_type": "unknown",
+   "non_marketing_reason": null,
+   "subject_type": "component_detail",
+   "shot_type": "deck_or_interior",
+   "content_purpose": "marketing_photography",
+   "setting": "workshop_interior",
+   "marketing_usability": "good",
+   "overall_confidence": "medium",
+   "trailers": [
+    {
+     "trailer_configuration": "not_visible",
+     "coupling_type": "not_visible",
+     "coaming_type": "not_visible",
+     "suspension_mount": "not_visible",
+     "suspension_type": "not_visible",
+     "deck_material": "other",
+     "container_capability": "not_visible",
+     "axle_group_layout": "not_visible",
+     "front_load_restraint": "not_visible",
+     "rear_load_restraint": "not_visible",
+     "front_ramp": "not_visible",
+     "rear_ramp": "not_visible",
+     "plate_type": "no_plate_visible",
+     "manufacturer_confidence": "unknown",
+     "manufacturer_decal_text": [],
+     "components_visible": [
+      "gates",
+      "deck_floor",
+      "chassis_rail",
+      "load_racks"
+     ],
+     "features_present": [
+      "folding_gates",
+      "mezz_deck"
+     ],
+     "identifying_text": [],
+     "chassis_colour": "flame_red",
+     "build_state": "finished",
+     "is_loaded": "empty",
+     "load_type": "none",
+     "body_type": "steel_mezz_deck",
+     "combination_role": "unknown",
+     "position_in_frame": "only_trailer",
+     "axle_count": "not_visible",
+     "is_midland_product": "unknown",
+     "confidence": "medium",
+     "notes": "Deck surface is open steel mesh grating, which none of the deck_material values describes -- recorded as other. Worth a mesh_grating value."
+    }
+   ]
+  },
+  "audit": {}
+ },
+ {
+  "item_id": "015HCHN4TNQLAK2XY4OJFLDZIM4B7LMLAQ",
+  "n": 26,
+  "filename": "20230525_162208.jpg",
+  "caption": "Handover: Ford F-450 and a black Midland gooseneck flat top",
+  "vision": {
+   "media_kind": "photograph",
+   "competitor_branding_present": "none",
+   "competitor_names": [],
+   "demonstrates": [
+    "whole_trailer_appearance",
+    "branding_or_livery"
+   ],
+   "visible_text": [
+    "MIDLAND",
+    "XO 54FN",
+    "SUPER DUTY",
+    "PALMER"
+   ],
+   "defects": [
+    "people_visible"
+   ],
+   "duplicate_group": null,
+   "needs_human_review": true,
+   "notes": "A gooseneck trailer behind a heavy pickup matches none of the combination_type values -- they all assume a truck or prime mover. Recorded as unknown rather than forced. Customer handover frame, so a person in shot is the point of it.",
+   "ata_configuration_code": null,
+   "combination_type": "unknown",
+   "non_marketing_reason": null,
+   "subject_type": "trailer_with_prime_mover",
+   "shot_type": "three_quarter_front",
+   "content_purpose": "delivery_record",
+   "setting": "yard_or_hardstand",
+   "marketing_usability": "usable",
+   "overall_confidence": "medium",
+   "trailers": [
+    {
+     "trailer_configuration": "semi_trailer",
+     "coupling_type": "not_visible",
+     "coaming_type": "not_visible",
+     "suspension_mount": "not_visible",
+     "suspension_type": "not_visible",
+     "deck_material": "not_visible",
+     "container_capability": "not_visible",
+     "axle_group_layout": "rear_group_only",
+     "front_load_restraint": "not_visible",
+     "rear_load_restraint": "not_visible",
+     "front_ramp": "not_visible",
+     "rear_ramp": "not_visible",
+     "plate_type": "no_plate_visible",
+     "manufacturer_confidence": "decal_legible",
+     "manufacturer_decal_text": [
+      "Midland"
+     ],
+     "components_visible": [
+      "axle_group",
+      "wheels_rims",
+      "tyres",
+      "mudguards",
+      "chassis_rail",
+      "deck_floor",
+      "marker_lamps"
+     ],
+     "features_present": [],
+     "identifying_text": [],
+     "chassis_colour": "black",
+     "build_state": "finished",
+     "is_loaded": "empty",
+     "load_type": "none",
+     "body_type": "flat_top",
+     "combination_role": "standalone_semi",
+     "position_in_frame": "only_trailer",
+     "axle_count": "tandem",
+     "is_midland_product": "midland",
+     "confidence": "medium",
+     "notes": "Gooseneck neck rises over the pickup tray; the coupling itself is hidden."
+    }
+   ]
+  },
+  "audit": {}
+ },
+ {
+  "item_id": "015HCHN4TOKDM7HRXFARCLXVJGF47D5WCR",
+  "n": 27,
+  "filename": "DSCN7267.JPG",
+  "caption": "Blue chassis detail with air line clamp \u2014 a PHOTOGRAPH in the renders folder",
+  "vision": {
+   "media_kind": "photograph",
+   "competitor_branding_present": "none",
+   "competitor_names": [],
+   "demonstrates": [
+    "nothing_specific"
+   ],
+   "visible_text": [
+    "FRANK"
+   ],
+   "defects": [],
+   "duplicate_group": null,
+   "needs_human_review": true,
+   "notes": "MISFILED. This sits in z.Creo Trailer Image Files, which holds 3D renders, and it is unmistakably a photograph: real daylight, cast shadows, cobwebs on the clamp block and a Landcruiser parked behind. Exactly the folder-vs-content conflict the audit block exists to surface -- flagged, not silently corrected.",
+   "ata_configuration_code": null,
+   "combination_type": "unknown",
+   "non_marketing_reason": null,
+   "subject_type": "component_detail",
+   "shot_type": "detail_close_up",
+   "content_purpose": "build_record",
+   "setting": "yard_or_hardstand",
+   "marketing_usability": "record_only",
+   "overall_confidence": "high",
+   "trailers": [
+    {
+     "trailer_configuration": "not_visible",
+     "coupling_type": "not_visible",
+     "coaming_type": "not_visible",
+     "suspension_mount": "not_visible",
+     "suspension_type": "not_visible",
+     "deck_material": "not_visible",
+     "container_capability": "not_visible",
+     "axle_group_layout": "not_visible",
+     "front_load_restraint": "not_visible",
+     "rear_load_restraint": "not_visible",
+     "front_ramp": "not_visible",
+     "rear_ramp": "not_visible",
+     "plate_type": "no_plate_visible",
+     "manufacturer_confidence": "unknown",
+     "manufacturer_decal_text": [],
+     "components_visible": [
+      "chassis_rail",
+      "air_lines",
+      "electrical_lines"
+     ],
+     "features_present": [],
+     "identifying_text": [],
+     "chassis_colour": "blue",
+     "build_state": "finished",
+     "is_loaded": "empty",
+     "load_type": "none",
+     "body_type": "not_visible",
+     "combination_role": "unknown",
+     "position_in_frame": "only_trailer",
+     "axle_count": "not_visible",
+     "is_midland_product": "unknown",
+     "confidence": "high",
+     "notes": "Freshly painted crossmembers with a green line-clamp block bolted to the rail."
+    }
+   ]
+  },
+  "audit": {
+   "axle_agreement": "vision_unknown",
+   "category_agreement": "disagree",
+   "provenance_conflict": true,
+   "non_marketing_in_marketing_folder": true
+  }
+ },
+ {
+  "item_id": "015HCHN4WHXKXJRPRVTZC3H7T7WQFVF7YS",
+  "n": 28,
+  "filename": "DSCN7269.JPG",
+  "caption": "Bare blue chassis on landing legs \u2014 another photograph in the renders folder",
+  "vision": {
+   "media_kind": "photograph",
+   "competitor_branding_present": "none",
+   "competitor_names": [],
+   "demonstrates": [
+    "build_progress"
+   ],
+   "visible_text": [
+    "YAMAHA",
+    "FRANK SPICE"
+   ],
+   "defects": [],
+   "duplicate_group": "creo-folder-blue-chassis",
+   "needs_human_review": true,
+   "notes": "MISFILED, same as 27 and from the same session. z.Creo Trailer Image Files is the 3D render folder; this is a photograph of a real painted chassis in a yard, with a Landcruiser and a tipper body behind it. Grouped with 27.",
+   "ata_configuration_code": null,
+   "combination_type": "unknown",
+   "non_marketing_reason": null,
+   "subject_type": "chassis_only",
+   "shot_type": "oblique_other",
+   "content_purpose": "build_record",
+   "setting": "yard_or_hardstand",
+   "marketing_usability": "record_only",
+   "overall_confidence": "high",
+   "trailers": [
+    {
+     "trailer_configuration": "not_visible",
+     "coupling_type": "not_visible",
+     "coaming_type": "not_visible",
+     "suspension_mount": "not_visible",
+     "suspension_type": "not_visible",
+     "deck_material": "not_visible",
+     "container_capability": "not_visible",
+     "axle_group_layout": "not_visible",
+     "front_load_restraint": "not_visible",
+     "rear_load_restraint": "not_visible",
+     "front_ramp": "not_visible",
+     "rear_ramp": "not_visible",
+     "plate_type": "no_plate_visible",
+     "manufacturer_confidence": "unknown",
+     "manufacturer_decal_text": [],
+     "components_visible": [
+      "chassis_rail",
+      "landing_legs",
+      "air_lines",
+      "electrical_lines",
+      "marker_lamps"
+     ],
+     "features_present": [],
+     "identifying_text": [],
+     "chassis_colour": "blue",
+     "build_state": "in_build_painted",
+     "is_loaded": "empty",
+     "load_type": "none",
+     "body_type": "not_visible",
+     "combination_role": "unknown",
+     "position_in_frame": "only_trailer",
+     "axle_count": "not_visible",
+     "is_midland_product": "unknown",
+     "confidence": "high",
+     "notes": "Painted frame with no deck fitted -- a chassis part-way through build."
+    }
+   ]
+  },
+  "audit": {
+   "axle_agreement": "vision_unknown",
+   "category_agreement": "disagree",
+   "provenance_conflict": true,
+   "non_marketing_in_marketing_folder": true
+  }
+ },
+ {
+  "item_id": "015HCHN4TAYBQ34DBMDRFIME6KCJCPREHB",
+  "n": 29,
+  "filename": "4m Widener.png",
+  "caption": "Annotated CAD drawing of a 4m widener, both decks, with option callouts",
+  "vision": {
+   "media_kind": "engineering_drawing",
+   "competitor_branding_present": "none",
+   "competitor_names": [],
+   "demonstrates": [
+    "dimensional_reference",
+    "deck_configuration"
+   ],
+   "visible_text": [
+    "DROP IN KING PIN ACCESS CAP",
+    "3 X FLIP OVER NECK RAMPS",
+    "REMOVEABLE OVERSIZED SIGN HOLDER",
+    "REMOVABLE LOADRACK 1525 HIGH",
+    "LANDING LEG RUBBER SKIRT",
+    "RAISE/LOWER VALVE HYD CONTROLS",
+    "ROPE RAIL IN GOOSENECK DROP",
+    "WATER TANK",
+    "TOOLBOX WITH DIVIDERS",
+    "STAINLESS STEEL CHAIN GUARDS",
+    "1200X380X450 TOOLBOX DRAW STYLE TWO EACH SIDE",
+    "RAMP CHAIN KEY HOLE"
+   ],
+   "defects": [],
+   "duplicate_group": null,
+   "needs_human_review": false,
+   "notes": "Not a photograph, and the one frame in this set where features can be read from LABELS rather than inferred. Its callouts independently confirm several v4 values -- flip-over ramps, rope rails, water tank, removable loadrack, toolboxes -- and name options the schema still has no home for, such as the oversize sign holder and stainless chain guards.",
+   "ata_configuration_code": null,
+   "combination_type": "not_a_combination",
+   "non_marketing_reason": null,
+   "subject_type": "complete_trailer",
+   "shot_type": "oblique_other",
+   "content_purpose": "build_record",
+   "setting": "studio_or_plain_background",
+   "marketing_usability": "record_only",
+   "overall_confidence": "high",
+   "trailers": [
+    {
+     "trailer_configuration": "semi_trailer",
+     "coupling_type": "not_visible",
+     "coaming_type": "not_visible",
+     "suspension_mount": "not_visible",
+     "suspension_type": "not_visible",
+     "deck_material": "not_visible",
+     "container_capability": "not_visible",
+     "axle_group_layout": "not_visible",
+     "front_load_restraint": "not_visible",
+     "rear_load_restraint": "not_visible",
+     "front_ramp": "flip_over",
+     "rear_ramp": "not_visible",
+     "plate_type": "no_plate_visible",
+     "manufacturer_confidence": "unknown",
+     "manufacturer_decal_text": [],
+     "components_visible": [
+      "chassis_rail",
+      "deck_floor",
+      "toolbox",
+      "ramps",
+      "load_racks",
+      "landing_legs",
+      "kingpin"
+     ],
+     "features_present": [
+      "toolbox",
+      "load_racks",
+      "rope_rails",
+      "water_tank",
+      "outriggers"
+     ],
+     "identifying_text": [],
+     "chassis_colour": "not_visible",
+     "build_state": "not_applicable",
+     "is_loaded": "empty",
+     "load_type": "none",
+     "body_type": "drop_deck_widener",
+     "combination_role": "standalone_semi",
+     "position_in_frame": "only_trailer",
+     "axle_count": "not_visible",
+     "is_midland_product": "unknown",
+     "confidence": "medium",
+     "notes": "Features read from drawing labels, not from appearance. Recorded because the labels are explicit, but this is a drawing and should never be treated as evidence of what a built unit looks like."
+    }
+   ]
+  },
+  "audit": {
+   "axle_agreement": "vision_unknown",
+   "category_agreement": "agree",
+   "provenance_conflict": false,
+   "non_marketing_in_marketing_folder": false
+  }
+ },
+ {
+  "item_id": "015HCHN4SLBJ5P4K7PBVC2E7TPAGAQSLTS",
+  "n": 30,
+  "filename": "Speedie Tag.jpg",
+  "caption": "Midland green flat top with ramps stowed, outside the Midland office",
+  "vision": {
+   "media_kind": "photograph",
+   "competitor_branding_present": "none",
+   "competitor_names": [],
+   "demonstrates": [
+    "whole_trailer_appearance",
+    "chassis_colour_reference",
+    "ramp_operation",
+    "branding_or_livery"
+   ],
+   "visible_text": [
+    "MIDLAND",
+    "MIDLAND Industries",
+    "1300 301 570",
+    "www.midlandind.com.au",
+    "DO NOT OVERTAKE TURNING VEHICLE"
+   ],
+   "defects": [],
+   "duplicate_group": null,
+   "needs_human_review": false,
+   "notes": "Strong colour reference for Midland's own green. Sits in the Brochures folder but it is a photograph rather than a brochure page -- that folder mixes source imagery with document scans.",
+   "ata_configuration_code": null,
+   "combination_type": "not_a_combination",
+   "non_marketing_reason": null,
+   "subject_type": "complete_trailer",
+   "shot_type": "three_quarter_rear",
+   "content_purpose": "marketing_photography",
+   "setting": "yard_or_hardstand",
+   "marketing_usability": "hero",
+   "overall_confidence": "high",
+   "trailers": [
+    {
+     "trailer_configuration": "semi_trailer",
+     "coupling_type": "not_visible",
+     "coaming_type": "flush",
+     "suspension_mount": "not_visible",
+     "suspension_type": "not_visible",
+     "deck_material": "not_visible",
+     "container_capability": "not_visible",
+     "axle_group_layout": "rear_group_only",
+     "front_load_restraint": "not_visible",
+     "rear_load_restraint": "not_visible",
+     "front_ramp": "not_visible",
+     "rear_ramp": "not_visible",
+     "plate_type": "no_plate_visible",
+     "manufacturer_confidence": "decal_legible",
+     "manufacturer_decal_text": [
+      "Midland Industries"
+     ],
+     "components_visible": [
+      "axle_group",
+      "wheels_rims",
+      "tyres",
+      "mudguards",
+      "mudflaps",
+      "chassis_rail",
+      "deck_floor",
+      "ramps",
+      "tail_lamps",
+      "reflective_markings",
+      "rear_frame",
+      "landing_legs",
+      "load_racks"
+     ],
+     "features_present": [
+      "load_racks"
+     ],
+     "identifying_text": [
+      "MIDLAND Industries",
+      "1300 301 570"
+     ],
+     "chassis_colour": "midland_treeline_green",
+     "build_state": "finished",
+     "is_loaded": "empty",
+     "load_type": "none",
+     "body_type": "flat_top",
+     "combination_role": "standalone_semi",
+     "position_in_frame": "only_trailer",
+     "axle_count": "tri",
+     "is_midland_product": "midland",
+     "confidence": "high",
+     "notes": "Ramps stood on hydraulic rams with retaining chains."
+    }
+   ]
+  },
+  "audit": {
+   "axle_agreement": "path_unstated",
+   "category_agreement": "not_comparable",
+   "provenance_conflict": false,
+   "non_marketing_in_marketing_folder": false
+  }
+ },
+ {
+  "item_id": "015HCHN4RLAALUIIPJQNGLWXW2FHKIFSRB",
+  "n": 31,
+  "filename": "IMG_0489.JPG",
+  "caption": "Rear ramps and Midland mudflaps, trade plate \u2014 frame stored rotated",
+  "vision": {
+   "media_kind": "photograph",
+   "competitor_branding_present": "none",
+   "competitor_names": [],
+   "demonstrates": [
+    "ramp_operation",
+    "branding_or_livery"
+   ],
+   "visible_text": [
+    "MIDLAND",
+    "1300 301 570",
+    "X 33781",
+    "DO NOT OVERTAKE TURNING VEHICLE"
+   ],
+   "defects": [],
+   "duplicate_group": null,
+   "needs_human_review": true,
+   "notes": "STORED ROTATED 90 DEGREES and the rendition did NOT correct it -- sky runs down the right edge. The earlier finding that Graph renditions arrive upright only holds where the file carries an EXIF orientation flag; this one appears to have none, so nothing downstream can fix it either. Content tagged as if upright, per the rule, and flagged.",
+   "ata_configuration_code": null,
+   "combination_type": "unknown",
+   "non_marketing_reason": null,
+   "subject_type": "component_detail",
+   "shot_type": "rear_elevation",
+   "content_purpose": "marketing_photography",
+   "setting": "yard_or_hardstand",
+   "marketing_usability": "usable",
+   "overall_confidence": "medium",
+   "trailers": [
+    {
+     "trailer_configuration": "not_visible",
+     "coupling_type": "not_visible",
+     "coaming_type": "not_visible",
+     "suspension_mount": "not_visible",
+     "suspension_type": "not_visible",
+     "deck_material": "not_visible",
+     "container_capability": "not_visible",
+     "axle_group_layout": "not_visible",
+     "front_load_restraint": "not_visible",
+     "rear_load_restraint": "not_visible",
+     "front_ramp": "not_visible",
+     "rear_ramp": "not_visible",
+     "plate_type": "trade_plate",
+     "manufacturer_confidence": "decal_legible",
+     "manufacturer_decal_text": [
+      "Midland"
+     ],
+     "components_visible": [
+      "ramps",
+      "mudflaps",
+      "tail_lamps",
+      "marker_lamps",
+      "reflective_markings",
+      "rear_frame"
+     ],
+     "features_present": [],
+     "identifying_text": [
+      "MIDLAND",
+      "1300 301 570"
+     ],
+     "chassis_colour": "pearl_white",
+     "build_state": "finished",
+     "is_loaded": "empty",
+     "load_type": "none",
+     "body_type": "not_visible",
+     "combination_role": "unknown",
+     "position_in_frame": "only_trailer",
+     "axle_count": "not_visible",
+     "is_midland_product": "midland",
+     "confidence": "medium",
+     "notes": "Two ramps stood on rams with chains. Yellow trade plate again -- unregistered, pre-delivery."
+    }
+   ]
+  },
+  "audit": {
+   "axle_agreement": "vision_unknown",
+   "category_agreement": "not_comparable",
+   "provenance_conflict": false,
+   "non_marketing_in_marketing_folder": false
+  }
+ },
+ {
+  "item_id": "015HCHN4VG6ZQZO4NTCJALSPOZQZWGSRMO",
+  "n": 32,
+  "filename": "IMG_0488.JPG",
+  "caption": "Rear elevation of the same ramps and trade plate \u2014 stored upright",
+  "vision": {
+   "media_kind": "photograph",
+   "competitor_branding_present": "none",
+   "competitor_names": [],
+   "demonstrates": [
+    "ramp_operation",
+    "branding_or_livery"
+   ],
+   "visible_text": [
+    "MIDLAND",
+    "1300 301 570",
+    "X 33781",
+    "NEW SOUTH WALES",
+    "DO NOT OVERTAKE TURNING VEHICLE",
+    "DANGER KEEP CLEAR"
+   ],
+   "defects": [],
+   "duplicate_group": "closeup-white-ramps-X33781",
+   "needs_human_review": false,
+   "notes": "Same trailer, same session and same plate as 31, but this file is stored upright. That pins the rotation to the individual file rather than the folder or the camera, and it is why 31 needs a re-shoot flag and this one does not.",
+   "ata_configuration_code": null,
+   "combination_type": "unknown",
+   "non_marketing_reason": null,
+   "subject_type": "component_detail",
+   "shot_type": "rear_elevation",
+   "content_purpose": "marketing_photography",
+   "setting": "yard_or_hardstand",
+   "marketing_usability": "good",
+   "overall_confidence": "high",
+   "trailers": [
+    {
+     "trailer_configuration": "not_visible",
+     "coupling_type": "not_visible",
+     "coaming_type": "not_visible",
+     "suspension_mount": "not_visible",
+     "suspension_type": "not_visible",
+     "deck_material": "not_visible",
+     "container_capability": "not_visible",
+     "axle_group_layout": "not_visible",
+     "front_load_restraint": "not_visible",
+     "rear_load_restraint": "not_visible",
+     "front_ramp": "not_visible",
+     "rear_ramp": "not_visible",
+     "plate_type": "trade_plate",
+     "manufacturer_confidence": "decal_legible",
+     "manufacturer_decal_text": [
+      "Midland"
+     ],
+     "components_visible": [
+      "ramps",
+      "mudflaps",
+      "tail_lamps",
+      "marker_lamps",
+      "reflective_markings",
+      "rear_frame"
+     ],
+     "features_present": [],
+     "identifying_text": [
+      "MIDLAND",
+      "1300 301 570"
+     ],
+     "chassis_colour": "pearl_white",
+     "build_state": "finished",
+     "is_loaded": "empty",
+     "load_type": "none",
+     "body_type": "not_visible",
+     "combination_role": "unknown",
+     "position_in_frame": "only_trailer",
+     "axle_count": "not_visible",
+     "is_midland_product": "midland",
+     "confidence": "high",
+     "notes": "Both ramps stood on rams; open lattice construction clearly readable."
+    }
+   ]
+  },
+  "audit": {}
+ },
+ {
+  "item_id": "015HCHN4QC2Q4QR73WRNCZ6PE56UIDFYJ7",
+  "n": 33,
+  "filename": "IMG_3908 1.jpg",
+  "caption": "Row of white flat tops with load racks, red guards on the nearest",
+  "vision": {
+   "media_kind": "photograph",
+   "competitor_branding_present": "none",
+   "competitor_names": [],
+   "demonstrates": [
+    "whole_trailer_appearance",
+    "branding_or_livery"
+   ],
+   "visible_text": [
+    "MIDLAND"
+   ],
+   "defects": [],
+   "duplicate_group": null,
+   "needs_human_review": false,
+   "notes": "Several finished units lined up in the yard. The nearest carries red mudguards against a white chassis, which is a useful colour-combination reference.",
+   "ata_configuration_code": null,
+   "combination_type": "not_a_combination",
+   "non_marketing_reason": null,
+   "subject_type": "multiple_trailers",
+   "shot_type": "three_quarter_rear",
+   "content_purpose": "marketing_photography",
+   "setting": "yard_or_hardstand",
+   "marketing_usability": "good",
+   "overall_confidence": "medium",
+   "trailers": [
+    {
+     "trailer_configuration": "semi_trailer",
+     "coupling_type": "not_visible",
+     "coaming_type": "not_visible",
+     "suspension_mount": "not_visible",
+     "suspension_type": "not_visible",
+     "deck_material": "not_visible",
+     "container_capability": "not_visible",
+     "axle_group_layout": "rear_group_only",
+     "front_load_restraint": "loadrack",
+     "rear_load_restraint": "not_visible",
+     "front_ramp": "not_visible",
+     "rear_ramp": "not_visible",
+     "plate_type": "no_plate_visible",
+     "manufacturer_confidence": "decal_legible",
+     "manufacturer_decal_text": [
+      "Midland"
+     ],
+     "components_visible": [
+      "axle_group",
+      "wheels_rims",
+      "tyres",
+      "mudguards",
+      "chassis_rail",
+      "deck_floor",
+      "load_racks",
+      "headboard",
+      "landing_legs",
+      "marker_lamps"
+     ],
+     "features_present": [
+      "load_racks",
+      "headboard"
+     ],
+     "identifying_text": [],
+     "chassis_colour": "pearl_white",
+     "build_state": "finished",
+     "is_loaded": "empty",
+     "load_type": "none",
+     "body_type": "flat_top",
+     "combination_role": "standalone_semi",
+     "position_in_frame": "lead",
+     "axle_count": "tri",
+     "is_midland_product": "midland",
+     "confidence": "medium",
+     "notes": "Red guards over a white chassis; blue cross-brace in the front rack."
+    },
+    {
+     "trailer_configuration": "not_visible",
+     "coupling_type": "not_visible",
+     "coaming_type": "not_visible",
+     "suspension_mount": "not_visible",
+     "suspension_type": "not_visible",
+     "deck_material": "not_visible",
+     "container_capability": "not_visible",
+     "axle_group_layout": "not_visible",
+     "front_load_restraint": "not_visible",
+     "rear_load_restraint": "not_visible",
+     "front_ramp": "not_visible",
+     "rear_ramp": "not_visible",
+     "plate_type": "no_plate_visible",
+     "manufacturer_confidence": "unknown",
+     "manufacturer_decal_text": [],
+     "components_visible": [
+      "axle_group",
+      "wheels_rims",
+      "chassis_rail",
+      "deck_floor",
+      "load_racks"
+     ],
+     "features_present": [
+      "load_racks"
+     ],
+     "identifying_text": [],
+     "chassis_colour": "pearl_white",
+     "build_state": "finished",
+     "is_loaded": "empty",
+     "load_type": "none",
+     "body_type": "flat_top",
+     "combination_role": "standalone_semi",
+     "position_in_frame": "second",
+     "axle_count": "tri",
+     "is_midland_product": "unknown",
+     "confidence": "low",
+     "notes": "Next unit in the row, foreshortened."
+    }
+   ]
+  },
+  "audit": {}
+ },
+ {
+  "item_id": "015HCHN4TP26ZQCRDVHVG27QOPEFYSQDEY",
+  "n": 34,
+  "filename": "IMG-20250515-WA0008 (1).jpg",
+  "caption": "Kenworth with two maroon flat tops in the yard",
+  "vision": {
+   "media_kind": "photograph",
+   "competitor_branding_present": "none",
+   "competitor_names": [],
+   "demonstrates": [
+    "whole_trailer_appearance",
+    "branding_or_livery"
+   ],
+   "visible_text": [],
+   "defects": [],
+   "duplicate_group": null,
+   "needs_human_review": true,
+   "notes": "Read as a B-double: the two bodies are close-coupled with no drawbar or gap between them. Flagged because at this distance the join is small in frame, and getting lead-versus-rear axle attribution wrong here is the known failure mode.",
+   "ata_configuration_code": null,
+   "combination_type": "b_double",
+   "non_marketing_reason": null,
+   "subject_type": "multiple_trailers",
+   "shot_type": "side_elevation",
+   "content_purpose": "marketing_photography",
+   "setting": "yard_or_hardstand",
+   "marketing_usability": "hero",
+   "overall_confidence": "medium",
+   "trailers": [
+    {
+     "trailer_configuration": "semi_trailer",
+     "coupling_type": "not_visible",
+     "coaming_type": "not_visible",
+     "suspension_mount": "not_visible",
+     "suspension_type": "not_visible",
+     "deck_material": "not_visible",
+     "container_capability": "not_visible",
+     "axle_group_layout": "rear_group_only",
+     "front_load_restraint": "loadrack",
+     "rear_load_restraint": "not_visible",
+     "front_ramp": "not_visible",
+     "rear_ramp": "not_visible",
+     "plate_type": "no_plate_visible",
+     "manufacturer_confidence": "unknown",
+     "manufacturer_decal_text": [],
+     "components_visible": [
+      "axle_group",
+      "wheels_rims",
+      "tyres",
+      "mudguards",
+      "chassis_rail",
+      "deck_floor",
+      "load_racks"
+     ],
+     "features_present": [
+      "load_racks"
+     ],
+     "identifying_text": [],
+     "chassis_colour": "other",
+     "build_state": "finished",
+     "is_loaded": "empty",
+     "load_type": "none",
+     "body_type": "flat_top",
+     "combination_role": "lead_trailer",
+     "position_in_frame": "lead",
+     "axle_count": "tri",
+     "is_midland_product": "unknown",
+     "confidence": "medium",
+     "notes": "Maroon deck. If this is a B-double its group carries the rear fifth wheel, but the tail section is not resolvable from here so rear_fifth_wheel is NOT claimed."
+    },
+    {
+     "trailer_configuration": "semi_trailer",
+     "coupling_type": "not_visible",
+     "coaming_type": "not_visible",
+     "suspension_mount": "not_visible",
+     "suspension_type": "not_visible",
+     "deck_material": "not_visible",
+     "container_capability": "not_visible",
+     "axle_group_layout": "rear_group_only",
+     "front_load_restraint": "not_visible",
+     "rear_load_restraint": "not_visible",
+     "front_ramp": "not_visible",
+     "rear_ramp": "not_visible",
+     "plate_type": "no_plate_visible",
+     "manufacturer_confidence": "unknown",
+     "manufacturer_decal_text": [],
+     "components_visible": [
+      "axle_group",
+      "wheels_rims",
+      "chassis_rail",
+      "deck_floor",
+      "load_racks"
+     ],
+     "features_present": [
+      "load_racks"
+     ],
+     "identifying_text": [],
+     "chassis_colour": "other",
+     "build_state": "finished",
+     "is_loaded": "empty",
+     "load_type": "none",
+     "body_type": "flat_top",
+     "combination_role": "rear_trailer",
+     "position_in_frame": "second",
+     "axle_count": "tri",
+     "is_midland_product": "unknown",
+     "confidence": "medium",
+     "notes": "Rear unit, matching livery."
+    }
+   ]
+  },
+  "audit": {}
+ },
+ {
+  "item_id": "015HCHN4XZRTIR5CAHHJEZDIRNB5B63LUO",
+  "n": 35,
+  "filename": "DJI_0270.JPG",
+  "caption": "Drone view of four blue open-frame trailers laid out in the yard",
+  "vision": {
+   "media_kind": "aerial_photograph",
+   "competitor_branding_present": "none",
+   "competitor_names": [],
+   "demonstrates": [
+    "whole_trailer_appearance",
+    "deck_configuration"
+   ],
+   "visible_text": [],
+   "defects": [],
+   "duplicate_group": null,
+   "needs_human_review": true,
+   "notes": "Striking aerial of four matched blue units with open cross-braced frames, no continuous deck and no twist locks visible. None of the body_type values fits cleanly -- recorded as other rather than forced into skeletal. Likely a steel or bolster spec; worth confirming with Midland what to call it.",
+   "ata_configuration_code": null,
+   "combination_type": "not_a_combination",
+   "non_marketing_reason": null,
+   "subject_type": "multiple_trailers",
+   "shot_type": "top_down_aerial",
+   "content_purpose": "marketing_photography",
+   "setting": "yard_or_hardstand",
+   "marketing_usability": "hero",
+   "overall_confidence": "medium",
+   "trailers": [
+    {
+     "trailer_configuration": "semi_trailer",
+     "coupling_type": "not_visible",
+     "coaming_type": "not_visible",
+     "suspension_mount": "not_visible",
+     "suspension_type": "not_visible",
+     "deck_material": "none_skeletal",
+     "container_capability": "not_visible",
+     "axle_group_layout": "rear_group_only",
+     "front_load_restraint": "not_visible",
+     "rear_load_restraint": "not_visible",
+     "front_ramp": "not_visible",
+     "rear_ramp": "not_visible",
+     "plate_type": "no_plate_visible",
+     "manufacturer_confidence": "unknown",
+     "manufacturer_decal_text": [],
+     "components_visible": [
+      "axle_group",
+      "wheels_rims",
+      "tyres",
+      "chassis_rail",
+      "kingpin",
+      "landing_legs"
+     ],
+     "features_present": [
+      "bolsters"
+     ],
+     "identifying_text": [],
+     "chassis_colour": "blue",
+     "build_state": "finished",
+     "is_loaded": "empty",
+     "load_type": "none",
+     "body_type": "other",
+     "combination_role": "standalone_semi",
+     "position_in_frame": "lead",
+     "axle_count": "tri",
+     "is_midland_product": "unknown",
+     "confidence": "medium",
+     "notes": "Nearest unit; open lattice frame with cross-bracing along its length."
+    },
+    {
+     "trailer_configuration": "semi_trailer",
+     "coupling_type": "not_visible",
+     "coaming_type": "not_visible",
+     "suspension_mount": "not_visible",
+     "suspension_type": "not_visible",
+     "deck_material": "none_skeletal",
+     "container_capability": "not_visible",
+     "axle_group_layout": "rear_group_only",
+     "front_load_restraint": "not_visible",
+     "rear_load_restraint": "not_visible",
+     "front_ramp": "not_visible",
+     "rear_ramp": "not_visible",
+     "plate_type": "no_plate_visible",
+     "manufacturer_confidence": "unknown",
+     "manufacturer_decal_text": [],
+     "components_visible": [
+      "axle_group",
+      "wheels_rims",
+      "chassis_rail",
+      "kingpin"
+     ],
+     "features_present": [
+      "bolsters"
+     ],
+     "identifying_text": [],
+     "chassis_colour": "blue",
+     "build_state": "finished",
+     "is_loaded": "empty",
+     "load_type": "none",
+     "body_type": "other",
+     "combination_role": "standalone_semi",
+     "position_in_frame": "second",
+     "axle_count": "tri",
+     "is_midland_product": "unknown",
+     "confidence": "medium",
+     "notes": "Second matching unit."
+    },
+    {
+     "trailer_configuration": "semi_trailer",
+     "coupling_type": "not_visible",
+     "coaming_type": "not_visible",
+     "suspension_mount": "not_visible",
+     "suspension_type": "not_visible",
+     "deck_material": "none_skeletal",
+     "container_capability": "not_visible",
+     "axle_group_layout": "not_visible",
+     "front_load_restraint": "not_visible",
+     "rear_load_restraint": "not_visible",
+     "front_ramp": "not_visible",
+     "rear_ramp": "not_visible",
+     "plate_type": "no_plate_visible",
+     "manufacturer_confidence": "unknown",
+     "manufacturer_decal_text": [],
+     "components_visible": [
+      "axle_group",
+      "wheels_rims",
+      "chassis_rail"
+     ],
+     "features_present": [],
+     "identifying_text": [],
+     "chassis_colour": "blue",
+     "build_state": "finished",
+     "is_loaded": "empty",
+     "load_type": "none",
+     "body_type": "other",
+     "combination_role": "standalone_semi",
+     "position_in_frame": "third",
+     "axle_count": "tandem",
+     "is_midland_product": "unknown",
+     "confidence": "low",
+     "notes": "Shorter unit at upper left, fewer axles."
+    },
+    {
+     "trailer_configuration": "semi_trailer",
+     "coupling_type": "not_visible",
+     "coaming_type": "not_visible",
+     "suspension_mount": "not_visible",
+     "suspension_type": "not_visible",
+     "deck_material": "none_skeletal",
+     "container_capability": "not_visible",
+     "axle_group_layout": "not_visible",
+     "front_load_restraint": "not_visible",
+     "rear_load_restraint": "not_visible",
+     "front_ramp": "not_visible",
+     "rear_ramp": "not_visible",
+     "plate_type": "no_plate_visible",
+     "manufacturer_confidence": "unknown",
+     "manufacturer_decal_text": [],
+     "components_visible": [
+      "axle_group",
+      "wheels_rims",
+      "chassis_rail"
+     ],
+     "features_present": [],
+     "identifying_text": [],
+     "chassis_colour": "blue",
+     "build_state": "finished",
+     "is_loaded": "empty",
+     "load_type": "none",
+     "body_type": "other",
+     "combination_role": "standalone_semi",
+     "position_in_frame": "fourth",
+     "axle_count": "tandem",
+     "is_midland_product": "unknown",
+     "confidence": "low",
+     "notes": "Fourth unit, partly overlapping the third."
+    }
+   ]
+  },
+  "audit": {}
+ },
+ {
+  "item_id": "015HCHN4V6LSCSUZBDHRDYMX46HY4AB2K6",
+  "n": 36,
+  "filename": "20250305_110039.jpg",
+  "caption": "Close rear of a red road train trailer \u2014 ROAD sign, Midland mudflaps",
+  "vision": {
+   "media_kind": "photograph",
+   "competitor_branding_present": "none",
+   "competitor_names": [],
+   "demonstrates": [
+    "branding_or_livery",
+    "load_restraint_in_use"
+   ],
+   "visible_text": [
+    "ROAD",
+    "Midland",
+    "BEHIND YOU ALL THE WAY",
+    "DO NOT OVERTAKE TURNING VEHICLE",
+    "YN 10JY",
+    "NATIONAL HEAVY VEHICLE",
+    "DANGER"
+   ],
+   "defects": [],
+   "duplicate_group": null,
+   "needs_human_review": false,
+   "notes": "The yellow 'ROAD' board is half of a ROAD TRAIN sign, which says the unit runs in a multi-combination even though only one and a half trailers are in frame. Read as evidence about the vehicle, not as the combination itself -- combination_type stays unknown because the coupling is out of shot.",
+   "ata_configuration_code": null,
+   "combination_type": "unknown",
+   "non_marketing_reason": null,
+   "subject_type": "partial_view_cropped",
+   "shot_type": "rear_elevation",
+   "content_purpose": "marketing_photography",
+   "setting": "yard_or_hardstand",
+   "marketing_usability": "good",
+   "overall_confidence": "high",
+   "trailers": [
+    {
+     "trailer_configuration": "semi_trailer",
+     "coupling_type": "not_visible",
+     "coaming_type": "not_visible",
+     "suspension_mount": "not_visible",
+     "suspension_type": "not_visible",
+     "deck_material": "not_visible",
+     "container_capability": "not_visible",
+     "axle_group_layout": "not_visible",
+     "front_load_restraint": "not_visible",
+     "rear_load_restraint": "not_visible",
+     "front_ramp": "not_visible",
+     "rear_ramp": "not_visible",
+     "plate_type": "registered_plate",
+     "manufacturer_confidence": "decal_legible",
+     "manufacturer_decal_text": [
+      "Midland"
+     ],
+     "components_visible": [
+      "axle_group",
+      "wheels_rims",
+      "tyres",
+      "mudguards",
+      "mudflaps",
+      "chassis_rail",
+      "deck_floor",
+      "tail_lamps",
+      "reflective_markings",
+      "rear_frame",
+      "ramps"
+     ],
+     "features_present": [],
+     "identifying_text": [
+      "Midland",
+      "YN 10JY"
+     ],
+     "chassis_colour": "flame_red",
+     "build_state": "finished",
+     "is_loaded": "empty",
+     "load_type": "none",
+     "body_type": "flat_top",
+     "combination_role": "unknown",
+     "position_in_frame": "only_trailer",
+     "axle_count": "tandem",
+     "is_midland_product": "midland",
+     "confidence": "high",
+     "notes": "Chain and load binder hang from the rear frame. Only part of the axle group is in frame, so the count covers what is visible, not the whole trailer."
+    }
+   ]
+  },
+  "audit": {}
+ },
+ {
+  "item_id": "015HCHN4VN3QLCODTBARBYKHQNKIVT5JRB",
+  "n": 37,
+  "filename": "IMG_20220131_092033.jpg",
+  "caption": "Hooklift prime mover and black trailer at a Brown & Hurley dealership",
+  "vision": {
+   "media_kind": "photograph",
+   "competitor_branding_present": "in_background",
+   "competitor_names": [
+    "Krueger",
+    "Schmitz Cargobull",
+    "Hercules",
+    "Brown & Hurley"
+   ],
+   "demonstrates": [
+    "nothing_specific"
+   ],
+   "visible_text": [
+    "BROWN & HURLEY TRAILERS",
+    "KRUEGER",
+    "HERCULES",
+    "SCHMITZ CARGOBULL",
+    "PUMPA"
+   ],
+   "defects": [
+    "competitor_branding_visible"
+   ],
+   "duplicate_group": null,
+   "needs_human_review": true,
+   "notes": "MUST NOT BE PUBLISHED. Three competitor manufacturer names are legible on the shed behind the subject. The trailer itself carries no Midland marking, so there is no basis to call it Midland's either. This is the costly-failure case the schema exists for, and the defect flag is what catches it.",
+   "ata_configuration_code": null,
+   "combination_type": "unknown",
+   "non_marketing_reason": "Taken at a competitor dealership; the building carries Krueger, Schmitz Cargobull and Hercules signage across the frame.",
+   "subject_type": "trailer_with_prime_mover",
+   "shot_type": "side_elevation",
+   "content_purpose": "non_marketing",
+   "setting": "customer_site",
+   "marketing_usability": "reject",
+   "overall_confidence": "high",
+   "trailers": [
+    {
+     "trailer_configuration": "semi_trailer",
+     "coupling_type": "not_visible",
+     "coaming_type": "not_visible",
+     "suspension_mount": "not_visible",
+     "suspension_type": "not_visible",
+     "deck_material": "not_visible",
+     "container_capability": "not_visible",
+     "axle_group_layout": "rear_group_only",
+     "front_load_restraint": "not_visible",
+     "rear_load_restraint": "not_visible",
+     "front_ramp": "not_visible",
+     "rear_ramp": "not_visible",
+     "plate_type": "no_plate_visible",
+     "manufacturer_confidence": "unknown",
+     "manufacturer_decal_text": [],
+     "components_visible": [
+      "axle_group",
+      "wheels_rims",
+      "tyres",
+      "mudguards",
+      "chassis_rail",
+      "drawbar"
+     ],
+     "features_present": [],
+     "identifying_text": [],
+     "chassis_colour": "black",
+     "build_state": "finished",
+     "is_loaded": "empty",
+     "load_type": "none",
+     "body_type": "other",
+     "combination_role": "unknown",
+     "position_in_frame": "only_trailer",
+     "axle_count": "tandem",
+     "is_midland_product": "unknown",
+     "confidence": "medium",
+     "notes": "Hooklift/skip-transfer arm on both the prime mover and the trailer."
+    }
+   ]
+  },
+  "audit": {
+   "axle_agreement": "path_unstated",
+   "category_agreement": "not_comparable",
+   "provenance_conflict": false,
+   "non_marketing_in_marketing_folder": true
+  }
+ },
+ {
+  "item_id": "015HCHN4XN6PJWCBUSIVA2SJSAFLNTKXJ2",
+  "n": 38,
+  "filename": "DSC00446.JPG",
+  "caption": "White tipper body with green guards outside Midland Trailer Sales",
+  "vision": {
+   "media_kind": "photograph",
+   "competitor_branding_present": "none",
+   "competitor_names": [],
+   "demonstrates": [
+    "whole_trailer_appearance",
+    "chassis_colour_reference"
+   ],
+   "visible_text": [
+    "MIDLAND Industries",
+    "TRAILER SALES",
+    "1300 301 570"
+   ],
+   "defects": [],
+   "duplicate_group": null,
+   "needs_human_review": true,
+   "notes": "Axle spacing is unusual: a tandem well forward and a further axle back toward the rear of the body, with a clear run of chassis between. That is either a dog layout or Midland's split axle group. Not called either way -- axle_group_layout is left unknown rather than guessed, and it wants a human eye.",
+   "ata_configuration_code": null,
+   "combination_type": "unknown",
+   "non_marketing_reason": null,
+   "subject_type": "complete_trailer",
+   "shot_type": "three_quarter_rear",
+   "content_purpose": "marketing_photography",
+   "setting": "yard_or_hardstand",
+   "marketing_usability": "good",
+   "overall_confidence": "medium",
+   "trailers": [
+    {
+     "trailer_configuration": "not_visible",
+     "coupling_type": "not_visible",
+     "coaming_type": "not_visible",
+     "suspension_mount": "not_visible",
+     "suspension_type": "not_visible",
+     "deck_material": "not_visible",
+     "container_capability": "not_visible",
+     "axle_group_layout": "unknown",
+     "front_load_restraint": "not_visible",
+     "rear_load_restraint": "not_visible",
+     "front_ramp": "not_visible",
+     "rear_ramp": "not_visible",
+     "plate_type": "no_plate_visible",
+     "manufacturer_confidence": "decal_legible",
+     "manufacturer_decal_text": [
+      "Midland Industries"
+     ],
+     "components_visible": [
+      "axle_group",
+      "wheels_rims",
+      "tyres",
+      "mudguards",
+      "mudflaps",
+      "chassis_rail",
+      "toolbox",
+      "tail_lamps",
+      "reflective_markings",
+      "ladder"
+     ],
+     "features_present": [
+      "toolbox",
+      "ladder"
+     ],
+     "identifying_text": [
+      "MIDLAND Industries",
+      "1300 301 570"
+     ],
+     "chassis_colour": "pearl_white",
+     "build_state": "finished",
+     "is_loaded": "empty",
+     "load_type": "none",
+     "body_type": "tipper",
+     "combination_role": "unknown",
+     "position_in_frame": "only_trailer",
+     "axle_count": "tri",
+     "is_midland_product": "midland",
+     "confidence": "medium",
+     "notes": "Green mudguards against a white body. Access ladder on the front bulkhead."
+    }
+   ]
+  },
+  "audit": {}
+ },
+ {
+  "item_id": "015HCHN4THMCQ5A5UNWBCJ2SX5AJLFDJQO",
+  "n": 39,
+  "filename": "Dolly 003.jpg",
+  "caption": "Red and white Midland converter dolly, side view",
+  "vision": {
+   "media_kind": "photograph",
+   "competitor_branding_present": "none",
+   "competitor_names": [],
+   "demonstrates": [
+    "whole_trailer_appearance",
+    "coupling_detail",
+    "wheel_finish",
+    "chassis_colour_reference"
+   ],
+   "visible_text": [
+    "MIDLAND TRAILERS",
+    "1300 301 570",
+    "Beaurepaires"
+   ],
+   "defects": [],
+   "duplicate_group": null,
+   "needs_human_review": false,
+   "notes": "The clearest dolly in the set and a useful reference for the A-double coupling: drawbar and eye at the front, turntable on the deck, its own tandem group. Those axles belong to the dolly and to neither trailer either side of it.",
+   "ata_configuration_code": null,
+   "combination_type": "not_a_combination",
+   "non_marketing_reason": null,
+   "subject_type": "complete_trailer",
+   "shot_type": "side_elevation",
+   "content_purpose": "marketing_photography",
+   "setting": "yard_or_hardstand",
+   "marketing_usability": "hero",
+   "overall_confidence": "high",
+   "trailers": [
+    {
+     "trailer_configuration": "converter_dolly",
+     "coupling_type": "drawbar_pin",
+     "coaming_type": "not_visible",
+     "suspension_mount": "not_visible",
+     "suspension_type": "not_visible",
+     "deck_material": "checker_plate",
+     "container_capability": "not_visible",
+     "axle_group_layout": "rear_group_only",
+     "front_load_restraint": "not_visible",
+     "rear_load_restraint": "not_visible",
+     "front_ramp": "not_visible",
+     "rear_ramp": "not_visible",
+     "plate_type": "no_plate_visible",
+     "manufacturer_confidence": "decal_legible",
+     "manufacturer_decal_text": [
+      "Midland Trailers"
+     ],
+     "components_visible": [
+      "axle_group",
+      "wheels_rims",
+      "tyres",
+      "mudguards",
+      "mudflaps",
+      "chassis_rail",
+      "drawbar",
+      "turntable",
+      "air_lines",
+      "electrical_lines",
+      "landing_legs",
+      "marker_lamps"
+     ],
+     "features_present": [],
+     "identifying_text": [
+      "MIDLAND TRAILERS",
+      "1300 301 570"
+     ],
+     "chassis_colour": "flame_red",
+     "build_state": "finished",
+     "is_loaded": "empty",
+     "load_type": "none",
+     "body_type": "not_visible",
+     "combination_role": "converter_dolly",
+     "position_in_frame": "only_trailer",
+     "axle_count": "tandem",
+     "is_midland_product": "midland",
+     "confidence": "high",
+     "notes": "Red chassis with white guards and polished rims; coiled red and blue air lines at the drawbar. Checker plate visible on the dolly deck."
+    }
+   ]
+  },
+  "audit": {}
+ },
+ {
+  "item_id": "015HCHN4RJ4R7HECMBAVDZGIGFZKFYKVPG",
+  "n": 40,
+  "filename": "IMG-20240729-WA0007.jpg",
+  "caption": "Essential Energy borer truck at Midland, pole jinker behind, backlit",
+  "vision": {
+   "media_kind": "photograph",
+   "competitor_branding_present": "none",
+   "competitor_names": [],
+   "demonstrates": [
+    "branding_or_livery"
+   ],
+   "visible_text": [
+    "essential energy",
+    "Midland",
+    "BEHIND YOU ALL THE WAY",
+    "MACK",
+    "METROLINER",
+    "RC 10T"
+   ],
+   "defects": [
+    "backlit"
+   ],
+   "duplicate_group": null,
+   "needs_human_review": false,
+   "notes": "Shot into the sun, so the truck is well lit but the trailer behind sits in flare and shadow. The Midland shed sign establishes the location, not the builder of anything in frame. The truck-mounted borer is the visual subject; the pole jinker is secondary and only partly readable.",
+   "ata_configuration_code": null,
+   "combination_type": "unknown",
+   "non_marketing_reason": null,
+   "subject_type": "trailer_with_prime_mover",
+   "shot_type": "three_quarter_front",
+   "content_purpose": "delivery_record",
+   "setting": "yard_or_hardstand",
+   "marketing_usability": "usable",
+   "overall_confidence": "medium",
+   "trailers": [
+    {
+     "trailer_configuration": "semi_trailer",
+     "coupling_type": "not_visible",
+     "coaming_type": "not_visible",
+     "suspension_mount": "not_visible",
+     "suspension_type": "not_visible",
+     "deck_material": "not_visible",
+     "container_capability": "not_visible",
+     "axle_group_layout": "not_visible",
+     "front_load_restraint": "not_visible",
+     "rear_load_restraint": "not_visible",
+     "front_ramp": "not_visible",
+     "rear_ramp": "not_visible",
+     "plate_type": "no_plate_visible",
+     "manufacturer_confidence": "provenance_only",
+     "manufacturer_decal_text": [],
+     "components_visible": [
+      "chassis_rail",
+      "deck_floor",
+      "load_racks",
+      "wheels_rims"
+     ],
+     "features_present": [
+      "bolsters"
+     ],
+     "identifying_text": [],
+     "chassis_colour": "pearl_white",
+     "build_state": "finished",
+     "is_loaded": "empty",
+     "load_type": "none",
+     "body_type": "pole_jinker",
+     "combination_role": "unknown",
+     "position_in_frame": "only_trailer",
+     "axle_count": "not_visible",
+     "is_midland_product": "unknown",
+     "confidence": "low",
+     "notes": "White trailer with paired cradles along the deck, which is the pole jinker read. Its running gear is out of frame behind the truck."
+    }
+   ]
+  },
+  "audit": {
+   "axle_agreement": "vision_unknown",
+   "category_agreement": "agree",
+   "provenance_conflict": false,
+   "non_marketing_in_marketing_folder": false
+  }
+ }
+]

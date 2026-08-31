@@ -139,6 +139,25 @@ Three things it found that change the plan:
 - **Only 4.6% of filenames are descriptive**, so the free-validation-set idea is real but
   small — about 1,900 files.
 
+## 40-photo test — 2026-08-31
+
+Schema v4 run end to end over 40 photos from 38 folders, ingested as `mediaId` 8-47.
+**0 failed. 52 trailers tagged. 12 flagged for review.** See
+`test-run/goldset40-findings.md`.
+
+The staging duplicate cannot recur: one hardcoded byte source plus an occurrence ledger in
+`tools/ingest_library.py`. Verified — 40 distinct mediaIds, 40 distinct SHAs, one byte
+source, and a re-run of three photos returned the SAME mediaIds marked `(re-tag, deduped)`.
+
+**Still needs a human:** delete the older duplicate of `20251029_153352.jpg` (the 2.9 MB
+one; keep the 784 KB rendition). The ingest key only authorises `/api/media/ingest` -- every
+other route 401s -- so deletion has to happen in the UI.
+
+Five schema gaps the spread exposed, all recorded in the findings: `axle_count` cannot
+express a dog trailer's two groups; no combination value for a ute-and-gooseneck; no
+`mesh_grating` deck; no open-frame/bolster body type; and the tag-versus-pig geometric
+boundary is still unresolved.
+
 ## Settled — do not re-litigate
 
 - **Per-trailer tagging.** One tag group per trailer visible in a frame, each with its own
