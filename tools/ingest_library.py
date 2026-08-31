@@ -31,6 +31,7 @@ import json
 import os
 import pathlib
 import sys
+import time
 import urllib.parse
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
@@ -47,6 +48,40 @@ class DuplicateGuard(Exception):
     """Raised instead of creating a second blob for an occurrence already ingested."""
 
 
+OVERSIZE = 6000   # larger than any original in the library; Graph clamps to native
+RETRIES = 4       # the media host (*.svc.ms) resets connections intermittently
+
+
+def _retry(fn, what):
+    """Transient resets from the rendition host are common and are not failures."""
+    last = None
+    for attempt in range(RETRIES):
+        try:
+            return fn()
+        except Exception as e:
+            last = e
+            if attempt < RETRIES - 1:
+                time.sleep(2 * (attempt + 1))
+    raise RuntimeError(f"{what} failed after {RETRIES} attempts: {last}")
+
+
+def _aspect_from_thumbnail(token, item_id):
+    """Aspect ratio from the `large` thumbnail, scaled up past native resolution."""
+    status, _, raw = g.request(
+        f"{g.GRAPH}/drives/{g.DRIVE_ID}/items/{item_id}/thumbnails?select=large&expand=large",
+        token=token)
+    if status != 200:
+        raise RuntimeError(f"cannot recover dimensions: thumbnails {status}")
+    sets = json.loads(raw).get("value") or []
+    large = (sets[0].get("large") if sets else None) or {}
+    w, h = large.get("width"), large.get("height")
+    if not (w and h):
+        raise RuntimeError("no dimensions available from item or thumbnail")
+    if w >= h:
+        return OVERSIZE, max(1, round(OVERSIZE * h / w))
+    return max(1, round(OVERSIZE * w / h)), OVERSIZE
+
+
 def fetch_bytes(token, item_id, width, height):
     """The full-resolution, auto-oriented rendition. THE ONLY BYTE SOURCE -- see module doc.
 
@@ -55,19 +90,28 @@ def fetch_bytes(token, item_id, width, height):
     request a landscape box for a portrait frame and `_Crop` would discard half the trailer.
     """
     if not (width and height):
-        raise ValueError("Graph reported no image dimensions; cannot size the rendition")
+        # Graph returns an empty `image` facet for some real JPEGs. Recover the ASPECT
+        # from a standard thumbnail and request an oversized box in that ratio: Graph
+        # clamps to the native resolution, so this still yields the full-size rendition.
+        # Guessing a square box instead would make `_Crop` discard half the frame.
+        width, height = _retry(lambda: _aspect_from_thumbnail(token, item_id),
+                               f'dimension recovery for {item_id}')
     spec = f"c{width}x{height}_Crop"
-    status, _, raw = g.request(
-        f"{g.GRAPH}/drives/{g.DRIVE_ID}/items/{item_id}/thumbnails?select={spec}&expand={spec}",
-        token=token)
-    if status != 200:
-        raise RuntimeError(f"thumbnails {status}: {raw[:200]}")
-    sets = json.loads(raw).get("value") or []
-    thumb = (sets[0].get(spec) if sets else None) or {}
-    if not thumb.get("url"):
-        raise RuntimeError(f"rendition {spec} not honoured")
-    _, _, img = g.request(thumb["url"])
-    return img
+
+    def meta():
+        status, _, raw = g.request(
+            f"{g.GRAPH}/drives/{g.DRIVE_ID}/items/{item_id}/thumbnails?select={spec}&expand={spec}",
+            token=token)
+        if status != 200:
+            raise RuntimeError(f"thumbnails {status}: {raw[:200]}")
+        sets = json.loads(raw).get("value") or []
+        thumb = (sets[0].get(spec) if sets else None) or {}
+        if not thumb.get("url"):
+            raise RuntimeError(f"rendition {spec} not honoured")
+        return thumb["url"]
+
+    url = _retry(meta, f"rendition metadata for {item_id}")
+    return _retry(lambda: g.request(url)[2], f"rendition bytes for {item_id}")
 
 
 def load_ledger(path):
