@@ -23,16 +23,21 @@ FRAME_NS = {
     "content_purpose": "purpose", "setting": "setting",
     "marketing_usability": "use", "competitor_branding_present": "competitor",
     "overall_confidence": "conf",
+    "combination_type": "combo",   # v4
 }
 # per-trailer field -> tag namespace (prefixed with tN:)
 TRAILER_NS = {
     "position_in_frame": "pos", "axle_count": "axle", "trailer_configuration": "config",
     "body_type": "body", "is_midland_product": "midland", "build_state": "build",
     "is_loaded": "loaded", "load_type": "load", "chassis_colour": "colour",
-    "coupling_type": "coupling", "floor_type": "floor", "coaming_type": "coaming",
+    "coupling_type": "coupling", "coaming_type": "coaming",
     "suspension_mount": "suspension", "front_load_restraint": "front-restraint",
     "rear_load_restraint": "rear-restraint", "front_ramp": "front-ramp",
     "rear_ramp": "rear-ramp", "confidence": "conf",
+    # v4
+    "combination_role": "role", "suspension_type": "susp", "deck_material": "deck",
+    "container_capability": "container", "axle_group_layout": "layout",
+    "manufacturer_confidence": "mfr-conf",
 }
 
 def slug(v):
@@ -75,7 +80,7 @@ VISION_NAMESPACE = "trailer-photo:vision"   # positive: what the photo shows
 STATE_NAMESPACE = "trailer-photo:state"     # absence: looked, could not tell
 
 def tags_for(record, prompt_version, model):
-    """Flatten one schema-v3 record into ingest tag sets, keyed by namespace.
+    """Flatten one schema-v4 record into ingest tag sets, keyed by namespace.
 
     Returns {namespace: [tags]} rather than one list, because the two kinds of tag serve
     different readers and must not share a search index:
@@ -105,6 +110,8 @@ def tags_for(record, prompt_version, model):
         search.append("review:needed")
     for name in v.get("competitor_names") or []:
         search.append(f"competitor-name:{slug(name).replace(' ', '-')}")
+    if v.get("ata_configuration_code"):
+        search.append(f"ata:{slug(v['ata_configuration_code'])}")
 
     # The frame-level answer to "why would anyone pull this photo out of the library".
     for d in v.get("demonstrates") or []:
@@ -123,6 +130,9 @@ def tags_for(record, prompt_version, model):
         for ft in tr.get("features_present") or []:
             if ft != "none_visible":
                 search.append(f"feature:{slug(ft)}")
+        # Builder name as READ from a decal -- never inferred from livery.
+        for mk in tr.get("manufacturer_decal_text") or []:
+            search.append(f"mfr:{slug(mk).replace(' ', '-')}")
 
     # provenance travels as tags because the API exposes no provenance field
     search += [f"promptver:{slug(prompt_version)}", f"model:{slug(model)}"]

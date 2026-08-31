@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://midlandind.com.au/schema/trailer-photo-tags/v3",
-  "title": "Midland media library tag record (v3)",
+  "$id": "https://midlandind.com.au/schema/trailer-photo-tags/v4",
+  "title": "Midland media library tag record (v4)",
   "description": "One record per image in Sales/1. Trailer Photos. `photo` and `path_derived` are populated by code during enumeration. `vision` is the ONLY object a model is ever asked to produce, and it must be produced without being shown `path_derived` -- see docs/routines/02-thursday-iteration.md for why.",
   "type": "object",
   "additionalProperties": false,
@@ -11,7 +11,7 @@
   ],
   "properties": {
     "schema_version": {
-      "const": "3.0"
+      "const": "4.0"
     },
     "photo": {
       "type": "object",
@@ -323,13 +323,16 @@
               "trailer_configuration": {
                 "enum": [
                   "semi_trailer",
+                  "drawbar_plant_trailer",
+                  "pig_trailer",
                   "dog_trailer",
-                  "tag_trailer",
+                  "super_dog",
+                  "quad_dog",
                   "converter_dolly",
-                  "road_train_combination",
                   "not_visible",
                   "unknown"
-                ]
+                ],
+                "description": "'tag_trailer' HAS BEEN RENAMED to drawbar_plant_trailer: it carries three incompatible meanings, two of them on Midland's own site (their plant trailer product, and the REAR unit of a B-double). Never emit 'tag_trailer'; it is an input alias only. Geometry: pig = one axle group at the CENTRE of the deck; dog = a group at each end, front group steering on a turntable; drawbar_plant_trailer = fixed drawbar, no steering front group. super_dog = single front + tandem rear (3 axles); quad_dog = 5+."
               },
               "body_type": {
                 "enum": [
@@ -337,22 +340,28 @@
                   "skeletal_retractable",
                   "flat_top",
                   "drop_deck",
+                  "double_drop_deck",
                   "drop_deck_extendable",
-                  "step_deck",
+                  "drop_deck_widener",
                   "float_or_low_loader",
-                  "deck_widener",
                   "plant_trailer",
                   "tipper",
+                  "side_tipper",
                   "skip_bin_transfer",
                   "hay_spec",
                   "pole_jinker",
                   "steel_mezz_deck",
                   "curtainsider",
-                  "water_tank",
+                  "tanker",
+                  "beekeeper",
+                  "moving_floor",
+                  "car_carrier",
+                  "super_tilt",
                   "other",
                   "not_visible",
                   "unknown"
-                ]
+                ],
+                "description": "DROP DECK AND STEP DECK ARE THE SAME THING in Australian usage -- Midland state this directly -- so there is no step_deck value; use drop_deck. double_drop_deck has two deck drops with a well between. drop_deck_widener covers what US sources call a lowboy. moving_floor, side_tipper, super_tilt and car_carrier are COMPETITOR bodies Midland do not build, so seeing one is a strong hint the subject is not a Midland product."
               },
               "front_load_restraint": {
                 "enum": [
@@ -377,6 +386,8 @@
                   "none",
                   "fixed",
                   "slide_out",
+                  "flip_over",
+                  "heavy_duty",
                   "not_visible",
                   "unknown"
                 ]
@@ -385,29 +396,25 @@
                 "enum": [
                   "none",
                   "fixed",
-                  "slide_out",
                   "bifold",
+                  "slide_out",
+                  "beavertail",
+                  "heavy_duty",
                   "not_visible",
                   "unknown"
-                ]
-              },
-              "floor_type": {
-                "enum": [
-                  "flush",
-                  "raised_coaming",
-                  "no_floor_skeletal",
-                  "not_visible",
-                  "unknown"
-                ]
+                ],
+                "description": "BEAVERTAIL AND FIXED ARE EASILY MISTAGGED AS 'none' because neither is a separate ramp-shaped object -- a beavertail is the rear section of the deck itself, angled down. Read the rear deck profile. Stowed bi-fold folds back on itself with a hinge line across the middle; stowed slide-out retracts under the deck and may be nearly invisible."
               },
               "coaming_type": {
                 "enum": [
+                  "flush",
                   "channel",
-                  "flush_only",
+                  "profile",
                   "none",
                   "not_visible",
                   "unknown"
-                ]
+                ],
+                "description": "Midland describe coaming four different ways across their site and misspell it 'combing'. 'TFB' is deliberately NOT a value -- it appears once on their site, defined nowhere, so no tagger can be asked to identify it. Ask Midland engineering before adding it."
               },
               "suspension_mount": {
                 "enum": [
@@ -415,16 +422,22 @@
                   "under_slung",
                   "not_visible",
                   "unknown"
-                ]
+                ],
+                "description": "JOB CARD ONLY -- THE VISION PASS MUST ALWAYS EMIT not_visible. Over-slung/under-slung describes where the leaf spring sits relative to the axle beam. Every source found for these terms is US-origin and about light trailers; Midland never use either word. On an air-bag trailing-arm suspension the distinction is where the axle seat sits on the beam, which is not visible from outside the assembly at all. This is a field a model would guess at, which is exactly what this schema exists to prevent."
               },
               "coupling_type": {
                 "enum": [
                   "kingpin_fifth_wheel",
-                  "ball_race",
+                  "ball_race_turntable",
+                  "ringfeder_tow_eye",
+                  "pintle_hook",
+                  "bartlett_ball",
                   "drawbar_pin",
                   "none_visible",
+                  "not_visible",
                   "unknown"
-                ]
+                ],
+                "description": "ball_race_turntable is a low-profile turntable Midland offer as an alternative to a dolly's fifth wheel -- NOT the same as bartlett_ball. Midland spell Ringfeder three ways and misspell Pintle as 'Pintel'; those are input aliases, not values."
               },
               "is_loaded": {
                 "enum": [
@@ -595,11 +608,98 @@
                     "extendable_chassis",
                     "self_steer_axle",
                     "water_tank",
-                    "none_visible"
+                    "none_visible",
+                    "split_axle_group",
+                    "lift_axle_raised",
+                    "rear_fifth_wheel",
+                    "outriggers",
+                    "container_pedestals",
+                    "side_loader_pads",
+                    "top_deck",
+                    "bolsters",
+                    "webrail",
+                    "folding_gates",
+                    "hydraulic_front_leg"
                   ]
                 },
                 "uniqueItems": true,
                 "description": "Equipment and options VISIBLY fitted to this unit, using Midland's own job-card accessory vocabulary. POSITIVE ONLY. Only record a feature you can actually see -- do not infer a toolbox from the product category, and do not infer one from the job card. A hallucinated feature is worse than no tag: it will be found by a search and shown to a customer as what they are buying. Use `none_visible` only when the unit is clearly in frame and carries no listed equipment."
+              },
+              "combination_role": {
+                "type": "string",
+                "enum": [
+                  "lead_trailer",
+                  "middle_trailer",
+                  "rear_trailer",
+                  "standalone_semi",
+                  "converter_dolly",
+                  "unknown"
+                ],
+                "description": "This unit's role in the combination. DELIBERATELY AVOIDS 'a_trailer'/'b_trailer', which have three live readings: coupling type (engineers: A = drawbar-coupled, so a B-double contains NO A-trailer), position (Midland's published position: A = lead, B = rear), and Midland's looser use of 'B trailer' for either unit of a set. 'A trailer'/'B trailer' are search aliases only. lead_trailer is NOT unique -- a B-triple has two lead trailers."
+              },
+              "suspension_type": {
+                "type": "string",
+                "enum": [
+                  "air_bag",
+                  "spring_leaf",
+                  "not_visible",
+                  "unknown"
+                ],
+                "description": "Air bag: a rubber bellows between trailing arm and chassis rail, plus air lines and a levelling valve. Spring: a stack of curved steel leaves U-bolted to the axle with eyes and shackles at each end. Visible only when the axle group is in frame and not hidden by mudguards or a low angle -- not_visible is a common and correct answer. Midland advertise the choice on nearly every model."
+              },
+              "deck_material": {
+                "type": "string",
+                "enum": [
+                  "checker_plate",
+                  "smooth_wear_plate",
+                  "none_skeletal",
+                  "other",
+                  "not_visible",
+                  "unknown"
+                ],
+                "description": "SURFACE FINISH ONLY, never a brand. Bisalloy (Australian) and Hardox (Swedish) are both smooth quenched-and-tempered wear plate and are VISUALLY IDENTICAL -- a tag naming either is invented specification. Use smooth_wear_plate. checker_plate is the raised repeating pattern (Midland spell it both checker and chequer). none_skeletal is frame rails with no continuous deck. Timber is NOT a value: no Midland source for timber decking was found. Plate THICKNESS is not visible either."
+              },
+              "container_capability": {
+                "type": "string",
+                "enum": [
+                  "20ft",
+                  "40ft",
+                  "45ft",
+                  "2x20ft",
+                  "multi",
+                  "not_visible",
+                  "unknown"
+                ],
+                "description": "What the twist lock positions show the trailer CAN carry -- never what it is rated or plated for. Read best on an EMPTY skel side-on: 4 locks at the extremes = 40ft only; locks at both 20ft and 40ft intervals = 1x40ft or 2x20ft. 45ft generally needs a retractable or extendable chassis. On a loaded trailer, read the container instead."
+              },
+              "axle_group_layout": {
+                "type": "string",
+                "enum": [
+                  "rear_group_only",
+                  "group_each_end",
+                  "single_group_centre",
+                  "split_group",
+                  "not_visible",
+                  "unknown"
+                ],
+                "description": "Where the axle groups sit along the unit -- an OBSERVATION, not a configuration call. group_each_end and single_group_centre are the ATA's dog and pig geometry. split_group is Midland's Split Axle Group: one axle separated from the rest by 2.5m or more, which is large and unmistakable side-on. Record what you see; let trailer_configuration follow from it."
+              },
+              "manufacturer_decal_text": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "maxItems": 4,
+                "description": "Builder's name as ACTUALLY READ from a decal or plate, usually on the headboard or chassis rail near the front. Transcribe only; never infer a manufacturer from livery. Trailer liveries belong to the OPERATOR, not the builder -- a competitor's trailer runs in its owner's colours. Brand-specific product names count as decals: 'Kurtainer' is Krueger's, 'Super Tilt' and 'AZMEB' are FWR's, 'Moving Floor' is Barker's."
+              },
+              "manufacturer_confidence": {
+                "type": "string",
+                "enum": [
+                  "decal_legible",
+                  "provenance_only",
+                  "unknown"
+                ],
+                "description": "How the manufacturer was established. Default unknown. Only ever pair is_midland_product=midland with decal_legible or provenance_only. An unknown-manufacturer tag that blocks publication is cheap; a wrong 'midland' tag on a competitor's trailer is the costly failure this project exists to avoid."
               }
             }
           }
@@ -674,6 +774,33 @@
           },
           "uniqueItems": true,
           "description": "What this FRAME is evidence of -- the answer to 'why would anyone pull this photo out of the library'. This is the most search-relevant field in the schema and the only one that describes the photograph's purpose rather than the trailer's specification. A close side view of a control panel demonstrates `twist_lock_system` even though the trailer is a skel and the folder already said so. Use `nothing_specific` for a frame that records a trailer without showing anything in particular."
+        },
+        "combination_type": {
+          "type": "string",
+          "enum": [
+            "rigid",
+            "semi",
+            "b_double",
+            "b_triple",
+            "a_double",
+            "a_triple",
+            "ab_triple",
+            "bab_quad",
+            "truck_and_dog",
+            "truck_and_pig",
+            "not_a_combination",
+            "not_visible",
+            "unknown"
+          ],
+          "description": "The whole combination in frame. Replaces the old single 'road_train_combination' bucket. VISUAL TEST: two bodies close-coupled with the rear one's nose resting on the tail of the one in front, no drawbar and no gap = B-DOUBLE. A drawbar and a visible gap with an axle group under the gap = A-DOUBLE or road train, and that group belongs to the CONVERTER DOLLY, not to either trailer. Drawbar and gap with the front group steering on a turntable = DOG. Use not_a_combination for a single trailer."
+        },
+        "ata_configuration_code": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "maxLength": 24,
+          "description": "Optional ATA notation, e.g. B1233 (B-double: single steer, tandem drive, tri lead, tri rear) or A123T23 (Type 1 road train). R = rigid, A = prime mover + semi, T = drawbar or dolly trailer, B = trailer coupled via a turntable on the forward trailer; digits are axles per group. Every symbol is countable from a side-on photograph, and a partial code is fine when only part of the combination is in frame. Null when you cannot count the groups."
         }
       }
     },
@@ -746,5 +873,38 @@
         }
       }
     }
+  },
+  "$comment": "v4. Two conventions that govern every field. (1) not_visible vs unknown are NOT interchangeable: not_visible means the answer exists but the camera did not capture it -- occluded, cropped, or outside the frame; unknown means the subject IS in frame and you genuinely cannot judge it. Keeping them distinct is what lets someone find the photos worth re-shooting. (2) Positive-only array fields (components_visible, features_present, demonstrates, manufacturer_decal_text) list what IS there and omit everything else; an empty array is a valid answer and always beats a guess.",
+  "x_input_aliases": {
+    "description": "Strings that appear in the existing 40,000 filenames and folder names. Map to the canonical value ON INPUT ONLY. None of these may ever be emitted as a tag value.",
+    "aliases": {
+      "bogie": "tandem",
+      "combing": "coaming",
+      "chequer": "checker_plate",
+      "checker plate": "checker_plate",
+      "floor plate": "checker_plate",
+      "bissaloy": "smooth_wear_plate",
+      "bissalloy": "smooth_wear_plate",
+      "bisalloy": "smooth_wear_plate",
+      "hardox": "smooth_wear_plate",
+      "ring feder": "ringfeder_tow_eye",
+      "ring feeder": "ringfeder_tow_eye",
+      "ringfeder": "ringfeder_tow_eye",
+      "pintel hook": "pintle_hook",
+      "mez deck": "steel_mezz_deck",
+      "mezz deck": "steel_mezz_deck",
+      "step deck": "drop_deck",
+      "lowboy": "float_or_low_loader",
+      "float": "float_or_low_loader",
+      "a trailer": "lead_trailer",
+      "b trailer": "rear_trailer",
+      "tag trailer": "drawbar_plant_trailer",
+      "skeletal": "skeletal",
+      "skeleton": "skeletal",
+      "skel": "skeletal",
+      "tautliner": "curtainsider",
+      "kurtainer": "curtainsider"
+    },
+    "note": "The two-axle alias is the important one operationally. Midland's OWN website serves image files named for the deprecated term alongside 'Tri+Axle+...' files on the same page, so it is very likely present in the photo library's filenames and folder names. Read it, map it to tandem, never write it."
   }
 }
