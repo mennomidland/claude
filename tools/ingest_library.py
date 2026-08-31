@@ -155,6 +155,8 @@ def main():
     ap.add_argument("--manifest", default="manifest/manifest.jsonl")
     ap.add_argument("--ledger", default="manifest/_ingested.json")
     ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument("--force", action="store_true",
+                    help="re-POST a namespace even when its tag set is unchanged")
     args = ap.parse_args()
 
     key = os.environ.get("MEDIA_INGEST_KEY")
@@ -185,6 +187,25 @@ def main():
             print(f"SKIP  {item_id} not in manifest"); skipped += 1; continue
         photo, pd = entry["photo"], entry["path_derived"]
         name = photo["filename"]
+
+        # Compare tags BEFORE fetching bytes: if nothing changed there is no reason to
+        # pull a multi-megabyte rendition only to discard it. The cost of this shortcut is
+        # that a silently REPLACED source file with identical tags goes unnoticed here --
+        # that is the enumeration delta's job (it watches lastModified), not this tool's.
+        record = {"schema_version": "4.0", "vision": rec["vision"],
+                  "audit": rec.get("audit", {}), "path_derived": pd}
+        sets = tags_for(record, PROMPT_VERSION, MODEL)
+        hashes = {ns: hashlib.sha256("\n".join(sets[ns]).encode()).hexdigest()
+                  for ns in (VISION_NAMESPACE, STATE_NAMESPACE)}
+        led_entry = ledger.get(f"{g.DRIVE_ID}|{item_id}") or {}
+        prior_tags = led_entry.get("tag_hashes") or {}
+        todo = [ns for ns in (VISION_NAMESPACE, STATE_NAMESPACE)
+                if args.force or prior_tags.get(ns) != hashes[ns]]
+        if not todo and led_entry.get("media_id"):
+            print(f"SAME  {name}: tags unchanged, no bytes fetched or uploaded")
+            skipped += 1
+            continue
+
         try:
             img = fetch_bytes(tok, item_id, photo["width"], photo["height"])
             sha = hashlib.sha256(img).hexdigest()
@@ -201,9 +222,6 @@ def main():
         except Exception as e:
             print(f"FAIL  {name}: {type(e).__name__}: {e}"); failed += 1; continue
 
-        record = {"schema_version": "4.0", "vision": rec["vision"],
-                  "audit": rec.get("audit", {}), "path_derived": pd}
-        sets = tags_for(record, PROMPT_VERSION, MODEL)
         if args.dry_run:
             print(f"DRY   {name}: {len(sets[VISION_NAMESPACE])} search / "
                   f"{len(sets[STATE_NAMESPACE])} state, {len(img)/1e6:.1f} MB"
@@ -211,8 +229,9 @@ def main():
             done += 1
             continue
 
-        media_id = None
-        for ns in (VISION_NAMESPACE, STATE_NAMESPACE):
+        entry = ledger[f"{g.DRIVE_ID}|{item_id}"]
+        media_id = entry.get("media_id")
+        for ns in todo:
             status, d = post({
                 "filename": name, "dataBase64": base64.b64encode(img).decode(),
                 "contentType": photo.get("mime_type") or "image/jpeg",
@@ -224,11 +243,12 @@ def main():
                 print(f"FAIL  {name} [{ns}]: HTTP {status} {str(d)[:120]}"); failed += 1; break
             media_id = d.get("mediaId")
         else:
-            ledger[f"{g.DRIVE_ID}|{item_id}"].update(
-                {"media_id": media_id, "filename": name, "path": photo["path"]})
+            entry.update({"media_id": media_id, "filename": name, "path": photo["path"],
+                          "bytes": len(img), "tag_hashes": hashes})
+            saved = "" if len(todo) == 2 else f", {2 - len(todo)} namespace unchanged"
             print(f"OK    {name}: mediaId={media_id} "
                   f"{len(sets[VISION_NAMESPACE])}/{len(sets[STATE_NAMESPACE])} tags"
-                  f"{' (re-tag, deduped)' if was_known else ''}")
+                  f"{' (re-tag, deduped)' if was_known else ''}{saved}")
             done += 1
 
     if not args.dry_run:

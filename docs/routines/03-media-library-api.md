@@ -51,6 +51,49 @@ Two consequences:
 - **Set-level provenance is not available.** `model` / `promptVersion` / `taggedAt` must
   travel as tags (`model:claude-opus-5`, `promptver:v2.0`), which `tags_for()` already does.
 
+### Re-tagging costs a full re-upload — the highest-value API change to ask for
+
+**`dataBase64` is mandatory and nothing substitutes for it.** Verified against the live
+endpoint: omitting it gives `422 expected string, received undefined`; an empty string is
+explicitly rejected with `dataBase64 is required`; and neither `sha256` nor `mediaId` is
+accepted in its place — both still demand the bytes.
+
+So **there is no tag-only update path.** Correcting a single tag on a photo already in the
+library requires re-uploading the entire image, base64-encoded, once per namespace. The
+server dedups it correctly and no second blob is created, but the bytes still cross the
+wire.
+
+What that costs at library scale, using rendition sizes measured in this project
+(originals compress ~3.6x into full-resolution renditions):
+
+| | |
+|---|---|
+| Library images | 136.1 GB |
+| As full-resolution renditions | 37.8 GB |
+| Base64 on the wire, one namespace | 50.4 GB |
+| **A full re-tag, both namespaces** | **~101 GB** |
+| The tags themselves | **~53 MB** (~1.4 KB/photo) |
+
+**About 1,900x more data than the information being updated.** And a re-tag is not a rare
+event: every prompt revision during the Thursday iteration, every schema change, and every
+correction after review is one.
+
+**The ask:** a tag-only route that takes `(driveId, itemId)` or `mediaId` plus `tags` and
+`tagGroup`, with no `dataBase64`. Everything needed to identify the asset is already
+first-class in the current payload; only the bytes requirement is in the way.
+
+**Mitigation implemented meanwhile.** `tools/ingest_library.py` stores a hash of each
+namespace's tag set in the occurrence ledger and compares it **before fetching bytes**:
+
+- Tags unchanged in both namespaces → nothing fetched, nothing uploaded. A no-op re-run of
+  three photos takes 1.3 seconds.
+- Only the search namespace changed → one POST instead of two, halving the transfer.
+- `--force` re-posts regardless, for when server-side state is in doubt.
+
+The cost of that shortcut, stated plainly: a source file silently REPLACED with identical
+tags is not noticed here. Catching that is the enumeration delta's job — it watches
+`lastModified` — not this tool's.
+
 ### Could NOT be verified: replace vs. union
 
 `x-media-key` authorises **only** `/api/media/ingest` — `GET` on it returns `405`, and every
