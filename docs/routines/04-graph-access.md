@@ -43,8 +43,11 @@ SharePoint; their only write is to the media library.
 `PUT .../content` returns **201**, `DELETE .../items/{id}` returns **204**, and
 `POST .../items/{id}/permanentDelete` returns **204**. The application can create, delete
 and permanently delete anything in the sales photo library. That is what makes the move
-cycle in `05-move-cycle.md` possible, and it is more authority than a read-only pass needs
--- worth a deliberate decision rather than leaving it as an accident.
+cycle in `05-move-cycle.md` possible, and it is more authority than a read-only pass needs.
+
+**Accepted by Midland, 2026-08-31** — the grant stays as it is. Settled; do not re-raise.
+It is recorded here so the next reader knows the write access is intended rather than an
+oversight, and so move cycles can be built on it.
 
 ## Credentials
 

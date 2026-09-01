@@ -42,10 +42,9 @@ the app **has**. Probed with a throwaway file before touching real data:
 | `POST .../items/{id}/permanentDelete` | **204** |
 
 **The application can create, delete and permanently delete anything in the sales photo
-library.** For a project whose enumeration and tagging passes are read-only, that is more
-authority than the work requires, and it is worth a deliberate decision rather than an
-accident. If move cycles become routine the grant is right; if they do not, it should be
-narrowed.
+library.** More authority than the read-only enumeration and tagging passes require, but
+**accepted by Midland on 2026-08-31 and deliberately left in place** — which is what makes
+this move cycle possible. Settled; do not re-raise.
 
 ## DELETE sends files to the recycle bin. permanentDelete does not.
 

@@ -171,8 +171,9 @@ Full cycle run on `z.Tare Weights Copy`, a throwaway folder. Both files ingested
    SharePoint REST access), so only a site admin can purge it.
    `POST /drives/{driveId}/items/{itemId}/permanentDelete` on v1.0 returns 204 and is
    verified working.
-2. **The app can write and delete in SharePoint**, not just read -- verified. More
-   authority than the read-only passes need; worth a deliberate decision.
+2. **The app can write and delete in SharePoint**, not just read -- verified, and
+   **accepted by Midland as intended**. Settled; do not re-raise. It is what makes the
+   move cycle possible.
 
 **Outstanding from the test:** the two test files and their folder are sitting in the
 recycle bin and want emptying by hand. Nothing unique was lost -- both are byte-identical
