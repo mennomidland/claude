@@ -158,6 +158,26 @@ express a dog trailer's two groups; no combination value for a ute-and-gooseneck
 `mesh_grating` deck; no open-frame/bolster body type; and the tag-versus-pig geometric
 boundary is still unresolved.
 
+## Move cycle (SharePoint -> media library -> delete) — tested 2026-08-31
+
+Full cycle run on `z.Tare Weights Copy`, a throwaway folder. Both files ingested
+(`mediaId` 48, 49) and removed. Details in `routines/05-move-cycle.md`.
+
+**Two things to know before running another:**
+
+1. **Use `permanentDelete`, not `DELETE`.** An ordinary delete 404s everywhere the API can
+   see, but leaves the file in the site recycle bin for 93 days. This app **cannot** reach
+   the recycle bin (`_api/web/RecycleBin` -> 401; Graph `Sites.Selected` carries no
+   SharePoint REST access), so only a site admin can purge it.
+   `POST /drives/{driveId}/items/{itemId}/permanentDelete` on v1.0 returns 204 and is
+   verified working.
+2. **The app can write and delete in SharePoint**, not just read -- verified. More
+   authority than the read-only passes need; worth a deliberate decision.
+
+**Outstanding from the test:** the two test files and their folder are sitting in the
+recycle bin and want emptying by hand. Nothing unique was lost -- both are byte-identical
+to the originals in `z.Tare Weights`, which was re-checked afterwards and is intact.
+
 ## Settled — do not re-litigate
 
 - **Per-trailer tagging.** One tag group per trailer visible in a frame, each with its own

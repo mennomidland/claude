@@ -36,8 +36,15 @@ and an administrator then grants read on specific sites — here just
 `SalesMarketingTeam`. If the job-card join is ever unparked, `jobs` gets added the same
 way, deliberately.
 
-Only read access is required. The routine never writes to SharePoint; its only write is
-to the media library.
+Only read access is **required**. The enumeration and tagging passes never write to
+SharePoint; their only write is to the media library.
+
+**But the grant as it stands is wider than that.** Probed 2026-08-31 with a throwaway file:
+`PUT .../content` returns **201**, `DELETE .../items/{id}` returns **204**, and
+`POST .../items/{id}/permanentDelete` returns **204**. The application can create, delete
+and permanently delete anything in the sales photo library. That is what makes the move
+cycle in `05-move-cycle.md` possible, and it is more authority than a read-only pass needs
+-- worth a deliberate decision rather than leaving it as an accident.
 
 ## Credentials
 
