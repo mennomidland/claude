@@ -65,12 +65,12 @@ def _post_form(url: str, fields: dict) -> tuple[int, dict]:
             return exc.code, {}
 
 
-def authenticate(tenant: str) -> str:
+def authenticate(tenant: str, scopes: str = SCOPES) -> str:
     """Run device code flow and return an access token."""
     authority = f"https://login.microsoftonline.com/{tenant}/oauth2/v2.0"
 
     status, flow = _post_form(
-        f"{authority}/devicecode", {"client_id": CLIENT_ID, "scope": SCOPES}
+        f"{authority}/devicecode", {"client_id": CLIENT_ID, "scope": scopes}
     )
     if status != 200:
         sys.exit(f"Could not start device code flow: {flow}")
