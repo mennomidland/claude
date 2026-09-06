@@ -37,20 +37,28 @@ SCOPES = "AuditLog.Read.All User.Read.All Directory.Read.All offline_access"
 
 
 def get_activity(token: str, upn: str) -> dict:
-    """Fetch the rolling sign-in stamps from the user object."""
-    quoted = urllib.parse.quote(upn)
+    """Fetch the rolling sign-in stamps from the user object.
+
+    Must use a $filter collection query, not a key lookup: Graph rejects
+    /users/{upn} with signInActivity in $select ("Get By Key only supports
+    UserId and the key has to be a valid Guid").
+    """
+    filt = urllib.parse.quote(f"userPrincipalName eq '{upn}'")
     url = (
-        f"https://graph.microsoft.com/beta/users/{quoted}"
-        "?$select=id,userPrincipalName,displayName,accountEnabled,createdDateTime,signInActivity"
+        "https://graph.microsoft.com/beta/users"
+        f"?$filter={filt}"
+        "&$select=id,userPrincipalName,displayName,accountEnabled,createdDateTime,signInActivity"
     )
     try:
-        doc = graph_get(token, url)
+        page = graph_get(token, url)
     except urllib.error.HTTPError as exc:
         detail = exc.read().decode(errors="replace")[:300]
         return {"upn": upn, "error": f"HTTP {exc.code}: {detail}"}
 
-    if not doc:
+    results = (page or {}).get("value", [])
+    if not results:
         return {"upn": upn, "error": "not found or not readable"}
+    doc = results[0]
 
     activity = doc.get("signInActivity") or {}
     return {
