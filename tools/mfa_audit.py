@@ -8,8 +8,8 @@ retirement:
   2. Who gets BLOCKED after 1 Feb 2027 (phone is their only second factor)?
   3. Who has no MFA method at all?
 
-Authenticates with OAuth device code flow, so it runs anywhere with outbound
-HTTPS -- no PowerShell, no Azure CLI, no stored credential. Deliberately avoids
+Authenticates with OAuth device code flow (see graph_auth), so it runs anywhere
+with outbound HTTPS -- no PowerShell, no Azure CLI. Deliberately avoids
 the Graph signIns API, which requires Entra ID P1/P2 the tenant does not have.
 Every call is a GET; nothing is written or changed.
 
@@ -21,19 +21,9 @@ from __future__ import annotations
 
 import argparse
 import csv
-import json
 import os
 import sys
-import time
-import urllib.error
-import urllib.parse
-import urllib.request
-
-# "Microsoft Graph Command Line Tools" -- Microsoft's own public client, the one
-# Connect-MgGraph uses. Public client, no secret, device code enabled.
-CLIENT_ID = "14d82eec-204b-4c2f-b7e8-296a70dab67e"
-
-SCOPES = "User.Read.All UserAuthenticationMethod.Read.All Policy.Read.All offline_access"
+from graph_auth import authenticate, graph_get
 
 # Methods that survive Feb 2027 and count as a real second factor.
 # phoneAuthenticationMethod (SMS/voice) is deliberately excluded -- that is the
@@ -48,87 +38,6 @@ STRONG_METHODS = {
 
 # Not a second factor; noise in the methods list.
 IGNORED_METHODS = {"passwordAuthenticationMethod"}
-
-
-def _post_form(url: str, fields: dict) -> tuple[int, dict]:
-    body = urllib.parse.urlencode(fields).encode()
-    req = urllib.request.Request(url, data=body, method="POST")
-    try:
-        with urllib.request.urlopen(req, timeout=30) as resp:
-            return resp.status, json.load(resp)
-    except urllib.error.HTTPError as exc:
-        # The token endpoint signals "still waiting" via HTTP 400, so error
-        # bodies are expected control flow here, not failures.
-        try:
-            return exc.code, json.load(exc)
-        except Exception:
-            return exc.code, {}
-
-
-def authenticate(tenant: str, scopes: str = SCOPES) -> str:
-    """Run device code flow and return an access token."""
-    authority = f"https://login.microsoftonline.com/{tenant}/oauth2/v2.0"
-
-    status, flow = _post_form(
-        f"{authority}/devicecode", {"client_id": CLIENT_ID, "scope": scopes}
-    )
-    if status != 200:
-        sys.exit(f"Could not start device code flow: {flow}")
-
-    print("\n" + "=" * 68)
-    print("  SIGN IN TO CONTINUE")
-    print("=" * 68)
-    print(f"\n  1. Open:  {flow['verification_uri']}")
-    print(f"  2. Code:  {flow['user_code']}")
-    print("\n  Sign in as an account with Global Reader or Global Admin.")
-    print("=" * 68 + "\n", flush=True)
-
-    interval = int(flow.get("interval", 5))
-    deadline = time.time() + int(flow.get("expires_in", 900))
-
-    while time.time() < deadline:
-        time.sleep(interval)
-        status, tok = _post_form(
-            f"{authority}/token",
-            {
-                "grant_type": "urn:ietf:params:oauth:grant-type:device_code",
-                "client_id": CLIENT_ID,
-                "device_code": flow["device_code"],
-            },
-        )
-        if status == 200:
-            print("Authenticated.\n", flush=True)
-            return tok["access_token"]
-
-        err = tok.get("error", "")
-        if err == "authorization_pending":
-            continue
-        if err == "slow_down":
-            interval += 5
-            continue
-        sys.exit(f"Sign-in failed: {tok.get('error_description', err)}")
-
-    sys.exit("Sign-in timed out.")
-
-
-def graph_get(token: str, url: str, attempts: int = 5):
-    """GET a Graph URL, retrying on throttling and transient server errors."""
-    for attempt in range(1, attempts + 1):
-        req = urllib.request.Request(url, headers={"Authorization": f"Bearer {token}"})
-        try:
-            with urllib.request.urlopen(req, timeout=60) as resp:
-                return json.load(resp)
-        except urllib.error.HTTPError as exc:
-            if exc.code in (403, 404):
-                return None  # not readable for this principal; not an error
-            retryable = exc.code == 429 or exc.code >= 500
-            if not retryable or attempt == attempts:
-                raise
-            backoff = 2 ** attempt
-            if exc.code == 429:
-                backoff = int(exc.headers.get("Retry-After", backoff))
-            time.sleep(backoff)
-    return None
 
 
 def get_all_users(token: str) -> list[dict]:

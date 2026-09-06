@@ -31,9 +31,8 @@ import urllib.error
 import urllib.parse
 import urllib.request
 
-from mfa_audit import authenticate, graph_get
+from graph_auth import SCOPES, authenticate, graph_get
 
-SCOPES = "AuditLog.Read.All User.Read.All Directory.Read.All offline_access"
 
 
 def get_activity(token: str, upn: str) -> dict:

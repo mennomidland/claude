@@ -3,3 +3,6 @@ __pycache__/
 
 # Audit output contains staff MFA posture - never commit
 mfa-audit/
+
+# Cached Graph refresh token - never commit
+.graph-token.json
