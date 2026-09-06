@@ -63,29 +63,47 @@ account posture.
 
 ### 1. Sixteen sign-in-capable accounts with no MFA
 
-```
-3cx                    copier                 midlandreporting       sales
-automation             design-shared          MidlandSharepoint      spares
-automationtriggers     dummytestuser          parkesfold             timb3D
-careers                marketing              midlandproductsupport  windchill
-```
+Sign-in activity (`tools/signin_activity.py`, 6 Sep 2026) makes these far less
+alarming than the raw count suggests. Most have never been used.
 
-`windchill@` warrants immediate attention given the July 2026 Windchill
-incident. `dummytestuser@` should simply be deleted.
+| Account | Last successful sign-in | Idle |
+|---|---|---|
+| `windchill` | 2024-02-26 | 923 days |
+| `midlandreporting` | 2024-03-05 | 915 days |
+| `marketing` | 2025-11-20 | 290 days |
+| `copier` | 2025-11-26 | 284 days |
+| `timb3D` | 2025-12-26 | 254 days |
+| `dummytestuser` | 2026-05-19 | 110 days |
+| `automation` | 2026-09-04 | 2 days — **live** |
+| `MidlandSharepoint` | 2026-09-04 | 2 days — **live** |
+| `3cx`, `automationtriggers`, `careers`, `design-shared`, `midlandproductsupport`, `parkesfold`, `sales`, `spares` | **never** | — |
+| 6 room/resource mailboxes | **never** | — |
 
-Sort the rest into three buckets:
+**Fourteen accounts have never signed in at all** — no interactive and no
+non-interactive sign-in since creation, some going back to 2017. Blocking
+sign-in on these carries essentially no operational risk, because nothing has
+ever used them to authenticate. That removes 14 of the 16 from the risk
+surface without touching a workflow.
 
-- **Actually a mailbox** (`sales`, `spares`, `careers`, `marketing`,
-  `midlandproductsupport`, `design-shared`, `parkesfold`) → convert to a
-  **shared mailbox**. Sign-in blocked, no licence, no password, no MFA needed.
-  This removes the account from the risk surface rather than hardening it.
-- **A service integration** (`automation`, `automationtriggers`, `3cx`,
-  `copier`, `MidlandSharepoint`, `midlandreporting`, `windchill`) → migrate to
-  an **Entra app registration with certificate credentials**, or a managed
-  identity for anything running in Azure. No interactive sign-in, scoped
-  least-privilege permissions, certificate rotation instead of a shared
-  password.
-- **Genuinely a person** (`timb3D`?) → enrol like any other user.
+Actions by group:
+
+- **Never used (14)** → block sign-in. Convert the mail-bearing ones (`sales`,
+  `spares`, `careers`, `design-shared`, `midlandproductsupport`, `parkesfold`)
+  to **shared mailboxes**: no sign-in, no licence, no password, no MFA. The
+  room mailboxes are already resource accounts and need nothing.
+- **Dormant over a year (2)** — `windchill`, `midlandreporting` → disable.
+  `windchill` is the priority: enabled and unauthenticated throughout the July
+  2026 Windchill incident, and a dormant account with no second factor is a
+  standard re-entry path afterwards.
+- **Live service accounts (2)** — `automation`, `MidlandSharepoint` → migrate
+  to an **Entra app registration with certificate credentials**, or a managed
+  identity for anything in Azure. These are the only two that actually need
+  migrating rather than switching off.
+- **Idle, decide (3)** — `marketing`, `copier`, `timb3D`. `copier` is
+  scan-to-email; confirm what it uses before disabling. `timb3D` is a real
+  vendor (Tim Brickle, 3D Walkabout) but has not signed in since December 2025
+  and, unlike the other active 3D vendor accounts, has no MFA registered.
+- **Delete** — `dummytestuser`.
 
 ### 2. Thirty-eight accounts on legacy per-user MFA
 
@@ -120,20 +138,24 @@ equally to that product.
 
 ## Actions, in order
 
-1. **Delete `dummytestuser@`.**
-2. **Secure `windchill@`** — service account or human? Migrate or enrol.
-3. **Convert the seven mailbox-shaped accounts to shared mailboxes.** Biggest
-   single reduction in risk surface, and it reclaims licences.
-4. **Migrate the service accounts to app registrations.** OpsMachine already
-   uses this pattern.
-5. **Review the 38 disabled accounts** — delete or document why they persist.
-6. **Clear per-user MFA**: set `perUserMfaState` to `disabled` across the 38
+1. **Disable `windchill@`** — 923 days idle, no MFA, enabled throughout the
+   July 2026 incident. Highest value, lowest risk change on this list.
+2. **Block sign-in on the 14 never-used accounts.** No account has ever
+   authenticated, so nothing breaks. Convert the mail-bearing ones to shared
+   mailboxes, which also reclaims licences.
+3. **Delete `dummytestuser@`** and disable `midlandreporting@` (915 days idle).
+4. **Migrate `automation@` and `MidlandSharepoint@`** to app registrations —
+   the only two live service accounts. OpsMachine already uses this pattern.
+5. **Decide on `marketing`, `copier`, `timb3D`** — idle 8-10 months. Confirm
+   what `copier` uses for scan-to-email before disabling it.
+6. **Review the 38 disabled accounts** — delete or document why they persist.
+7. **Clear per-user MFA**: set `perUserMfaState` to `disabled` across the 38
    enforced accounts, once everything above is settled.
-7. **Inventory legacy-authentication usage** before the next step. Security
+8. **Inventory legacy-authentication usage** before the next step. Security
    Defaults blocks it, and that is what breaks integrations.
-8. **Enable Security Defaults** — last, not first.
+9. **Enable Security Defaults** — last, not first.
 
-Steps 6–8 must stay in that order. Security Defaults cannot coexist with
+Steps 7–9 must stay in that order. Security Defaults cannot coexist with
 per-user MFA state and forces MFA registration tenant-wide within 14 days.
 
 ## Replacing the MFA monitor
