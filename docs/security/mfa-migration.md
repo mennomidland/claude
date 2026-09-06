@@ -1,150 +1,162 @@
-# MFA migration & shared account design
+# MFA posture — audit findings and actions
 
-Midland Pty Ltd — prepared 6 Sep 2026
+Midland Pty Ltd — audit run 6 Sep 2026 via `tools/mfa_audit.py`
 
-## Why now
+## Headline: the Feb 2027 deadline is not your problem
 
-Microsoft-provided SMS and voice MFA retire **1 February 2027**. There is no
-opt-out. Any account whose only second factor is a phone number gets a blocking
-prompt and cannot sign in until it registers a passkey.
+**Zero accounts are exposed to the 1 February 2027 SMS/voice retirement.**
 
-Separately, the tenant is still on **legacy per-user MFA**, which Microsoft
-stopped supporting as a management surface on 30 September 2025. Security
-Defaults are off and no Conditional Access is in force, so there is currently no
-tenant-level control surface to manage the transition through.
+Every account in the tenant that has a phone number registered also has a
+stronger method alongside it. The retirement blocks only accounts whose *only*
+second factor is SMS or voice. Midland has none.
 
-Run `tools/mfa-audit.ps1` for the authoritative list of affected accounts.
+This overturns the concern that prompted the audit. No purchase, no scramble,
+no deadline project. The tenant does have real gaps — they are just different
+gaps, listed below.
 
-## Constraint: licensing
+## What the audit found
 
-The tenant has one Business Premium licence. This bounds the options:
+117 accounts total; 79 enabled, 38 disabled.
 
-| Capability | Needs | Available today |
+| Finding | Count |
+|---|---|
+| Blocked after 1 Feb 2027 | **0** |
+| Still on legacy per-user MFA (all `enforced`) | 38 |
+| Sign-in-capable accounts with no MFA at all | **16** |
+| Guest accounts with no MFA (authenticate at their home tenant) | 5 |
+| Room/resource mailboxes with no MFA (cannot sign in interactively) | 6 |
+
+The raw 27 "no MFA" accounts break down into 16 that actually matter, 5 guests
+that are LEAP's responsibility to secure, and 6 room mailboxes that cannot sign
+in at all. Only the 16 are real.
+
+### Windows Hello for Business is already doing the job
+
+Nearly every protected account shows `windowsHelloForBusinessAuthenticationMethod`,
+usually paired with Microsoft Authenticator. WHfB is TPM-backed and
+phishing-resistant — the same security property as a passkey, already deployed
+across the fleet at no cost.
+
+This is why hardware security keys are not needed here. An earlier draft of this
+document recommended buying FIDO2 keys for the shared terminals. That was wrong:
+those terminals already have phishing-resistant authentication. Where a shared
+account needs a strong method in future, WHfB on the terminal is the answer, not
+a purchase.
+
+### The shared production accounts are fine
+
+The accounts the third-party monitor has been alerting on are already covered:
+
+| Account | Per-user MFA | Registered methods |
+|---|---|---|
+| `kynproduction` | disabled | Authenticator, WHfB |
+| `parkesproduction` | disabled | Authenticator, phone, WHfB |
+| `powdercoat` | disabled | Authenticator, WHfB |
+| `warroom-pks` | disabled | Authenticator, WHfB |
+| `KynBoardRoom` | disabled | phone, WHfB |
+
+All have a strong second factor. The alert stream on these was noise, as
+suspected — the monitor was reporting per-sign-in "no MFA evidence" rather than
+account posture.
+
+## The real gaps
+
+### 1. Sixteen sign-in-capable accounts with no MFA
+
+```
+3cx                    copier                 midlandreporting       sales
+automation             design-shared          MidlandSharepoint      spares
+automationtriggers     dummytestuser          parkesfold             timb3D
+careers                marketing              midlandproductsupport  windchill
+```
+
+`windchill@` warrants immediate attention given the July 2026 Windchill
+incident. `dummytestuser@` should simply be deleted.
+
+Sort the rest into three buckets:
+
+- **Actually a mailbox** (`sales`, `spares`, `careers`, `marketing`,
+  `midlandproductsupport`, `design-shared`, `parkesfold`) → convert to a
+  **shared mailbox**. Sign-in blocked, no licence, no password, no MFA needed.
+  This removes the account from the risk surface rather than hardening it.
+- **A service integration** (`automation`, `automationtriggers`, `3cx`,
+  `copier`, `MidlandSharepoint`, `midlandreporting`, `windchill`) → migrate to
+  an **Entra app registration with certificate credentials**, or a managed
+  identity for anything running in Azure. No interactive sign-in, scoped
+  least-privilege permissions, certificate rotation instead of a shared
+  password.
+- **Genuinely a person** (`timb3D`?) → enrol like any other user.
+
+### 2. Thirty-eight accounts on legacy per-user MFA
+
+All are in `enforced` state. Most already carry Authenticator and WHfB, so the
+*protection* is fine — it is the *management surface* that is legacy and
+unsupported since 30 September 2025.
+
+This blocks nothing today, but it must be cleared before Security Defaults or
+Conditional Access can be enabled, because per-user MFA state cannot coexist
+with either.
+
+### 3. No tenant-level enforcement
+
+Security Defaults off, no Conditional Access. Nothing enforces MFA on a new
+account — which is exactly how 16 accounts ended up with none.
+
+## Licensing constraints
+
+One Business Premium licence. This bounds the options:
+
+| Capability | Needs | Available |
 |---|---|---|
 | Security Defaults | nothing | yes |
+| Windows Hello for Business | nothing | yes, already deployed |
 | Conditional Access | Entra ID P1 per covered user | no |
 | Graph `signIns` API | Entra ID P1/P2 | no |
 | Unified audit log (`UserLoggedIn`) | any M365 subscription | yes |
-| FIDO2 / passkeys | nothing | yes |
 
-Two consequences worth stating plainly:
+Worth noting in any MSP conversation: a monitor built on the Graph `signIns`
+API needs P1 too. The licensing argument made about Conditional Access applies
+equally to that product.
 
-- Passkeys and FIDO2 security keys are **free**. The fix for the Feb 2027
-  deadline does not require a licence upgrade.
-- Any monitor built on the Graph `signIns` API needs P1. A licence-safe monitor
-  must read the Office 365 unified audit log instead.
+## Actions, in order
 
-## Shared accounts
+1. **Delete `dummytestuser@`.**
+2. **Secure `windchill@`** — service account or human? Migrate or enrol.
+3. **Convert the seven mailbox-shaped accounts to shared mailboxes.** Biggest
+   single reduction in risk surface, and it reclaims licences.
+4. **Migrate the service accounts to app registrations.** OpsMachine already
+   uses this pattern.
+5. **Review the 38 disabled accounts** — delete or document why they persist.
+6. **Clear per-user MFA**: set `perUserMfaState` to `disabled` across the 38
+   enforced accounts, once everything above is settled.
+7. **Inventory legacy-authentication usage** before the next step. Security
+   Defaults blocks it, and that is what breaks integrations.
+8. **Enable Security Defaults** — last, not first.
 
-The six shared accounts are real, necessary and ongoing. They are not one
-problem — they are three, and each has a different correct answer.
-
-### A. Shop-floor and meeting-room terminals
-
-`kynproduction` · `parkesproduction` · `powdercoat` · `warroom-pks` · `kynboardroom`
-
-**Register two FIDO2 security keys per account.**
-
-A passkey does not have to live on a phone. A hardware key physically attached
-to the terminal satisfies phishing-resistant MFA, survives the Feb 2027
-retirement, and needs no personal device, no SIM, and no licence upgrade. It is
-precisely what Microsoft is steering everyone toward.
-
-- Enable **FIDO2** in the Authentication Methods Policy first.
-- Two keys per account, always: one on the terminal, one spare in the site safe.
-  A single key is one loss away from a locked-out production line.
-- Once both keys are registered, **remove the phone number** from the account.
-  That is the step that actually clears the Feb 2027 exposure.
-- Record a named human owner for each account. An account nobody owns is an
-  account nobody rotates.
-
-Budget roughly $40–80 per key, so ~$400–800 for the set with spares.
-
-### B. Accounts that are really just a mailbox
-
-Before buying keys, check which of the five above exist mainly so several people
-can *read mail* rather than *log into a terminal*.
-
-If it is a mailbox, convert it to a **shared mailbox**: no sign-in, no MFA, no
-password, no licence, no Feb 2027 exposure. Named users are granted access and
-authenticate as themselves. This removes the account from the problem entirely
-rather than hardening it — always prefer it where it fits.
-
-### C. `automation@` — a service account
-
-This is the wrong shape for the job and should not be a user account at all.
-
-Replace it with an **Entra app registration using certificate credentials**
-(or a managed identity, for anything running in Azure). Benefits:
-
-- Completely unaffected by the SMS/voice retirement — no interactive sign-in.
-- Scoped, least-privilege permissions instead of a full user's access.
-- Certificate rotation instead of a shared password.
-- Clean audit trail attributable to the integration, not to "someone".
-
-OpsMachine already runs Graph and Smartsheet integrations, so this is an
-established pattern here rather than new ground.
-
-**If a SaaS product genuinely only accepts a user login** (CIN7 Core may be one —
-confirm before assuming), keep it as a user account but treat it as break-glass:
-FIDO2 key stored in the safe, long random password in the vault, no interactive
-day-to-day use, and access reviewed on every staff departure.
-
-## Sequencing
-
-Order matters. Getting this wrong causes lockouts.
-
-1. Run `tools/mfa-audit.ps1`. Get the real list.
-2. Enable FIDO2 and passkeys in the Authentication Methods Policy.
-3. Triage the five shared terminals into "terminal" (keys) vs "mailbox"
-   (convert to shared mailbox).
-4. Register keys / convert mailboxes. Verify each one signs in.
-5. Remove phone numbers from every migrated account.
-6. Migrate `automation@` to an app registration.
-7. Inventory anything still using legacy authentication — Security Defaults
-   blocks it, and that is what will break integrations.
-8. **Only then**: set `perUserMfaState` to `disabled` for all users, then
-   enable Security Defaults.
-
-Step 8 is last for a reason. Security Defaults cannot coexist with per-user MFA
-states, and it forces MFA registration for everyone within 14 days.
+Steps 6–8 must stay in that order. Security Defaults cannot coexist with
+per-user MFA state and forces MFA registration tenant-wide within 14 days.
 
 ## Replacing the MFA monitor
 
-The current third-party monitor alerts per sign-in event on "no MFA evidence".
-That is why it is noisy: token refreshes, SSO, and remembered devices all
-legitimately show no MFA on the event itself, so the signal is mostly false
-positives and gets ignored — which is worse than no monitor.
+The current product alerts per sign-in event on "no MFA evidence". Token
+refreshes, SSO and remembered devices all legitimately show no MFA on the event
+itself, so most alerts are false positives — which is why they get ignored.
+This audit is the proof: the accounts it alerts on loudest are fully covered.
 
-A useful replacement inverts the model.
+A replacement should invert the model:
 
-**Watch state, not events.** Snapshot MFA posture nightly (the same query
-`mfa-audit.ps1` runs) and alert only on *changes*:
+- **Watch state, not events.** Snapshot posture nightly — `tools/mfa_audit.py`
+  already produces exactly this — and alert only on *changes*: an account loses
+  its last strong method, a new account appears with no MFA, per-user MFA
+  reappears after migration.
+- **Per-event alerts only for real anomalies**, from the unified audit log
+  (licence-safe): new country, legacy auth protocol, shop-floor account
+  authenticating from outside Australia.
+- **Daily digest, not a stream.** One table of deltas; only high severity
+  interrupts.
+- **Exclusions in version control**, reviewed like any other change — which
+  fixes the "my overrides didn't stick" failure directly.
 
-- an account loses its last strong method
-- a new account appears with no MFA
-- an account still has phone as its only factor (a countdown, not a nag)
-- per-user MFA reappears on any account after migration
-
-**Reserve per-event alerts for genuine anomalies**, from the unified audit log
-(`UserLoggedIn`, licence-safe): sign-in from a new country, legacy auth protocol
-used, shop-floor account authenticating from outside Australia.
-
-**Deliver a daily digest, not a stream.** One email, one table of deltas. Only
-high-severity events interrupt.
-
-**Keep exclusions in version control** — a config file in the repo, reviewed
-like any other change. This directly fixes the "my overrides didn't stick"
-failure of the current product.
-
-Suggested shape as an OpsMachine module:
-
-| Concern | Approach |
-|---|---|
-| Data source | Office 365 Management Activity API + per-user Graph state |
-| Auth | Existing app registration, certificate credential |
-| Schedule | Nightly, alongside existing cron jobs |
-| State | Previous snapshot persisted for delta comparison |
-| Transport | Existing `noreply@midlandind.com.au` sender |
-| Config | `security-monitor.config.json`, committed |
-| Escalation | Digest by default; immediate mail on severity ≥ high |
+As an OpsMachine module: nightly cron alongside existing jobs, existing app
+registration for auth, previous snapshot persisted for delta comparison,
+existing `noreply@midlandind.com.au` transport, config committed to the repo.
