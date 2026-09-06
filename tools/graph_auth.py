@@ -35,7 +35,13 @@ import urllib.request
 CLIENT_ID = "14d82eec-204b-4c2f-b7e8-296a70dab67e"
 
 # Union of what every tool in this directory needs, so one sign-in covers all.
-# All read-only.
+#
+# The write scopes are here only because apply_changes.py disables accounts and
+# sets per-user MFA state. Every other tool is read-only. Splitting the sets
+# would mean a second device-code prompt each time you moved between reading and
+# acting, which in practice led to sign-in fatigue and worse decisions, so they
+# share one consent. If you want the read-only tools to hold no write capability,
+# drop the two ReadWrite scopes and let apply_changes.py request them itself.
 SCOPES = " ".join(
     [
         "User.Read.All",
@@ -43,6 +49,8 @@ SCOPES = " ".join(
         "Policy.Read.All",
         "AuditLog.Read.All",
         "Directory.Read.All",
+        "User.ReadWrite.All",  # accountEnabled, revokeSignInSessions
+        "UserAuthenticationMethod.ReadWrite.All",  # perUserMfaState
         "offline_access",
     ]
 )
