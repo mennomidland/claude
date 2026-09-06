@@ -90,21 +90,35 @@ def profile(token: str, upn: str) -> None:
             print(f"    - [{kind}] {o.get('displayName')}")
 
     # What is it actually used for? Applications and callers in the retained log.
-    sfilt = urllib.parse.quote(f"userPrincipalName eq '{upn}'")
-    logs = _get(
-        token,
-        f"https://graph.microsoft.com/v1.0/auditLogs/signIns?$filter={sfilt}&$top=200",
-    )
-    if isinstance(logs, dict) and "_error" in logs:
-        print(f"\n  Sign-in log unavailable -- {logs['_error']}")
+    #
+    # The default signIns query returns INTERACTIVE sign-ins only. Service
+    # accounts frequently authenticate non-interactively, which is why an
+    # account can show recent signInActivity and still have an apparently empty
+    # log. Query both event types and label which is which.
+    entries: list[dict] = []
+    for kind in ("interactiveUser", "nonInteractiveUser"):
+        sfilt = urllib.parse.quote(
+            f"userPrincipalName eq '{upn}' and "
+            f"signInEventTypes/any(t: t eq '{kind}')"
+        )
+        logs = _get(
+            token,
+            f"https://graph.microsoft.com/beta/auditLogs/signIns?$filter={sfilt}&$top=200",
+        )
+        if isinstance(logs, dict) and "_error" in logs:
+            print(f"\n  {kind} log unavailable -- {logs['_error']}")
+            continue
+        for e in (logs or {}).get("value", []):
+            e["_kind"] = kind
+            entries.append(e)
+
+    if not entries:
+        print("\n  No sign-ins of either kind in the retained log window (7-30 days).")
         print()
         return
 
-    entries = (logs or {}).get("value", [])
-    if not entries:
-        print("\n  No sign-ins in the retained log window (7-30 days).")
-        print()
-        return
+    kinds = collections.Counter(e["_kind"] for e in entries)
+    print(f"\n  Sign-in types: " + ", ".join(f"{k}={n}" for k, n in kinds.items()))
 
     apps = collections.Counter(e.get("appDisplayName") or "(unknown)" for e in entries)
     ips = collections.Counter(e.get("ipAddress") or "(none)" for e in entries)

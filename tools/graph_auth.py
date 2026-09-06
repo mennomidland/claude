@@ -50,7 +50,12 @@ SCOPES = " ".join(
         "AuditLog.Read.All",
         "Directory.Read.All",
         "User.ReadWrite.All",  # accountEnabled, revokeSignInSessions
-        "UserAuthenticationMethod.ReadWrite.All",  # perUserMfaState
+        # perUserMfaState lives under the Policy domain, not the
+        # UserAuthenticationMethod one -- UserAuthenticationMethod.ReadWrite.All
+        # returns 403 on it. The Policy domain has no separate .Read scope, so
+        # this is required even to read the state. Also needs the signed-in user
+        # to hold Authentication Policy Administrator or higher.
+        "Policy.ReadWrite.AuthenticationMethod",
         "offline_access",
     ]
 )
