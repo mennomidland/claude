@@ -233,15 +233,38 @@ pattern applied to floor staff gives a per-person trail from a tap in the app,
 at a fraction of the friction of an OS sign-out. Shared identity for the
 device, named identity inside the app.
 
-#### Immediate $0 cleanup on these accounts
+#### The real cost today: IT is the second factor
 
-`parkesproduction` and `KynBoardRoom` both have a **phone number** registered
-as an authentication method. If those numbers belong to former staff, they are
-a live hole today. `KynBoardRoom` is the weaker of the two: phone and WHfB
-only, so on an Android tablet its sole usable factor is SMS to that number.
+The phone numbers registered on the shared accounts are mostly the IT lead's
+own mobile. That is not a leaver risk — but it is the reason the current
+arrangement is expensive, and it is a worse problem than the one it looks like.
 
-Check whose numbers these are, move the factor onto Authenticator on a site
-tablet, then remove the phone method.
+Every time a shop-floor account needs to re-authenticate, the prompt goes to
+one person's phone. So:
+
+- the floor cannot re-authenticate without interrupting him, whatever the hour
+- if he is on leave, driving, in a meeting or out of battery, production
+  accounts simply cannot re-authenticate
+- the bus factor on shop-floor sign-in is one
+
+This is the actual cost of the present setup, and it explains why
+re-authentication is experienced as prohibitively slow: the second factor is
+not on the tablet, it is in someone's pocket somewhere else in the business.
+
+**Moving Authenticator onto the site tablets removes IT from the loop
+entirely.** The floor becomes self-sufficient for re-authentication, and the
+security gap closes as a side effect. The operational argument is the stronger
+one here; treat the security benefit as the bonus rather than the driver.
+
+`KynBoardRoom` is the weakest of the five and the place to start: it has no
+Authenticator registration at all, only phone and WHfB. WHfB does nothing on
+Android, so SMS to that one mobile is currently its only usable factor on a
+tablet.
+
+Once Authenticator is registered on the tablets, remove the phone methods —
+both to get the personal number out of the tenant's shared-account
+configuration and to clear the SMS dependency ahead of the February 2027
+retirement.
 
 ### 2. Thirty-eight accounts on legacy per-user MFA
 
