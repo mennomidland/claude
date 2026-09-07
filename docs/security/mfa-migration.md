@@ -289,7 +289,7 @@ This blocks nothing today, but it must be cleared before Security Defaults or
 Conditional Access can be enabled, because per-user MFA state cannot coexist
 with either.
 
-### 2a. `automation@` — UAT running as a privileged production identity
+### 2a. `automation@` — over-privileged for what it now does
 
 Sign-in log over the retained 30 days:
 
@@ -322,21 +322,39 @@ This account holds a Business Premium licence and Power BI, sits in **IT Team**,
 compromise, leaked config, or developer laptop yields a licensed account inside
 IT Team. This is the sharpest finding in the audit and the cheapest to fix.
 
-The account therefore splits three ways:
+#### UAT is now decommissioned, which simplifies this considerably
 
-1. **UAT gets its own dedicated identity.** Separate account, minimum
-   privilege, no group memberships it does not need, and unlicensed if UAT does
-   not require SharePoint or Power BI. Costs nothing and removes production
-   privilege from the test environment.
-2. **Power BI SSO stays** on a much more tightly scoped `automation@` — the
-   genuine user-identity dependency, which may not move to a service principal
-   depending on the connector and whether SSO passthrough is in use.
-3. **Strip the group memberships** that only exist because one account was
-   doing several jobs. IT Team membership in particular has no business being
-   reachable from a UAT credential.
+With UAT gone, the 172 `QM3_Authentication` sign-ins have no live source. The
+account's only remaining purpose is the **Power BI SSO** — 2 sign-ins in 30
+days.
 
-Do (1) and (3) first. The managed identity work can follow whenever QM3's
-roadmap suits.
+An account doing one low-volume job does not need any of this:
+
+- membership of **IT Team**, ReportingArea and Production Team
+- ownership of the **"Jobs"** group
+- a **Business Premium** licence, if the Power BI SSO path needs only
+  `POWER_BI_STANDARD` — worth confirming, because that licence is plausibly the
+  single Business Premium the Conditional Access discussion has been about, and
+  freeing it changes that conversation
+- `FLOW_FREE`, unless a Power Automate flow still runs as this account
+
+So the plan collapses to: **strip it back to the minimum the Power BI SSO
+needs, then register MFA on it.** A two-sign-ins-per-month account is trivial
+to add a second factor to — none of the shop-floor constraints apply.
+
+The managed identity work is now moot; there is nothing left to migrate.
+
+#### Verify the sign-ins actually stopped
+
+The most recent `QM3_Authentication` sign-in was 2026-09-03/04, within two days
+of this audit. If UAT was decommissioned before then, something *else* is
+authenticating as `automation@` against QM3 — an unknown consumer of a
+privileged credential, which matters more than anything else in this section.
+
+Re-run `tools/account_profile.py --upn automation@midlandind.com.au` and check
+whether `QM3_Authentication` still appears. Zero means UAT was the only
+consumer and the account is safe to strip. Anything non-zero needs tracing
+before touching its group memberships.
 
 ### 2b. `MidlandSharepoint@` — unexplained, do not block blind
 
@@ -398,9 +416,10 @@ if scan-to-email breaks, re-enabling is the first thing to try.
 1. **Block sign-in on the 14 never-used accounts.** No account has ever
    authenticated, so nothing breaks. Convert the mail-bearing ones to shared
    mailboxes, which also reclaims licences.
-2. **Give the QM3 UAT app its own identity** and strip `automation@` of the
-   group memberships it only holds because one account does several jobs —
-   IT Team especially. See 2a. Cheapest high-value fix on this list.
+2. **Strip `automation@` back to the Power BI SSO minimum** and register MFA
+   on it. UAT is decommissioned, so IT Team, ReportingArea, Production Team,
+   the "Jobs" group ownership and probably the Business Premium licence are all
+   now unnecessary. Verify the QM3 sign-ins have stopped first. See 2a.
 3. **Identify what uses `MidlandSharepoint@`** before touching it — see below.
 4. **Decide on `marketing`** — idle 290 days.
 5. **Review the 38 disabled accounts** — delete or document why they persist.
