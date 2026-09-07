@@ -233,38 +233,51 @@ pattern applied to floor staff gives a per-person trail from a tap in the app,
 at a fraction of the friction of an OS sign-out. Shared identity for the
 device, named identity inside the app.
 
-#### The real cost today: IT is the second factor
+#### Where the second factor actually sits
 
-The phone numbers registered on the shared accounts are mostly the IT lead's
-own mobile. That is not a leaver risk — but it is the reason the current
-arrangement is expensive, and it is a worse problem than the one it looks like.
+Critical floor accounts have their second factor on the **team lead's phone**.
+The non-urgent ones sit on the IT lead's. That is a more sensible arrangement
+than it first appeared, and it defeats two arguments made earlier in this
+document:
 
-Every time a shop-floor account needs to re-authenticate, the prompt goes to
-one person's phone. So:
+- It is **not** a leaver risk in the way originally written — these are current
+  staff, not departed ones.
+- IT is **not** a daily bottleneck for the floor. The team lead is on site, so
+  re-authentication does not require interrupting IT. An earlier draft claimed
+  otherwise; that was wrong.
 
-- the floor cannot re-authenticate without interrupting him, whatever the hour
-- if he is on leave, driving, in a meeting or out of battery, production
-  accounts simply cannot re-authenticate
-- the bus factor on shop-floor sign-in is one
+#### The argument that does survive: team leads turn over
 
-This is the actual cost of the present setup, and it explains why
-re-authentication is experienced as prohibitively slow: the second factor is
-not on the tablet, it is in someone's pocket somewhere else in the business.
+Staff turnover is high, and team lead is not exempt from it. So the second
+factor for critical production accounts sits on the personal phone of someone
+in a role that changes hands.
 
-**Moving Authenticator onto the site tablets removes IT from the loop
-entirely.** The floor becomes self-sufficient for re-authentication, and the
-security gap closes as a side effect. The operational argument is the stronger
-one here; treat the security benefit as the bonus rather than the driver.
+Each time it does:
 
-`KynBoardRoom` is the weakest of the five and the place to start: it has no
-Authenticator registration at all, only phone and WHfB. WHfB does nothing on
-Android, so SMS to that one mobile is currently its only usable factor on a
-tablet.
+- the factor leaves with them unless it is deliberately re-registered first
+- a company-critical production credential has been living on personal
+  hardware, and must be confirmed removed on departure
+- someone has to redo the registration across every affected account, under
+  time pressure, because the floor needs the accounts working
 
-Once Authenticator is registered on the tablets, remove the phone methods —
-both to get the personal number out of the tenant's shared-account
-configuration and to clear the SMS dependency ahead of the February 2027
-retirement.
+That is the real cost — not daily friction, but recurring churn plus a window
+of exposure at each handover. Tablet-bound Authenticator removes the churn
+entirely: the factor belongs to the device, which does not resign.
+
+**The deciding question is whether the team lead's phone is company-owned or
+personal.** If it is a company handset that stays with the role, the current
+arrangement is defensible and this becomes low priority. If it is personal, the
+factor is on hardware the business does not control and moving it is worth
+doing.
+
+#### Still worth doing regardless: `KynBoardRoom`
+
+It has no Authenticator registration at all — only phone and WHfB. WHfB does
+nothing on Android, so SMS to a single mobile is its only usable factor on a
+tablet. That is fragile today and independent of the turnover question.
+
+Once Authenticator is on the tablets, remove the phone methods to clear the
+SMS dependency ahead of the February 2027 retirement.
 
 ### 2. Thirty-eight accounts on legacy per-user MFA
 
