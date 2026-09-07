@@ -143,30 +143,49 @@ textbook answers:
 Taken together: the tablets stay permanently signed in as a shared identity.
 That is a given. The work is making that arrangement safe for nothing.
 
-#### The $0 answer: workers never know the password
+#### The $0 answer: the password was never the control
 
-The reason the leaver problem exists is not the shared account itself — it is
-that workers *know and type* the password. That single fact causes both
-failures: a leaver retains a working credential, and rotating the password
-requires retraining everyone, so it never happens.
+Workers do sometimes have to re-authenticate on the tablets, unattended by IT,
+so they must be able to enter a credential themselves. A long random vaulted
+password is therefore not workable. An earlier draft of this document proposed
+exactly that, and it was solving the wrong problem.
 
-Remove it and both failures go away:
+The password is not what keeps a leaver out. **The second factor is.** If the
+second factor lives on a site-owned tablet, a leaver who knows the password
+still cannot sign in — they do not have the tablet. The password can stay
+simple, memorable and known to the floor, exactly as it is today.
 
-1. **Tablets stay signed in.** No sign-out, no per-shift action, no change to
-   how the floor works. Refresh tokens are long-lived on mobile, so re-auth is
-   rare. Do not shorten session lifetime on these accounts.
-2. **The password becomes a long random string that no worker ever sees.**
-   Stored in the IT vault only. Workers do not authenticate — they pick up a
-   tablet that is already signed in.
-3. **The second factor lives on the site-owned tablets**, registered in
-   Microsoft Authenticator on the devices themselves, never on a personal
-   phone. Approval is one tap on the same device.
-4. **Rotate the password on every departure.** Now free: nobody types it, so
-   nothing needs retraining and no one needs telling.
+That reduces the whole thing to **one change**:
 
-A leaver walks out knowing no credential and holding no second factor. Rotation
-costs nothing. Total spend: nothing. Worker-facing change: none — strictly less
-friction than today.
+> **Move the second factor off personal phones and onto the site-owned
+> tablets** — Microsoft Authenticator installed on the devices themselves.
+
+Nothing else has to change. Workers keep the password they already know, can
+re-authenticate themselves whenever prompted, and approve with one tap on the
+device in their hands. Total spend: nothing. Worker retraining: none.
+
+Password rotation on departure drops from being the primary control to being
+defence in depth — still worth doing when convenient, but no longer the thing
+standing between a leaver and the tenant.
+
+#### Optional upgrade, also free: passwordless phone sign-in
+
+If you want to remove the password from re-authentication altogether,
+**Microsoft Authenticator passwordless phone sign-in** does it: the user enters
+the username, Authenticator on the same tablet shows a number to match, they
+tap it. No password typed, ever, including at re-auth.
+
+Confirmed as **not requiring a licence** — it works on Entra ID Free; P1 only
+adds Conditional Access enforcement and richer reporting. Multiple accounts per
+device are supported.
+
+One thing to verify before rolling it out: the documentation covers *multiple
+accounts on one device* clearly, but is not explicit about *one account across
+many devices*, which is the shape here. Pilot it on a single tablet and confirm
+a second tablet can register the same shared account before committing to it.
+
+The tablet-bound-Authenticator change above stands on its own and does not
+depend on this working.
 
 #### Why named identities are not merely inconvenient but uneconomic
 
