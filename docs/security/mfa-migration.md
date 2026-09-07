@@ -124,44 +124,105 @@ under high turnover:
 Hardening the shared account does not address any of those three. Only
 removing the sharing does.
 
-#### The option that is usually missed: frontline licensing
+#### Fixed constraints
 
-Named identities for floor staff are normally dismissed on cost, because the
-comparison is against Business Premium. That is the wrong comparison.
-**Microsoft 365 F1 and F3** are built for exactly this shape — "kiosk workers"
-who use Microsoft 365 only through shared devices — and cost a fraction of
-Business Premium.
+These are requirements, not preferences, and they eliminate most of the
+textbook answers:
 
-Both **F1 and F3 include Entra ID P1**, which means adopting them would also
-resolve the Conditional Access constraint recorded above. That is the same
-licensing blocker CMS raised, solved from the other direction and at frontline
-rather than Business Premium rates.
+- **£0/$0.** No licence spend. Rules out F1/F3 frontline licensing, Conditional
+  Access, and Intune.
+- **Many shared devices are Android tablets.** Rules out Windows Hello for
+  Business entirely — WHfB is Windows-only and does nothing here.
+- **Per-person sign-in/sign-out is unacceptable.** The time cost on the floor
+  is prohibitive. This rules out Shared Device Mode, which was the only reason
+  to consider frontline licensing, and rules out named per-worker Entra
+  accounts as a daily-use pattern.
+- **The users are metal workers with no patience for IT.** Anything requiring a
+  per-shift action will not be used.
 
-The pattern is **Shared Device Mode**: the *device* is shared, the *identity*
-is not. Each person signs in as themselves on a shared terminal, signs out, and
-the next person signs in. Turnover becomes a normal joiner/leaver process, and
-sign-ins become attributable.
+Taken together: the tablets stay permanently signed in as a shared identity.
+That is a given. The work is making that arrangement safe for nothing.
 
-Worth pricing properly before committing. Published list pricing puts F1 in the
-low single digits USD per user per month, but that is a secondary source and not
-a quote — get AUD numbers from the reseller, for the actual headcount, and weigh
-against the licences reclaimed from the shared and never-used accounts.
+#### The $0 answer: workers never know the password
 
-#### If frontline licensing is rejected
+The reason the leaver problem exists is not the shared account itself — it is
+that workers *know and type* the password. That single fact causes both
+failures: a leaver retains a working credential, and rotating the password
+requires retraining everyone, so it never happens.
 
-Shared accounts can be made meaningfully safer, but attribution is lost
-permanently and the leaver problem is reduced rather than solved:
+Remove it and both failures go away:
 
-- **Register the second factor to a site-owned device**, never a personal
-  phone. A cheap tablet that stays on the floor, or TOTP seeded into the shared
-  password vault. Removes the "MFA left with the employee" failure.
-- **Rely on WHfB for daily sign-in**, not the password. WHfB credentials are
-  per-device and TPM-bound, so a leaver who knows the password cannot use it
-  from anywhere else. Revocation becomes a device operation.
-- **Vault the password** and rotate it on departure as a defined step in the
-  offboarding process, not on best effort.
-- **Restrict sign-in to the sites** once Conditional Access is available —
-  which again points back to F1/F3.
+1. **Tablets stay signed in.** No sign-out, no per-shift action, no change to
+   how the floor works. Refresh tokens are long-lived on mobile, so re-auth is
+   rare. Do not shorten session lifetime on these accounts.
+2. **The password becomes a long random string that no worker ever sees.**
+   Stored in the IT vault only. Workers do not authenticate — they pick up a
+   tablet that is already signed in.
+3. **The second factor lives on the site-owned tablets**, registered in
+   Microsoft Authenticator on the devices themselves, never on a personal
+   phone. Approval is one tap on the same device.
+4. **Rotate the password on every departure.** Now free: nobody types it, so
+   nothing needs retraining and no one needs telling.
+
+A leaver walks out knowing no credential and holding no second factor. Rotation
+costs nothing. Total spend: nothing. Worker-facing change: none — strictly less
+friction than today.
+
+#### Why named identities are not merely inconvenient but uneconomic
+
+The tablets need **Smartsheet and SharePoint-hosted files** on sign-in.
+SharePoint access requires a licensed account — an unlicensed Entra user cannot
+reach it. So named per-worker identities would mean a licence per worker, for
+every metal worker on the floor, at Business Premium or F3 rates.
+
+That is the real reason shared accounts are correct here, rather than merely
+convenient: a shared licensed identity serving a shared tablet is the only
+arrangement that delivers SharePoint files to the floor at no incremental cost.
+The shared accounts must therefore keep the licences they already hold.
+
+If Smartsheet is reached through Entra SSO it comes along with the same
+session. If it uses its own separate Smartsheet login, that is a second shared
+credential and belongs in the vault under the same rules as the password below.
+
+#### Limit the blast radius, since the tablet is now the credential
+
+A permanently signed-in tablet with SharePoint access means a stolen tablet
+reaches company files. This raises the stakes on device handling, and there is
+a free control that materially reduces it:
+
+**Scope the shared account's SharePoint permissions to only the libraries the
+floor actually needs.** Not tenant-wide, not inherited-from-everyone. This costs
+nothing, takes an afternoon, and converts "a lost tablet exposes the file
+estate" into "a lost tablet exposes the shop-floor drawings". Do this before
+worrying about anything else on the device side.
+
+#### What this trades away, honestly
+
+The risk moves from people to devices: whoever physically holds a signed-in
+tablet has access. That is an acceptable trade for equipment that stays on site,
+but it must be managed:
+
+- **Android screen lock** on every tablet, and **screen pinning** to keep users
+  in the app and out of settings. Both built into Android, no MDM, no licence.
+- **On a lost or stolen tablet**: revoke sessions and rotate the password
+  immediately. `tools/apply_changes.py` already performs the revoke.
+
+**Attribution is not achievable in Entra under these constraints** and should
+stop being chased there. It belongs in the application layer: QM3 already has
+named vendor logins with an access audit (`feat/vendor-portal`), and the same
+pattern applied to floor staff gives a per-person trail from a tap in the app,
+at a fraction of the friction of an OS sign-out. Shared identity for the
+device, named identity inside the app.
+
+#### Immediate $0 cleanup on these accounts
+
+`parkesproduction` and `KynBoardRoom` both have a **phone number** registered
+as an authentication method. If those numbers belong to former staff, they are
+a live hole today. `KynBoardRoom` is the weaker of the two: phone and WHfB
+only, so on an Android tablet its sole usable factor is SMS to that number.
+
+Check whose numbers these are, move the factor onto Authenticator on a site
+tablet, then remove the phone method.
 
 ### 2. Thirty-eight accounts on legacy per-user MFA
 
