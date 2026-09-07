@@ -289,7 +289,7 @@ This blocks nothing today, but it must be cleared before Security Defaults or
 Conditional Access can be enabled, because per-user MFA state cannot coexist
 with either.
 
-### 2a. `automation@` — two jobs in one account
+### 2a. `automation@` — UAT running as a privileged production identity
 
 Sign-in log over the retained 30 days:
 
@@ -302,26 +302,41 @@ Groups:   IT Team, ReportingArea, Production Team
 Owns:     group "Jobs"
 ```
 
-Three separate issues, and they need separating before anything is changed:
+The 172 `QM3_Authentication` sign-ins are the **UAT app** logging into QM3.
+Only the 2 Power BI sign-ins are the production purpose — M365 SSO for
+automation inside Power BI reports.
 
-1. **QM3 authenticates as this user through a browser flow from Azure IPs.**
-   Scripted browser sign-in is the pattern app registrations exist to replace.
-   Since QM3 already runs in Azure, a **managed identity** is the clean target —
-   no credential to store or rotate at all. An app registration with a
-   certificate is the fallback.
-2. **M365 SSO for automation inside Power BI reports.** This is a genuine user-
-   identity dependency and may *not* be replaceable with a service principal —
-   it depends on the specific connector and whether SSO passthrough is in use.
-   Verify per data source before assuming it can move. This is the part most
-   likely to force the account to survive in some form.
-3. **A 37% sign-in failure rate.** 65 failures in 174 attempts is either a
-   retry loop or something genuinely broken, and it is worth diagnosing on its
-   own merits regardless of the migration. Pull the error codes before
-   redesigning around behaviour that may itself be a bug.
+That reordering matters, because it makes one issue smaller and one larger.
 
-It also holds a **Business Premium licence on a service account** — quite
-possibly the single one the Conditional Access licensing discussion has been
-about.
+**Smaller: the managed identity migration.** A UAT app is not a production
+dependency, so replacing the browser sign-in flow is engineering hygiene rather
+than urgent risk. It also explains the 37% failure rate — a test environment
+being tested will fail often, and 65 failures in 174 attempts is unremarkable
+for UAT. Worth a glance at the error codes to confirm they are UAT noise and
+not a real fault, but no longer alarming.
+
+**Larger: UAT is authenticating as an over-privileged production identity.**
+This account holds a Business Premium licence and Power BI, sits in **IT Team**,
+**ReportingArea** and **Production Team**, and **owns the "Jobs" group** — with
+**no MFA**. A test environment holding those credentials means any UAT
+compromise, leaked config, or developer laptop yields a licensed account inside
+IT Team. This is the sharpest finding in the audit and the cheapest to fix.
+
+The account therefore splits three ways:
+
+1. **UAT gets its own dedicated identity.** Separate account, minimum
+   privilege, no group memberships it does not need, and unlicensed if UAT does
+   not require SharePoint or Power BI. Costs nothing and removes production
+   privilege from the test environment.
+2. **Power BI SSO stays** on a much more tightly scoped `automation@` — the
+   genuine user-identity dependency, which may not move to a service principal
+   depending on the connector and whether SSO passthrough is in use.
+3. **Strip the group memberships** that only exist because one account was
+   doing several jobs. IT Team membership in particular has no business being
+   reachable from a UAT credential.
+
+Do (1) and (3) first. The managed identity work can follow whenever QM3's
+roadmap suits.
 
 ### 2b. `MidlandSharepoint@` — unexplained, do not block blind
 
@@ -383,8 +398,9 @@ if scan-to-email breaks, re-enabling is the first thing to try.
 1. **Block sign-in on the 14 never-used accounts.** No account has ever
    authenticated, so nothing breaks. Convert the mail-bearing ones to shared
    mailboxes, which also reclaims licences.
-2. **Migrate `automation@`** — see below. The largest single piece of work
-   here and the one with real operational risk attached.
+2. **Give the QM3 UAT app its own identity** and strip `automation@` of the
+   group memberships it only holds because one account does several jobs —
+   IT Team especially. See 2a. Cheapest high-value fix on this list.
 3. **Identify what uses `MidlandSharepoint@`** before touching it — see below.
 4. **Decide on `marketing`** — idle 290 days.
 5. **Review the 38 disabled accounts** — delete or document why they persist.
