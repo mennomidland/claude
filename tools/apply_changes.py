@@ -39,9 +39,10 @@ BLOCK_SIGNIN = [
     "dummytestuser@midlandind.com.au",
 ]
 
-ENFORCE_MFA = [
-    "timb3D@midlandind.com.au",
-]
+# timb3D was handled by hand in the portal -- faster than arranging the extra
+# consent that Policy.ReadWrite.AuthenticationMethod needs. Left empty rather
+# than deleted so the mechanism is here if it is wanted again.
+ENFORCE_MFA: list[str] = []
 
 
 def graph_write(token: str, url: str, body: dict | None, method: str) -> tuple[bool, str]:

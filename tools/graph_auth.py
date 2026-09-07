@@ -50,13 +50,17 @@ SCOPES = " ".join(
         "AuditLog.Read.All",
         "Directory.Read.All",
         "User.ReadWrite.All",  # accountEnabled, revokeSignInSessions
-        # perUserMfaState lives under the Policy domain, not the
-        # UserAuthenticationMethod one -- UserAuthenticationMethod.ReadWrite.All
-        # returns 403 on it. The Policy domain has no separate .Read scope, so
-        # this is required even to read the state. Also needs the signed-in user
-        # to hold Authentication Policy Administrator or higher.
-        "Policy.ReadWrite.AuthenticationMethod",
         "offline_access",
+        # Deliberately NOT included: Policy.ReadWrite.AuthenticationMethod,
+        # which is what writing perUserMfaState actually requires (the
+        # UserAuthenticationMethod ReadWrite scope returns 403 on it, and the
+        # Policy domain has no .Read variant).
+        #
+        # Adding any scope invalidates the cached consent, so the next run
+        # fails its silent refresh, discards the cache, and demands a fresh
+        # device code. Widen this list only when a tool here genuinely needs
+        # it -- each addition costs an interactive sign-in. Per-user MFA state
+        # is changed in the portal instead.
     ]
 )
 

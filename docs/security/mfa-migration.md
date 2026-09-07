@@ -95,15 +95,73 @@ Actions by group:
   `windchill` is the priority: enabled and unauthenticated throughout the July
   2026 Windchill incident, and a dormant account with no second factor is a
   standard re-entry path afterwards.
-- **Live service accounts (2)** — `automation`, `MidlandSharepoint` → migrate
-  to an **Entra app registration with certificate credentials**, or a managed
-  identity for anything in Azure. These are the only two that actually need
-  migrating rather than switching off.
+- **Live service accounts (2)** — `automation`, `MidlandSharepoint`. The only
+  two needing migration rather than switching off. See below; neither is a
+  simple swap to an app registration.
 - **Idle, decide (3)** — `marketing`, `copier`, `timb3D`. `copier` is
   scan-to-email; confirm what it uses before disabling. `timb3D` is a real
   vendor (Tim Brickle, 3D Walkabout) but has not signed in since December 2025
   and, unlike the other active 3D vendor accounts, has no MFA registered.
 - **Delete** — `dummytestuser`.
+
+### 1a. Shared production accounts — the turnover problem
+
+`kynproduction`, `parkesproduction`, `powdercoat`, `warroom-pks`, `KynBoardRoom`
+are used by many people across many devices, with high staff turnover. All
+already carry Authenticator and/or WHfB, so they are not an MFA gap.
+
+**The actual risk is not MFA, and MFA cannot fix it.** With a shared account
+under high turnover:
+
+- every leaver keeps a working credential until the password is rotated, and
+  rotating it means retraining everyone still there, so in practice it does not
+  happen
+- the Authenticator registration usually sits on one person's phone. When that
+  person leaves, either MFA breaks or the leaver still holds the second factor
+- nothing is attributable. After an incident there is no way to say who did
+  what from a shared account
+
+Hardening the shared account does not address any of those three. Only
+removing the sharing does.
+
+#### The option that is usually missed: frontline licensing
+
+Named identities for floor staff are normally dismissed on cost, because the
+comparison is against Business Premium. That is the wrong comparison.
+**Microsoft 365 F1 and F3** are built for exactly this shape — "kiosk workers"
+who use Microsoft 365 only through shared devices — and cost a fraction of
+Business Premium.
+
+Both **F1 and F3 include Entra ID P1**, which means adopting them would also
+resolve the Conditional Access constraint recorded above. That is the same
+licensing blocker CMS raised, solved from the other direction and at frontline
+rather than Business Premium rates.
+
+The pattern is **Shared Device Mode**: the *device* is shared, the *identity*
+is not. Each person signs in as themselves on a shared terminal, signs out, and
+the next person signs in. Turnover becomes a normal joiner/leaver process, and
+sign-ins become attributable.
+
+Worth pricing properly before committing. Published list pricing puts F1 in the
+low single digits USD per user per month, but that is a secondary source and not
+a quote — get AUD numbers from the reseller, for the actual headcount, and weigh
+against the licences reclaimed from the shared and never-used accounts.
+
+#### If frontline licensing is rejected
+
+Shared accounts can be made meaningfully safer, but attribution is lost
+permanently and the leaver problem is reduced rather than solved:
+
+- **Register the second factor to a site-owned device**, never a personal
+  phone. A cheap tablet that stays on the floor, or TOTP seeded into the shared
+  password vault. Removes the "MFA left with the employee" failure.
+- **Rely on WHfB for daily sign-in**, not the password. WHfB credentials are
+  per-device and TPM-bound, so a leaver who knows the password cannot use it
+  from anywhere else. Revocation becomes a device operation.
+- **Vault the password** and rotate it on departure as a defined step in the
+  offboarding process, not on best effort.
+- **Restrict sign-in to the sites** once Conditional Access is available —
+  which again points back to F1/F3.
 
 ### 2. Thirty-eight accounts on legacy per-user MFA
 
@@ -114,6 +172,55 @@ unsupported since 30 September 2025.
 This blocks nothing today, but it must be cleared before Security Defaults or
 Conditional Access can be enabled, because per-user MFA state cannot coexist
 with either.
+
+### 2a. `automation@` — two jobs in one account
+
+Sign-in log over the retained 30 days:
+
+```
+172 x QM3_Authentication      (browser client, Azure source IPs)
+  2 x Microsoft Power BI
+174 total, 65 failed (37%)
+Licences: O365_BUSINESS_PREMIUM, POWER_BI_STANDARD, FLOW_FREE
+Groups:   IT Team, ReportingArea, Production Team
+Owns:     group "Jobs"
+```
+
+Three separate issues, and they need separating before anything is changed:
+
+1. **QM3 authenticates as this user through a browser flow from Azure IPs.**
+   Scripted browser sign-in is the pattern app registrations exist to replace.
+   Since QM3 already runs in Azure, a **managed identity** is the clean target —
+   no credential to store or rotate at all. An app registration with a
+   certificate is the fallback.
+2. **M365 SSO for automation inside Power BI reports.** This is a genuine user-
+   identity dependency and may *not* be replaceable with a service principal —
+   it depends on the specific connector and whether SSO passthrough is in use.
+   Verify per data source before assuming it can move. This is the part most
+   likely to force the account to survive in some form.
+3. **A 37% sign-in failure rate.** 65 failures in 174 attempts is either a
+   retry loop or something genuinely broken, and it is worth diagnosing on its
+   own merits regardless of the migration. Pull the error codes before
+   redesigning around behaviour that may itself be a bug.
+
+It also holds a **Business Premium licence on a service account** — quite
+possibly the single one the Conditional Access licensing discussion has been
+about.
+
+### 2b. `MidlandSharepoint@` — unexplained, do not block blind
+
+0 licences, no groups, no directory roles, no owned objects.
+`signInActivity` reports a successful sign-in on 2026-09-04, but there are
+**zero entries in the sign-in log for either event type**, and the log demonstrably
+retains back to 2026-08-08 — so this is not a retention gap.
+
+No confident explanation. It authenticates in a way that reaches neither the
+interactive nor the non-interactive sign-in log, which is characteristic of
+legacy SharePoint app-only / ACS auth, but that is a hypothesis and untested.
+
+Before touching it, look in the **unified audit log** — it records SharePoint
+file operations even where Entra sign-in logs show nothing — and check Power
+Automate flows and OpsMachine jobs for references to the account.
 
 ### 3. No tenant-level enforcement
 
@@ -136,26 +243,42 @@ Worth noting in any MSP conversation: a monitor built on the Graph `signIns`
 API needs P1 too. The licensing argument made about Conditional Access applies
 equally to that product.
 
+## Done, 6 Sep 2026
+
+Applied and verified via `tools/apply_changes.py` — sign-in blocked and
+existing sessions revoked. Disabling an account does not invalidate tokens
+already issued, hence the revoke.
+
+| Account | Was idle |
+|---|---|
+| `windchill` | 923 days |
+| `midlandreporting` | 915 days |
+| `copier` | 284 days |
+| `dummytestuser` | 110 days |
+
+`copier` was scan-to-email. Its last sign-in was 284 days ago, so scanning
+either already relies on direct send / a connector or had stopped working;
+if scan-to-email breaks, re-enabling is the first thing to try.
+
+`timb3D` was set to per-user MFA enforced by hand in the portal.
+
 ## Actions, in order
 
-1. **Disable `windchill@`** — 923 days idle, no MFA, enabled throughout the
-   July 2026 incident. Highest value, lowest risk change on this list.
-2. **Block sign-in on the 14 never-used accounts.** No account has ever
+1. **Block sign-in on the 14 never-used accounts.** No account has ever
    authenticated, so nothing breaks. Convert the mail-bearing ones to shared
    mailboxes, which also reclaims licences.
-3. **Delete `dummytestuser@`** and disable `midlandreporting@` (915 days idle).
-4. **Migrate `automation@` and `MidlandSharepoint@`** to app registrations —
-   the only two live service accounts. OpsMachine already uses this pattern.
-5. **Decide on `marketing`, `copier`, `timb3D`** — idle 8-10 months. Confirm
-   what `copier` uses for scan-to-email before disabling it.
-6. **Review the 38 disabled accounts** — delete or document why they persist.
-7. **Clear per-user MFA**: set `perUserMfaState` to `disabled` across the 38
+2. **Migrate `automation@`** — see below. The largest single piece of work
+   here and the one with real operational risk attached.
+3. **Identify what uses `MidlandSharepoint@`** before touching it — see below.
+4. **Decide on `marketing`** — idle 290 days.
+5. **Review the 38 disabled accounts** — delete or document why they persist.
+6. **Clear per-user MFA**: set `perUserMfaState` to `disabled` across the 38
    enforced accounts, once everything above is settled.
-8. **Inventory legacy-authentication usage** before the next step. Security
+7. **Inventory legacy-authentication usage** before the next step. Security
    Defaults blocks it, and that is what breaks integrations.
-9. **Enable Security Defaults** — last, not first.
+8. **Enable Security Defaults** — last, not first.
 
-Steps 7–9 must stay in that order. Security Defaults cannot coexist with
+Steps 6–8 must stay in that order. Security Defaults cannot coexist with
 per-user MFA state and forces MFA registration tenant-wide within 14 days.
 
 ## Replacing the MFA monitor
