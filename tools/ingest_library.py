@@ -63,10 +63,25 @@ class DuplicateGuard(Exception):
 #    removals in a work list beside the ledger. That list is the exact, per-asset,
 #    per-namespace set of tags to strike -- so the manual UI cleanup is a finite job of
 #    known size rather than a hunt, and it survives the container.
-# 3. When the server grows a removal route, set REMOVAL_FIELD to the field name it accepts
-#    and removals go out with the same POST. Nothing else has to change: the diff is
-#    already being computed and the backlog is already recorded.
-REMOVAL_FIELD = None    # e.g. "removeTags" -- None until the endpoint supports one
+# 3. When the server grows a removal route, set the two constants below. Nothing else has
+#    to change: the diff is already being computed and the backlog is already recorded.
+#    `tools/probe_tag_removal.py --phase 0` reports which values to use.
+#
+# The builder can ship removal in either of two shapes, and they are switched on
+# differently, so both are supported rather than guessing which arrives:
+#
+#   "field"    an explicit list of tags to take off, e.g. `removeTags: [...]`. Set
+#              REMOVAL_FIELD to the field name. The diff is sent alongside the additions.
+#   "replace"  a re-POST replaces that namespace's whole set, as originally specified.
+#              Removal is then implicit in the `tags` already being sent, and the only
+#              thing to change is that the pending backlog may be considered cleared.
+#
+# One caveat that neither shape fixes on its own, and it is the important one: if removal
+# still requires `dataBase64`, it does NOT unblock re-tagging. Graph re-encodes renditions
+# across days, so there are no matching bytes left to send and every re-POST orphans a
+# blob. Removal has to land on a route that identifies the asset without its bytes.
+REMOVAL_MODE = None     # None | "field" | "replace"
+REMOVAL_FIELD = None    # e.g. "removeTags" -- only read when REMOVAL_MODE == "field"
 
 
 OVERSIZE = 6000   # larger than any original in the library; Graph clamps to native
@@ -322,7 +337,7 @@ def main():
             for ns, tags in removals.items():
                 print(f"RETRACT {name} [{ns.split(':')[-1]}]: {', '.join(tags)}")
             retracted += sum(len(t) for t in removals.values())
-            if REMOVAL_FIELD is None:
+            if REMOVAL_MODE is None:
                 print(f"      ^ recorded as pending ({pending} on this asset); the endpoint "
                       f"has no removal route, so these stay until struck in the UI")
 
@@ -365,7 +380,7 @@ def main():
                 "caption": rec.get("caption", ""), "sourcePath": photo["path"],
                 "driveId": g.DRIVE_ID, "itemId": item_id,
             }
-            if REMOVAL_FIELD and deltas[ns]["remove"]:
+            if REMOVAL_MODE == "field" and deltas[ns]["remove"]:
                 payload[REMOVAL_FIELD] = deltas[ns]["remove"]
             status, d = post(payload, key)
             if status != 200:
@@ -379,7 +394,10 @@ def main():
             entry.update({"media_id": media_id, "filename": name, "path": photo["path"],
                           "bytes": len(img), "tag_hashes": hashes,
                           "tags": {ns: sets[ns] for ns in sets}})
-            if REMOVAL_FIELD:
+            # "replace" retracts by omission -- the full current set was just sent, so
+            # anything absent from it is gone. "field" retracts explicitly. Either way
+            # only the namespaces actually POSTed in this run are cleared.
+            if REMOVAL_MODE:
                 clear_removals(removals_path, f"{g.DRIVE_ID}|{item_id}", todo, args.dry_run)
             saved = "" if len(todo) == 2 else f", {2 - len(todo)} namespace unchanged"
             print(f"OK    {name}: mediaId={media_id} "
@@ -397,7 +415,7 @@ def main():
         outstanding = sum(len(t) for r in book.values() for t in r["pending"].values())
         if outstanding:
             verb = ("still applied on the asset and must be struck in the UI"
-                    if REMOVAL_FIELD is None else "queued")
+                    if REMOVAL_MODE is None else "queued")
             print(f"{outstanding} retracted tags across {len(book)} assets are {verb}: "
                   f"{removals_path}")
     return 1 if failed else 0

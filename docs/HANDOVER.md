@@ -261,7 +261,14 @@ to the originals in `z.Tare Weights`, which was re-checked afterwards and is int
 - **Blocking the bulk run: the tag-only route with replace semantics.** Specified as a
   payload in `routines/03-media-library-api.md`. Until it exists, re-tagging cannot happen
   without orphaning a blob per photo, and retractions accumulate in the work list instead of
-  being applied. Everything on this side is built and waiting on `REMOVAL_FIELD`.
+  being applied. Everything on this side is built; run
+  `python3 tools/probe_tag_removal.py --phase 0` to see whether it has landed and which two
+  constants to set in `ingest_library.py`.
+  **Midland has removal in progress (2026-09-08) — not yet live on staging.** The thing to
+  hold the builder to: removal must NOT require `dataBase64`. A `removeTags` field bolted
+  onto the existing ingest call is unusable, because Graph re-encodes renditions and every
+  such call would strip a tag while orphaning a fresh blob. Tag removal and byte-free
+  addressing are one change, not two.
 - **Manual cleanup owed in the media UI**: strike the 72 tags in
   `test-run/goldset40-removals.md`; delete `mediaId` 50, an orphaned duplicate blob of
   `IMG_3908 1.jpg` (the live asset is `mediaId` 40); delete the earlier duplicate of

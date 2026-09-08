@@ -255,6 +255,43 @@ Returns: { mediaId, appliedTags, removedTags, skippedTags }
 `removedTags` in the response is what lets the caller clear its own backlog with confidence
 rather than assuming.
 
+### IN PROGRESS: removal is being built — 2026-09-08
+
+Midland has it in hand. **Not yet live on `qm3staging`** as of this writing: the 31-name
+validator probe still recognises none of them, every `/api/media/*` path but `ingest` still
+answers `401`, and `dataBase64` is still mandatory.
+
+**The one thing the builder must not miss.** Removal only helps if it lands on a route that
+does **not** require `dataBase64`. A `removeTags` field added to the existing ingest call
+would be unusable here:
+
+- The call would still demand the image bytes.
+- Graph re-encodes renditions across days, so the bytes we can fetch today no longer match
+  the bytes the library holds (measured: 8 of 8 after eight days, source files untouched).
+- Dedup is SHA-keyed, so every such call **creates a new orphaned blob** while removing the
+  tag — 40,452 of them across a full re-tag pass, and there is no delete route to clean
+  them up.
+
+So: **tag removal and byte-free addressing are one change, not two.** Removing a tag has to
+be possible given `(driveId, itemId)` or `mediaId` alone.
+
+**Switching it on here is two constants.** `tools/probe_tag_removal.py --phase 0` reports
+which values to use and re-checks the bytes question in the same run:
+
+```
+REMOVAL_MODE  = "field"        # an explicit list, e.g. removeTags: [...]
+REMOVAL_FIELD = "removeTags"
+```
+
+or, if a re-POST is made to replace the namespace's whole set instead:
+
+```
+REMOVAL_MODE  = "replace"      # retraction is implicit in the tags already being sent
+```
+
+Either way the diff is already computed and the 72-tag backlog is already recorded, so the
+first run after the switch applies it.
+
 ### The size cap bites on the payload, and reports itself as a JSON error
 
 The documented cap is 40 MB. It applies to the **base64 payload**, not the raw file, and

@@ -85,6 +85,41 @@ def phase1b(key):
         print(f"{method:8s} {path:34s} {status:6d}  {snippet}")
 
 
+def phase0(key):
+    """Has removal landed yet, and what should ingest_library's constants be set to?
+
+    Run this after the builder ships. It answers the only two questions that matter --
+    which field name the validator now accepts, and whether the route still demands bytes.
+    """
+    hits = phase1(key)
+    print()
+    if hits:
+        print(f"REMOVAL HAS LANDED. Set in tools/ingest_library.py:")
+        print(f'    REMOVAL_MODE  = "field"')
+        print(f'    REMOVAL_FIELD = "{hits[0]}"')
+        if len(hits) > 1:
+            print(f"    (validator also recognises {', '.join(hits[1:])} -- check which is "
+                  f"the real one before choosing)")
+    else:
+        print("No removal field yet. If the builder shipped REPLACE semantics instead --")
+        print("a re-POST replacing the namespace's whole set -- there is no field to")
+        print("detect: confirm it in the UI (an asset should stop showing the older")
+        print('promptver: tag) and then set REMOVAL_MODE = "replace".')
+
+    print()
+    print("Does the route still demand bytes? -- the question that decides whether removal")
+    print("actually unblocks re-tagging:")
+    for missing in ("dataBase64",):
+        status, resp = il.post({"filename": "probe.jpg", "tags": [], "tagGroup": "zzprobe"},
+                               key)
+        msg = json.dumps(resp)[:160]
+        print(f"    POST without {missing}: HTTP {status}  {msg}")
+    print("    A 422 here means bytes are still mandatory, so a re-tag STILL cannot be")
+    print("    performed -- Graph re-encodes renditions across days and there are no")
+    print("    matching bytes left to send. Removal without a byte-free route is not enough.")
+    return hits
+
+
 def probe(key, names):
     payload = {n: 12345 for n in names}
     payload["dataBase64"] = 12345
@@ -189,7 +224,9 @@ def main():
     if not key:
         raise SystemExit("MEDIA_INGEST_KEY not set")
 
-    if args.phase == 1:
+    if args.phase == 0:
+        phase0(key)
+    elif args.phase == 1:
         phase1(key)
     elif args.phase == 11:
         phase1b(key)
