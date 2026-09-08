@@ -116,8 +116,11 @@ It never prints a credential or a token, and it does **not** do step 7. Full det
      the library is ~181 GB of base64 over the wire, and the single largest image
      (36.4 MB → 48.6 MB encoded) is rejected as `400 "Invalid JSON body"` — a size limit
      wearing a parser error's clothes.
-   - **Replace-vs-union is still unverified** and it is the one that matters. See
-     `routines/03-media-library-api.md`.
+   - **ANSWERED 2026-08-31: tags UNION, they do not replace.** Confirmed from the UI --
+     one asset shows both `promptver:v2.0-e2e-rendition` and `promptver:v3.0-features`.
+     A corrected tag never displaces a wrong one, and nothing written can be retracted by
+     writing again. **Treat every tag written as permanent** and do not ingest during
+     prompt iteration. See `routines/03-media-library-api.md`.
 
 **Enumeration is done.** `routines/01-enumeration.md` is rewritten around Graph `/delta`
 and implemented in `tools/enumerate_delta.py`; a full run over the library completed and

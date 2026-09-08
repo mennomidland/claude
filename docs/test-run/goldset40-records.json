@@ -3090,9 +3090,9 @@
    "defects": [],
    "duplicate_group": null,
    "needs_human_review": true,
-   "notes": "Striking aerial of four matched blue units with open cross-braced frames, no continuous deck and no twist locks visible. None of the body_type values fits cleanly -- recorded as other rather than forced into skeletal. Likely a steel or bolster spec; worth confirming with Midland what to call it.",
+   "notes": "CORRECTED after Midland feedback. Previously tagged not_a_combination, which was wrong: these units are COUPLED, not four trailers parked apart. Two rigs, each a converter dolly on a drawbar into a skel/frame trailer. Left as combination_type unknown rather than guessed at a_double -- no prime mover is in frame and the order of the units cannot be resolved from this angle, and mis-reading exactly this has already cost two corrections. What IS certain is that they are coupled, which the schema currently has no way to say: not_a_combination is false and unknown understates it.",
    "ata_configuration_code": null,
-   "combination_type": "not_a_combination",
+   "combination_type": "unknown",
    "non_marketing_reason": null,
    "subject_type": "multiple_trailers",
    "shot_type": "top_down_aerial",
@@ -3102,7 +3102,7 @@
    "overall_confidence": "medium",
    "trailers": [
     {
-     "trailer_configuration": "semi_trailer",
+     "trailer_configuration": "converter_dolly",
      "coupling_type": "not_visible",
      "coaming_type": "not_visible",
      "suspension_mount": "not_visible",
@@ -3119,11 +3119,13 @@
      "manufacturer_decal_text": [],
      "components_visible": [
       "axle_group",
-      "wheels_rims",
-      "tyres",
       "chassis_rail",
+      "drawbar",
       "kingpin",
-      "landing_legs"
+      "landing_legs",
+      "turntable",
+      "tyres",
+      "wheels_rims"
      ],
      "features_present": [
       "bolsters"
@@ -3134,12 +3136,12 @@
      "is_loaded": "empty",
      "load_type": "none",
      "body_type": "other",
-     "combination_role": "standalone_semi",
+     "combination_role": "converter_dolly",
      "position_in_frame": "lead",
      "axle_count": "tri",
      "is_midland_product": "unknown",
      "confidence": "medium",
-     "notes": "Nearest unit; open lattice frame with cross-bracing along its length."
+     "notes": "Converter dolly, tandem, drawbar visible with air lines coupled."
     },
     {
      "trailer_configuration": "semi_trailer",
@@ -3159,9 +3161,9 @@
      "manufacturer_decal_text": [],
      "components_visible": [
       "axle_group",
-      "wheels_rims",
       "chassis_rail",
-      "kingpin"
+      "kingpin",
+      "wheels_rims"
      ],
      "features_present": [
       "bolsters"
@@ -3172,15 +3174,15 @@
      "is_loaded": "empty",
      "load_type": "none",
      "body_type": "other",
-     "combination_role": "standalone_semi",
+     "combination_role": "unknown",
      "position_in_frame": "second",
      "axle_count": "tri",
      "is_midland_product": "unknown",
      "confidence": "medium",
-     "notes": "Second matching unit."
+     "notes": "Skel/frame trailer coupled behind the dolly; tri group at its rear."
     },
     {
-     "trailer_configuration": "semi_trailer",
+     "trailer_configuration": "converter_dolly",
      "coupling_type": "not_visible",
      "coaming_type": "not_visible",
      "suspension_mount": "not_visible",
@@ -3197,8 +3199,10 @@
      "manufacturer_decal_text": [],
      "components_visible": [
       "axle_group",
-      "wheels_rims",
-      "chassis_rail"
+      "chassis_rail",
+      "drawbar",
+      "turntable",
+      "wheels_rims"
      ],
      "features_present": [],
      "identifying_text": [],
@@ -3207,12 +3211,12 @@
      "is_loaded": "empty",
      "load_type": "none",
      "body_type": "other",
-     "combination_role": "standalone_semi",
+     "combination_role": "converter_dolly",
      "position_in_frame": "third",
      "axle_count": "tandem",
      "is_midland_product": "unknown",
      "confidence": "low",
-     "notes": "Shorter unit at upper left, fewer axles."
+     "notes": "Second converter dolly, tandem, same arrangement."
     },
     {
      "trailer_configuration": "semi_trailer",
@@ -3232,8 +3236,9 @@
      "manufacturer_decal_text": [],
      "components_visible": [
       "axle_group",
-      "wheels_rims",
-      "chassis_rail"
+      "chassis_rail",
+      "kingpin",
+      "wheels_rims"
      ],
      "features_present": [],
      "identifying_text": [],
@@ -3242,12 +3247,12 @@
      "is_loaded": "empty",
      "load_type": "none",
      "body_type": "other",
-     "combination_role": "standalone_semi",
+     "combination_role": "unknown",
      "position_in_frame": "fourth",
      "axle_count": "tandem",
      "is_midland_product": "unknown",
      "confidence": "low",
-     "notes": "Fourth unit, partly overlapping the third."
+     "notes": "Second skel/frame trailer, tri group."
     }
    ]
   },

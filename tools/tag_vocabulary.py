@@ -136,11 +136,20 @@ def tags_for(record, prompt_version, model):
 
     # provenance travels as tags because the API exposes no provenance field
     search += [f"promptver:{slug(prompt_version)}", f"model:{slug(model)}"]
+    # Path-derived terms are emitted under `folder:`, NOT `category:`. The folder is a
+    # hypothesis, not a classification: `Midland Trailors CivicCast 13.jpg` sits under
+    # Dog Trailers and shows a tri-axle flat top semi, so `category:dog-trailers` asserted
+    # something false into the search index. `folder:dog-trailers` says only where the file
+    # lives, which is true and still useful for narrowing a search.
     pd = record.get("path_derived") or {}
     if pd.get("product_category"):
-        search.append(f"category:{slug(pd['product_category']).replace(' ', '-')}")
+        search.append(f"folder:{slug(pd['product_category']).replace(' ', '-')}")
     if pd.get("variant"):
-        search.append(f"variant:{slug(pd['variant']).replace(' ', '-')}")
+        search.append(f"folder-variant:{slug(pd['variant']).replace(' ', '-')}")
+    # What the PHOTO says the product is, from vision -- distinct from where it is filed.
+    for tr in trailers:
+        if tr.get("body_type") not in (None, "not_visible", "unknown"):
+            search.append(f"product:{slug(tr['body_type'])}")
 
     return {VISION_NAMESPACE: sorted(set(search)), STATE_NAMESPACE: sorted(set(state))}
 

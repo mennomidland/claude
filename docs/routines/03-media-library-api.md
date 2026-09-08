@@ -94,22 +94,36 @@ The cost of that shortcut, stated plainly: a source file silently REPLACED with 
 tags is not noticed here. Catching that is the enumeration delta's job — it watches
 `lastModified` — not this tool's.
 
-### Could NOT be verified: replace vs. union
+### ANSWERED: tags UNION, they do not replace — 2026-08-31
 
-`x-media-key` authorises **only** `/api/media/ingest` — `GET` on it returns `405`, and every
-other route tried (`/api/media/{id}`, `/api/media/{id}/tags`, `/api/media/search`,
-`/api/media/occurrences`) returns `401`. There is no read-back.
+**Confirmed from the media library UI, which is the read-back the API does not give us.**
+`Midland Trailors CivicCast 13.jpg` displays BOTH prompt versions at once:
 
-So the claim that a re-POST is **PUT-replace per (asset, namespace)** could not be tested.
-A re-POST with a deliberately smaller corrected set (5 tags, down from 49) returned
-`200 … tags=5`, which is consistent with replace *and* with union — the response only
-echoes what was sent.
+```
+promptver:v2.0-e2e-rendition     (sent in the early size-cap ingest)
+promptver:v3.0-features          (sent later, same asset, same namespace)
+```
 
-**This is the single most important thing left to confirm**, because the whole correction
-story rests on it: if tags union instead of replacing, a corrected `axle:not_visible` never
-displaces the wrong `axle:tandem`, and every re-tag after a prompt revision leaves stale
-wrong tags behind forever. Ask the builder to confirm, or to expose a read endpoint the
-ingest key can reach.
+Two re-POSTs to the same `(asset, namespace)`, and the earlier tag set is still there. So
+the documented **PUT-replace per (asset, namespace) is not what the endpoint does** — it
+unions.
+
+**This is the bad answer, and it blocks correction at scale:**
+
+- A corrected tag never displaces the wrong one. `axle:not_visible` sent after
+  `axle:tandem` leaves both, and a search for tandem still returns the frame.
+- Every prompt revision layers another `promptver:` on top, so provenance stops meaning
+  "this is how this record was made" and becomes "these are all the passes that ever ran".
+- Nothing the tagging pass writes can ever be retracted by writing again. The only removal
+  route is the `x` on each tag in the UI, by hand, per asset.
+
+**Until this is fixed, treat every tag written as permanent.** That changes the Thursday
+protocol: iterate the prompt against the gold set WITHOUT ingesting, and only write tags
+once the schema is frozen. Writing during iteration bakes in every intermediate answer.
+
+**The ask, now the highest priority of the two:** make a re-POST to an existing
+`(asset, namespace)` replace that namespace's tag set, as originally specified. Paired with
+the tag-only route above, that makes correction possible at all.
 
 ### The size cap bites on the payload, and reports itself as a JSON error
 
