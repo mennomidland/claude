@@ -255,6 +255,63 @@ Returns: { mediaId, appliedTags, removedTags, skippedTags }
 `removedTags` in the response is what lets the caller clear its own backlog with confidence
 rather than assuming.
 
+### Removal re-tested after the staging deploy — 2026-09-08, no change visible
+
+Midland reported the staging deploy complete. **Nothing about tag removal is visible from
+the ingest API**, tested four ways:
+
+| Probe | Result |
+|---|---|
+| 79 candidate field names, sent as objects (wrong for every type, numbers included) | validator names **none** |
+| The same request's known-good controls | **all 16** named — so the validator was reached |
+| 37 candidate routes, incl. `/api/openapi.json`, `/api/media/tags/remove`, `DELETE /api/media/tags` | uniform `401`; only `/api/media/ingest` accepts `x-media-key`, and it is `405` to every method but POST |
+| `POST` without `dataBase64` | still `422 expected string, received undefined` |
+
+The response shape is also unchanged — no `removedTags`, nothing that reports a retraction.
+
+**One possibility the API cannot rule out: replace semantics with no new field.** If a
+re-POST now replaces the namespace's tag set, there is nothing to detect from outside,
+because the endpoint exposes no read-back. So it was tested behaviourally instead, against
+**`mediaId` 50** — the orphaned blob an earlier probe created. Its bytes are today's
+rendition, so every POST dedups onto it and creates nothing, and the asset is due for
+deletion anyway, which makes it a free test bed.
+
+```
+tagGroup zztest:removal-semantics, all three deduped -> mediaId 50, occurrenceId 36
+
+1. tags ["zztest:alpha","zztest:beta"]              appliedTags [alpha, beta]
+2. tags ["zztest:alpha"]            (beta omitted)  appliedTags [alpha]
+3. tags ["zztest:alpha"] + removeTags ["zztest:beta"]   appliedTags [alpha]
+```
+
+**The verdict is in the UI, not the response:** if `mediaId` 50 shows only `zztest:alpha`
+under that group, replace semantics shipped — set `REMOVAL_MODE = "replace"`. If it still
+shows `zztest:beta`, the deploy did not change tagging behaviour on this endpoint.
+
+### `/content` is byte-stable; the rendition is not — and that decides the byte source
+
+Relevant here because it governs whether removal is *usable* once it lands. `quickXorHash`
+is a hash of the original file content, and it is unchanged on every gold-set item since
+their last edits (2014–2025). Original bytes therefore cannot have drifted:
+
+```
+IMG_3908 1.jpg        /content 2,727,267 bytes   sha 9d571a6f0b00ae85   stable
+20221208_070826.jpg   /content 2,775,513 bytes   sha 275daf55e8aee89d   stable
+WhatsApp 2024-02-05   /content   572,532 bytes   sha 28c0162eb87b6836   stable
+```
+
+So there are two ways out of the re-tag deadlock, and only two:
+
+1. **A byte-free route** — `mediaId` or `(driveId, itemId)` with no `dataBase64`. Best
+   answer: it also removes the wire cost entirely.
+2. **Switch the byte source to `/content`** — stable bytes mean re-posts dedup forever, so
+   re-tagging works even while `dataBase64` stays mandatory. Costs the 40 MB cap
+   special-case (1 image of 40,452), auto-orientation, and ~4x wire volume.
+
+**If option 2 is taken it must happen before the bulk run**, not during: switching byte
+source orphans a blob per already-ingested photo. Only the 40 gold-set assets are ingested
+so far and they are test data, so the window is open now and closes at the bulk run.
+
 ### IN PROGRESS: removal is being built — 2026-09-08
 
 Midland has it in hand. **Not yet live on `qm3staging`** as of this writing: the 31-name
