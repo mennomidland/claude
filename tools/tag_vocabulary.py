@@ -15,6 +15,11 @@ reason the schema has both states.
 """
 import json, sys, pathlib
 
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+# Reused rather than re-declared: a folder-segment rule that drifts from the one the
+# enumeration used would tag paths differently from how they were parsed.
+from enumerate_delta import NUM_PREFIX, BUILD_DATE
+
 SCHEMA = pathlib.Path(__file__).resolve().parent.parent / "docs/schema/trailer-photo-tags.schema.json"
 
 # frame-level field -> tag namespace
@@ -146,6 +151,18 @@ def tags_for(record, prompt_version, model):
         search.append(f"folder:{slug(pd['product_category']).replace(' ', '-')}")
     if pd.get("variant"):
         search.append(f"folder-variant:{slug(pd['variant']).replace(' ', '-')}")
+    # EVERY meaningful folder level, not just the top two. `DSC_0045.jpg` is filed under
+    # ".../1. Semi Drop Deck Trailers/2. Semi Drop Deck Widener Trailers/2025.07 - Simon
+    # Turnbull 4m Widener - 2896/...": the word that makes it findable -- widener -- is at
+    # level 3, and taking only two levels dropped it entirely. Nobody searching "widener"
+    # would have found the photo. Customer/date folders are excluded because `customer`,
+    # `build_date` and `job_numbers` already carry that, and folder-derived terms stay under
+    # `folder:` so they never read as a classification the photo itself supports.
+    for seg in (pd.get("folder_path") or "").split("/"):
+        seg = NUM_PREFIX.sub("", seg).strip()
+        if not seg or BUILD_DATE.match(seg):
+            continue
+        search.append(f"folder:{slug(seg).replace(' ', '-')}")
     # What the PHOTO says the product is, from vision -- distinct from where it is filed.
     for tr in trailers:
         if tr.get("body_type") not in (None, "not_visible", "unknown"):

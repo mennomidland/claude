@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://midlandind.com.au/schema/trailer-photo-tags/v4",
-  "title": "Midland media library tag record (v4)",
-  "description": "One record per image in Sales/1. Trailer Photos. `photo` and `path_derived` are populated by code during enumeration. `vision` is the ONLY object a model is ever asked to produce, and it must be produced without being shown `path_derived` -- see docs/routines/02-thursday-iteration.md for why.",
+  "title": "Midland media library tag record (v4.1)",
+  "description": "One record per image in Sales/1. Trailer Photos. `photo` and `path_derived` are populated by code during enumeration. `vision` is the ONLY object a model is ever asked to produce, and it must be produced without being shown `path_derived` -- see docs/routines/02-thursday-iteration.md for why. v4.1 renames coaming_type `channel` to Midland's own term `pfc` (alias reads the old value), adds the retracted-widener discriminator to body_type, and makes `caption` a schema field so it cannot assert what the structured fields declined to.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -11,7 +11,7 @@
   ],
   "properties": {
     "schema_version": {
-      "const": "4.0"
+      "const": "4.1"
     },
     "photo": {
       "type": "object",
@@ -361,7 +361,7 @@
                   "not_visible",
                   "unknown"
                 ],
-                "description": "DROP DECK AND STEP DECK ARE THE SAME THING in Australian usage -- Midland state this directly -- so there is no step_deck value; use drop_deck. double_drop_deck has two deck drops with a well between. drop_deck_widener covers what US sources call a lowboy. moving_floor, side_tipper, super_tilt and car_carrier are COMPETITOR bodies Midland do not build, so seeing one is a strong hint the subject is not a Midland product."
+                "description": "DROP DECK AND STEP DECK ARE THE SAME THING in Australian usage -- Midland state this directly -- so there is no step_deck value; use drop_deck. double_drop_deck has two deck drops with a well between. drop_deck_widener covers what US sources call a lowboy. moving_floor, side_tipper, super_tilt and car_carrier are COMPETITOR bodies Midland do not build, so seeing one is a strong hint the subject is not a Midland product. HOW TO SPOT A WIDENER WHEN IT IS RETRACTED, which is how it will be parked in almost every photo: look under the deck edge for a ROW OF EVENLY SPACED PARALLEL STEEL FINGERS -- the extension outriggers -- projecting slightly past the chassis rail, plus a join line running the deck length where the outer sections sit flush against the inner frame. Those fingers are decisive on their own and are visible even when most of the trailer is outside the frame, so a partial view is NOT a reason to answer unknown: judge on what is actually in shot. This was missed once on a photo where only the front of the trailer was visible and the outriggers were plainly in it."
               },
               "front_load_restraint": {
                 "enum": [
@@ -408,13 +408,13 @@
               "coaming_type": {
                 "enum": [
                   "flush",
-                  "channel",
+                  "pfc",
                   "profile",
                   "none",
                   "not_visible",
                   "unknown"
                 ],
-                "description": "Midland describe coaming four different ways across their site and misspell it 'combing'. 'TFB' is deliberately NOT a value -- it appears once on their site, defined nowhere, so no tagger can be asked to identify it. Ask Midland engineering before adding it."
+                "description": "PFC is Midland's term -- parallel flange channel -- and replaces the generic 'channel' value; read 'channel' on input, never write it. HOW TO TELL PFC FROM FLUSH, because they were confused once and it is the easy mistake: PFC presents a C-section side rail with a HORIZONTAL TOP FLANGE and a matching BOTTOM FLANGE, web between, open face outward, usually scalloped up over each wheel arch; the deck surface sits inside it and the rail casts its own shadow line the length of the trailer. Flush has NO protruding flanges -- the deck edge is one smooth vertical face flush with the chassis rail. At an oblique angle or in flat light the PFC's flanges foreshorten into what looks like a plain edge, so ANY side rail with a visible top-and-bottom lip is pfc, not flush. If the angle will not resolve the flanges, answer not_visible rather than guessing flush. Midland describe coaming four different ways across their site and misspell it 'combing'. 'TFB' is deliberately NOT a value -- it appears once on their site, defined nowhere, so no tagger can be asked to identify it. Ask Midland engineering before adding it."
               },
               "suspension_mount": {
                 "enum": [
@@ -801,6 +801,13 @@
           ],
           "maxLength": 24,
           "description": "Optional ATA notation, e.g. B1233 (B-double: single steer, tandem drive, tri lead, tri rear) or A123T23 (Type 1 road train). R = rigid, A = prime mover + semi, T = drawbar or dolly trailer, B = trailer coupled via a turntable on the forward trailer; digits are axles per group. Every symbol is countable from a side-on photograph, and a partial code is fine when only part of the combination is in frame. Null when you cannot count the groups."
+        },
+        "caption": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "One line a person would read under the photo. IT MAY NOT ASSERT ANYTHING THE STRUCTURED FIELDS DECLINED TO. If body_type is unknown or not_visible the caption may not name a body type; if axle_count is not_visible it may not count axles; and so on, field by field. The caption is prose, not a second opinion -- it is written FROM the structured answers, never alongside them. This was got wrong once: a caption read \"loaded Midland drop deck\" on a record whose body_type was unknown, which put a classification into the library that nothing had actually established."
         }
       }
     },
@@ -878,32 +885,37 @@
   "x_input_aliases": {
     "description": "Strings that appear in the existing 40,000 filenames and folder names. Map to the canonical value ON INPUT ONLY. None of these may ever be emitted as a tag value.",
     "aliases": {
-      "bogie": "tandem",
-      "combing": "coaming",
-      "chequer": "checker_plate",
-      "checker plate": "checker_plate",
-      "floor plate": "checker_plate",
-      "bissaloy": "smooth_wear_plate",
-      "bissalloy": "smooth_wear_plate",
+      "a trailer": "lead_trailer",
+      "b trailer": "rear_trailer",
       "bisalloy": "smooth_wear_plate",
+      "bissalloy": "smooth_wear_plate",
+      "bissaloy": "smooth_wear_plate",
+      "bogie": "tandem",
+      "channel": "pfc",
+      "checker plate": "checker_plate",
+      "chequer": "checker_plate",
+      "combing": "coaming",
+      "deck widener": "drop_deck_widener",
+      "drop deck widener": "drop_deck_widener",
+      "float": "float_or_low_loader",
+      "floor plate": "checker_plate",
       "hardox": "smooth_wear_plate",
+      "kurtainer": "curtainsider",
+      "lowboy": "float_or_low_loader",
+      "mez deck": "steel_mezz_deck",
+      "mezz deck": "steel_mezz_deck",
+      "parallel flange channel": "pfc",
+      "pintel hook": "pintle_hook",
       "ring feder": "ringfeder_tow_eye",
       "ring feeder": "ringfeder_tow_eye",
       "ringfeder": "ringfeder_tow_eye",
-      "pintel hook": "pintle_hook",
-      "mez deck": "steel_mezz_deck",
-      "mezz deck": "steel_mezz_deck",
-      "step deck": "drop_deck",
-      "lowboy": "float_or_low_loader",
-      "float": "float_or_low_loader",
-      "a trailer": "lead_trailer",
-      "b trailer": "rear_trailer",
-      "tag trailer": "drawbar_plant_trailer",
+      "skel": "skeletal",
       "skeletal": "skeletal",
       "skeleton": "skeletal",
-      "skel": "skeletal",
+      "step deck": "drop_deck",
+      "tag trailer": "drawbar_plant_trailer",
       "tautliner": "curtainsider",
-      "kurtainer": "curtainsider"
+      "widener": "drop_deck_widener"
     },
     "note": "The two-axle alias is the important one operationally. Midland's OWN website serves image files named for the deprecated term alongside 'Tri+Axle+...' files on the same page, so it is very likely present in the photo library's filenames and folder names. Read it, map it to tandem, never write it."
   }

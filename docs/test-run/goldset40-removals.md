@@ -1,4 +1,4 @@
-# Tags to strike — 72 across 40 assets
+# Tags to strike — 116 across 40 assets
 
 Each line is one tag to remove from that asset in the media library UI. Grouped by
 asset because the UI is per-asset; ordered by `mediaId` so the list matches the order
@@ -8,9 +8,15 @@ assets appear.
 
 `Sales/1. Trailer Photos/Drop Deck Trailers/1. Semi Drop Deck Trailers/2. Semi Drop Deck Widener Trailers/2025.07 - Simon Turnbull 4m Widener - 2896/Touched up photos/DSC_0045.jpg`
 
+**trailer-photo:state**
+
+- [ ] `t1:body:unknown`
+
 **trailer-photo:vision**
 
 - [ ] `category:drop-deck-trailers`
+- [ ] `promptver:v4.0`
+- [ ] `t1:conf:low`
 - [ ] `variant:semi-drop-deck-trailers`
 
 ## 9 — dji_fly_20251208_164146_637_1765248219372_photo.jpg
@@ -20,6 +26,7 @@ assets appear.
 **trailer-photo:vision**
 
 - [ ] `category:drop-deck-trailers`
+- [ ] `promptver:v4.0`
 - [ ] `variant:semi-drop-deck-trailers`
 
 ## 10 — WhatsApp Image 2024-12-02 at 10.07.40_020efe1e.jpg
@@ -29,6 +36,7 @@ assets appear.
 **trailer-photo:vision**
 
 - [ ] `category:drop-deck-trailers`
+- [ ] `promptver:v4.0`
 - [ ] `variant:semi-drop-deck-trailers`
 
 ## 11 — 20241112_072952.jpg
@@ -38,6 +46,7 @@ assets appear.
 **trailer-photo:vision**
 
 - [ ] `category:drop-deck-trailers`
+- [ ] `promptver:v4.0`
 - [ ] `variant:semi-drop-deck-trailers`
 
 ## 12 — 20240404_145401.jpg
@@ -47,6 +56,7 @@ assets appear.
 **trailer-photo:vision**
 
 - [ ] `category:tag-trailers`
+- [ ] `promptver:v4.0`
 - [ ] `variant:tri-axle-tag-trailer`
 
 ## 13 — DSC01186.JPG
@@ -56,6 +66,7 @@ assets appear.
 **trailer-photo:vision**
 
 - [ ] `category:tag-trailers`
+- [ ] `promptver:v4.0`
 - [ ] `variant:tri-axle-tag-trailer`
 
 ## 14 — DSC03438.JPG
@@ -65,6 +76,7 @@ assets appear.
 **trailer-photo:vision**
 
 - [ ] `category:tag-trailers`
+- [ ] `promptver:v4.0`
 - [ ] `variant:tri-axle-tag-trailer`
 
 ## 15 — 20211214_125157.jpg
@@ -74,6 +86,7 @@ assets appear.
 **trailer-photo:vision**
 
 - [ ] `category:tag-trailers`
+- [ ] `promptver:v4.0`
 - [ ] `variant:tandem-axle-tag-trailer`
 
 ## 16 — DSC06776.JPG
@@ -83,6 +96,7 @@ assets appear.
 **trailer-photo:vision**
 
 - [ ] `category:dog-trailers`
+- [ ] `promptver:v4.0`
 - [ ] `variant:4-axle-dog-trailer`
 
 ## 17 — DSC05835.JPG
@@ -92,6 +106,7 @@ assets appear.
 **trailer-photo:vision**
 
 - [ ] `category:dog-trailers`
+- [ ] `promptver:v4.0`
 - [ ] `variant:3-axle-dog-trailer`
 
 ## 18 — 20250116_142430.jpg
@@ -101,6 +116,7 @@ assets appear.
 **trailer-photo:vision**
 
 - [ ] `category:dog-trailers`
+- [ ] `promptver:v4.0`
 - [ ] `variant:3-axle-dog-trailer`
 
 ## 19 — DSC04267.JPG
@@ -110,6 +126,7 @@ assets appear.
 **trailer-photo:vision**
 
 - [ ] `category:dog-trailers`
+- [ ] `promptver:v4.0`
 - [ ] `variant:3-axle-dog-trailer`
 
 ## 20 — DSC00172.JPG
@@ -119,6 +136,7 @@ assets appear.
 **trailer-photo:vision**
 
 - [ ] `category:skel-trailers`
+- [ ] `promptver:v4.0`
 - [ ] `variant:emea`
 
 ## 21 — WhatsApp Image 2024-02-05 at 1.34.58 PM.jpeg
@@ -128,6 +146,7 @@ assets appear.
 **trailer-photo:vision**
 
 - [ ] `category:skel-trailers`
+- [ ] `promptver:v4.0`
 
 ## 22 — DSC04712.JPG
 
@@ -136,6 +155,7 @@ assets appear.
 **trailer-photo:vision**
 
 - [ ] `category:skel-trailers`
+- [ ] `promptver:v4.0`
 - [ ] `variant:allquip`
 
 ## 23 — 20221208_070826.jpg
@@ -145,6 +165,8 @@ assets appear.
 **trailer-photo:vision**
 
 - [ ] `category:flat-tops-trailers`
+- [ ] `promptver:v4.0`
+- [ ] `t1:coaming:channel`
 
 ## 24 — 20220825_135306.jpg
 
@@ -153,6 +175,7 @@ assets appear.
 **trailer-photo:vision**
 
 - [ ] `category:flat-tops-trailers`
+- [ ] `promptver:v4.0`
 
 ## 25 — WhatsApp Image 2024-07-03 at 04.40.17_b0bd30d0.jpg
 
@@ -161,6 +184,7 @@ assets appear.
 **trailer-photo:vision**
 
 - [ ] `category:flat-tops-trailers`
+- [ ] `promptver:v4.0`
 
 ## 26 — G0021515.JPG
 
@@ -169,6 +193,7 @@ assets appear.
 **trailer-photo:vision**
 
 - [ ] `category:drone-items`
+- [ ] `promptver:v4.0`
 - [ ] `variant:178gopro`
 
 ## 27 — G0028055.JPG
@@ -178,6 +203,7 @@ assets appear.
 **trailer-photo:vision**
 
 - [ ] `category:drone-items`
+- [ ] `promptver:v4.0`
 - [ ] `variant:185gopro`
 
 ## 28 — G0029999.JPG
@@ -187,6 +213,7 @@ assets appear.
 **trailer-photo:vision**
 
 - [ ] `category:drone-items`
+- [ ] `promptver:v4.0`
 - [ ] `variant:187gopro`
 
 ## 29 — 20180930_093630.jpg
@@ -196,6 +223,7 @@ assets appear.
 **trailer-photo:vision**
 
 - [ ] `category:z.-opposition-trailers`
+- [ ] `promptver:v4.0`
 - [ ] `variant:ruiz---single-axle-tag-fwr`
 
 ## 30 — 20191214_141138.jpg
@@ -205,6 +233,7 @@ assets appear.
 **trailer-photo:vision**
 
 - [ ] `category:z.-opposition-trailers`
+- [ ] `promptver:v4.0`
 - [ ] `variant:sean-mclean-tuff`
 
 ## 31 — beaver tail.jpg
@@ -214,6 +243,7 @@ assets appear.
 **trailer-photo:vision**
 
 - [ ] `category:z.-opposition-trailers`
+- [ ] `promptver:v4.0`
 - [ ] `variant:fwr`
 
 ## 32 — DSC02634.JPG
@@ -223,6 +253,7 @@ assets appear.
 **trailer-photo:vision**
 
 - [ ] `category:customised-trailers`
+- [ ] `promptver:v4.0`
 - [ ] `variant:floats`
 
 ## 33 — 20230525_162208.jpg
@@ -232,6 +263,7 @@ assets appear.
 **trailer-photo:vision**
 
 - [ ] `category:customised-trailers`
+- [ ] `promptver:v4.0`
 - [ ] `variant:gator-made`
 
 ## 34 — DSCN7267.JPG
@@ -241,6 +273,7 @@ assets appear.
 **trailer-photo:vision**
 
 - [ ] `category:z.creo-trailer-image-files`
+- [ ] `promptver:v4.0`
 
 ## 35 — DSCN7269.JPG
 
@@ -249,6 +282,7 @@ assets appear.
 **trailer-photo:vision**
 
 - [ ] `category:z.creo-trailer-image-files`
+- [ ] `promptver:v4.0`
 
 ## 36 — 4m Widener.png
 
@@ -257,6 +291,7 @@ assets appear.
 **trailer-photo:vision**
 
 - [ ] `category:trailer-drawings`
+- [ ] `promptver:v4.0`
 - [ ] `variant:archive`
 
 ## 37 — Speedie Tag.jpg
@@ -266,6 +301,8 @@ assets appear.
 **trailer-photo:vision**
 
 - [ ] `category:brochures`
+- [ ] `promptver:v4.0`
+- [ ] `t1:coaming:flush`
 - [ ] `variant:old.-past-brochures-&-flyers`
 
 ## 38 — IMG_0489.JPG
@@ -275,6 +312,7 @@ assets appear.
 **trailer-photo:vision**
 
 - [ ] `category:z.close-up-photos-of-trailer-parts`
+- [ ] `promptver:v4.0`
 
 ## 39 — IMG_0488.JPG
 
@@ -283,6 +321,7 @@ assets appear.
 **trailer-photo:vision**
 
 - [ ] `category:z.close-up-photos-of-trailer-parts`
+- [ ] `promptver:v4.0`
 
 ## 40 — IMG_3908 1.jpg
 
@@ -291,6 +330,7 @@ assets appear.
 **trailer-photo:vision**
 
 - [ ] `category:hay-spec-trailers`
+- [ ] `promptver:v4.0`
 
 ## 41 — IMG-20250515-WA0008 (1).jpg
 
@@ -299,6 +339,7 @@ assets appear.
 **trailer-photo:vision**
 
 - [ ] `category:hay-spec-trailers`
+- [ ] `promptver:v4.0`
 
 ## 42 — DJI_0270.JPG
 
@@ -308,6 +349,7 @@ assets appear.
 
 - [ ] `category:road-trains`
 - [ ] `combo:not-a-combination`
+- [ ] `promptver:v4.0`
 - [ ] `t1:config:semi-trailer`
 - [ ] `t1:role:standalone-semi`
 - [ ] `t2:role:standalone-semi`
@@ -322,6 +364,7 @@ assets appear.
 **trailer-photo:vision**
 
 - [ ] `category:road-trains`
+- [ ] `promptver:v4.0`
 
 ## 44 — IMG_20220131_092033.jpg
 
@@ -330,6 +373,7 @@ assets appear.
 **trailer-photo:vision**
 
 - [ ] `category:skip-bin-transfer-trailers`
+- [ ] `promptver:v4.0`
 
 ## 45 — DSC00446.JPG
 
@@ -338,6 +382,7 @@ assets appear.
 **trailer-photo:vision**
 
 - [ ] `category:tipping-trailers`
+- [ ] `promptver:v4.0`
 - [ ] `variant:dog-trailer---tipping-flat-bed---port-wine`
 
 ## 46 — Dolly 003.jpg
@@ -347,6 +392,7 @@ assets appear.
 **trailer-photo:vision**
 
 - [ ] `category:dollies`
+- [ ] `promptver:v4.0`
 
 ## 47 — IMG-20240729-WA0007.jpg
 
@@ -355,4 +401,5 @@ assets appear.
 **trailer-photo:vision**
 
 - [ ] `category:pole-jinker-trailers`
+- [ ] `promptver:v4.0`
 

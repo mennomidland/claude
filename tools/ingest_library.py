@@ -39,7 +39,7 @@ import graph_check as g
 from tag_vocabulary import tags_for, VISION_NAMESPACE, STATE_NAMESPACE
 
 INGEST = "https://qm3staging.midlandind.com.au/api/media/ingest"
-PROMPT_VERSION = "v4.0"
+PROMPT_VERSION = "v4.1"
 MODEL = "claude-opus-5"
 MAX_B64_MB = 40
 
@@ -314,7 +314,7 @@ def main():
         # pull a multi-megabyte rendition only to discard it. The cost of this shortcut is
         # that a silently REPLACED source file with identical tags goes unnoticed here --
         # that is the enumeration delta's job (it watches lastModified), not this tool's.
-        record = {"schema_version": "4.0", "vision": rec["vision"],
+        record = {"schema_version": "4.1", "vision": rec["vision"],
                   "audit": rec.get("audit", {}), "path_derived": pd}
         sets = tags_for(record, PROMPT_VERSION, MODEL)
         hashes = {ns: hashlib.sha256("\n".join(sets[ns]).encode()).hexdigest()

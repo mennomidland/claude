@@ -245,6 +245,30 @@ to the originals in `z.Tare Weights`, which was re-checked afterwards and is int
   so; it was a miscount of a tri-axle group cropped at the frame edge, tagged at high
   confidence. Cropping must cap confidence. The no-propagation rule stands on the grounds
   that 13 of 30 frames cannot be counted at all.
+- **Coaming: the house term is PFC** — parallel flange channel. Schema v4.1 renames
+  `channel` to `pfc`; `channel` is read on input and never written. **PFC is not flush**,
+  and confusing them was a real error on `Speedie Tag.jpg`. PFC shows a C-section side rail
+  with a top AND bottom flange, web between, scalloped over each wheel arch. Flush has no
+  protruding flanges at all. At an oblique angle the flanges foreshorten into what looks
+  like a plain edge — if the angle will not resolve them, answer `not_visible`, never
+  `flush`.
+- **A partial view is not a reason to answer `unknown`.** `DSC_0045.jpg` was tagged
+  `body_type: unknown` with the note "the trailer is mostly beyond the frame"; it is a
+  **drop deck widener**, and the retracted widener outriggers — a row of evenly spaced
+  parallel steel fingers under the deck edge — are plainly in shot. Judge what is actually
+  visible, not what fraction of the trailer is. Those fingers, plus a join line running the
+  deck length, are the retracted-widener signature and are decisive on their own.
+- **The caption may not assert what the structured fields declined to.** That same record's
+  caption read "loaded Midland drop deck" while `body_type` was `unknown`, putting a
+  classification into the library that nothing had established. `caption` is now a schema
+  field with this rule attached: it is written FROM the structured answers, never alongside
+  them.
+- **Emit a `folder:` term for EVERY folder level, not the top two.** `DSC_0045.jpg` lives
+  under `.../1. Semi Drop Deck Trailers/2. Semi Drop Deck Widener Trailers/2025.07 - Simon
+  Turnbull 4m Widener - 2896/...`. The word that makes it findable is at level 3, and
+  taking two levels dropped it — nobody searching "widener" would have found the photo.
+  Date/customer folders stay excluded because `customer`, `build_date` and `job_numbers`
+  already carry them.
 
 ## Still open
 

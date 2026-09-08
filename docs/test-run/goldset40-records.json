@@ -3,7 +3,7 @@
   "item_id": "015HCHN4VEPJNR67MBKNHLDO7WBHGBAWWC",
   "n": 1,
   "filename": "DSC_0045.jpg",
-  "caption": "Western Star prime mover with loaded Midland drop deck, overcast yard",
+  "caption": "Western Star prime mover coupled to a loaded Midland drop deck widener, ramps stacked on the deck, overcast yard",
   "vision": {
    "media_kind": "photograph",
    "competitor_branding_present": "none",
@@ -19,7 +19,7 @@
    "defects": [],
    "duplicate_group": null,
    "needs_human_review": false,
-   "notes": "Prime mover is the subject; the trailer is mostly beyond the frame so almost nothing about it can be judged.",
+   "notes": "Prime mover dominates the frame; the trailer is only partly in shot but carries a decisive widener signature.",
    "ata_configuration_code": null,
    "combination_type": "semi",
    "non_marketing_reason": null,
@@ -49,29 +49,35 @@
       "Midland"
      ],
      "components_visible": [
-      "mudflaps",
       "chassis_rail",
-      "deck_floor"
+      "deck_floor",
+      "mudflaps",
+      "mudguards"
      ],
-     "features_present": [],
+     "features_present": [
+      "bifold_ramp",
+      "extendable_chassis",
+      "outriggers"
+     ],
      "identifying_text": [],
      "chassis_colour": "not_visible",
      "build_state": "finished",
      "is_loaded": "loaded",
      "load_type": "steel_or_building_products",
-     "body_type": "unknown",
+     "body_type": "drop_deck_widener",
      "combination_role": "standalone_semi",
      "position_in_frame": "only_trailer",
      "axle_count": "not_visible",
      "is_midland_product": "midland",
-     "confidence": "low",
-     "notes": "Only the front of the trailer enters the frame behind the prime mover."
+     "confidence": "medium",
+     "notes": "Only the front of the trailer enters the frame, but the retracted widener outriggers are plainly visible under the deck edge, which identifies the body type on its own."
     }
-   ]
+   ],
+   "caption": "Western Star prime mover coupled to a loaded Midland drop deck widener, ramps stacked on the deck, overcast yard"
   },
   "audit": {
    "axle_agreement": "vision_unknown",
-   "category_agreement": "vision_unknown",
+   "category_agreement": "agree",
    "provenance_conflict": false,
    "non_marketing_in_marketing_folder": false
   }
@@ -1296,7 +1302,7 @@
     {
      "trailer_configuration": "semi_trailer",
      "coupling_type": "not_visible",
-     "coaming_type": "channel",
+     "coaming_type": "pfc",
      "suspension_mount": "not_visible",
      "suspension_type": "not_visible",
      "deck_material": "unknown",
@@ -2616,7 +2622,7 @@
     {
      "trailer_configuration": "semi_trailer",
      "coupling_type": "not_visible",
-     "coaming_type": "flush",
+     "coaming_type": "pfc",
      "suspension_mount": "not_visible",
      "suspension_type": "not_visible",
      "deck_material": "not_visible",
