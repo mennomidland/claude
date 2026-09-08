@@ -236,15 +236,49 @@ is what the credential layout now encodes:
 - Split as it is now, the scan app cannot touch the photo library and the QM3 app
   cannot touch a mailbox. Neither blast radius contains the other.
 
-### Create it
+### Create it: run the provisioning script
 
-Name it something that says what it does — `Midland-ScanIngest`. Single-tenant.
-Then grant **application** (not delegated) permissions:
+`tools/provision_scan_app.ps1` does the whole thing in one run — app, service
+principal, both permissions, consent, secret, the mail access policy, the
+jobs-site grant, then verifies and prints the three environment variables.
+
+```powershell
+Install-Module Microsoft.Graph, ExchangeOnlineManagement, PnP.PowerShell
+./tools/provision_scan_app.ps1 -WhatIf     # show what would change
+./tools/provision_scan_app.ps1
+```
+
+Idempotent — re-running finds what exists and fills in the rest. The exception is
+the client secret, which cannot be read back after creation; `-NewSecret` rotates
+it. **Not validated by execution**: no PowerShell in the repo's container, so it
+has been written carefully but never run. Use `-WhatIf` first.
+
+#### Why a script and not automation from the repo
+
+This step cannot be automated from a session, and the reason is worth recording
+so nobody retries it:
+
+```
+POST /applications              -> 403 Insufficient privileges
+GET  /servicePrincipals (list)  -> 403 Insufficient privileges
+GET  /oauth2PermissionGrants    -> 403 Insufficient privileges
+```
+
+Measured with the QM3 credential, which holds `Sites.Selected` and
+`User.Read.All`. Adding directory-write rights to an app so it could create
+another app would make every app-only credential a privilege-escalation path,
+which is exactly why Entra requires an interactive admin for consent. There is a
+bootstrap floor and any credential this repo holds sits below it.
+
+Everything *after* consent is automatable, and the routine itself needs no admin
+rights at run time — only the three variables.
+
+#### What the app needs, for reference
 
 | Permission | Scope | Why |
 |---|---|---|
 | `Mail.ReadWrite` | `automation@` only, by access policy | read mail, download attachments, categorise, mark read, move |
-| `Sites.Selected` | the **jobs** site only | write scans into `Completed Jobs` |
+| `Sites.Selected` | the **jobs** site only, `write` | create folders and upload into `Completed Jobs` |
 
 `Mail.Read` alone is not enough: without write there is no way to mark a message
 actioned, and without that the routine cannot tell processed from unprocessed and
@@ -253,8 +287,12 @@ added — the routine never sends. Do **not** grant `Sites.ReadWrite.All`; that 
 the whole estate, and `Sites.Selected` plus a per-site grant is the pattern this
 repo already uses.
 
-Portal route, which avoids typing GUIDs: **Entra ID → App registrations → New
-registration**, then **API permissions → Add a permission → Microsoft Graph →
+The script resolves both role IDs **by name** from Microsoft Graph's own service
+principal rather than hardcoding GUIDs, so a wrong name fails loudly instead of
+granting the wrong permission.
+
+Portal equivalent, if the script cannot be used: **Entra ID → App registrations →
+New registration**, then **API permissions → Add a permission → Microsoft Graph →
 Application permissions**, add both, then **Grant admin consent for Midland**.
 Both permissions are inert until that consent button is pressed.
 
