@@ -19,10 +19,11 @@ DRY RUN BY DEFAULT. Nothing is written without --commit.
     python3 tools/scan_ingest.py --limit 5        # look at five
     python3 tools/scan_ingest.py --commit         # actually do it
 
-Requires GRAPH_TENANT_ID / GRAPH_CLIENT_ID / GRAPH_CLIENT_SECRET (already set on
-the Midland environment) plus, for step 4 only, SMARTSHEET_ACCESS_TOKEN.
+Requires SCAN_GRAPH_TENANT_ID / SCAN_GRAPH_CLIENT_ID / SCAN_GRAPH_CLIENT_SECRET
+-- this routine's own app registration, NOT the QM3 app in GRAPH_* -- plus, for
+step 4 only, SMARTSHEET_ACCESS_TOKEN.
 
-**Step 1 needs a Mail permission the app registration does not yet have** — see
+**Step 1 needs the dedicated app registration and its Mail grant** — see
 docs/routines/06-scan-mailbox.md. Everything below step 1 is exercised by
 --self-test, which needs no mail access.
 """
@@ -80,12 +81,43 @@ class Fatal(Exception):
 
 # --- Graph helpers ---------------------------------------------------------
 
+# This routine has its own app registration, separate from the QM3 app whose
+# credentials graph_check reads. Keeping them apart is the point: the scan app
+# must not reach the photo library, and the QM3 app must not reach a mailbox.
+CREDS = ("SCAN_GRAPH_TENANT_ID", "SCAN_GRAPH_CLIENT_ID", "SCAN_GRAPH_CLIENT_SECRET")
+
+
 def _token():
-    state = {}
-    ok, detail = gc.step2_token(state)
-    if not ok:
-        raise Fatal(f"no Graph token: {detail}")
-    return state["token"]
+    """Client-credentials token for the scan-ingest app. Never printed.
+
+    Deliberately does NOT fall back to the QM3 credentials in graph_check: a
+    silent fallback would run this routine under an app that is not scoped for
+    it, and the failure would look like a permissions bug rather than a missing
+    variable.
+    """
+    missing = [v for v in CREDS if not os.environ.get(v)]
+    if missing:
+        raise Fatal(
+            f"unset: {', '.join(missing)}. This routine uses its own app "
+            "registration, not the QM3 one in GRAPH_*. See "
+            "docs/routines/06-scan-mailbox.md.")
+    tenant = os.environ["SCAN_GRAPH_TENANT_ID"]
+    body = urllib.parse.urlencode({
+        "client_id": os.environ["SCAN_GRAPH_CLIENT_ID"],
+        "client_secret": os.environ["SCAN_GRAPH_CLIENT_SECRET"],
+        "scope": "https://graph.microsoft.com/.default",
+        "grant_type": "client_credentials",
+    }).encode()
+    status, _, raw = gc.request(
+        f"https://login.microsoftonline.com/{tenant}/oauth2/v2.0/token",
+        method="POST", data=body,
+        headers={"Content-Type": "application/x-www-form-urlencoded"})
+    if status != 200:
+        raise Fatal(f"token endpoint returned {status}: {gc._err(raw)}")
+    token = json.loads(raw).get("access_token")
+    if not token:
+        raise Fatal("token endpoint returned no access_token")
+    return token
 
 
 def _json(status, raw, what):
@@ -426,8 +458,12 @@ def self_test():
     if os.system(f"python3 {os.path.join(os.path.dirname(__file__), 'test_scan_filename.py')}"):
         return 1
     print("\nGraph token and the Completed Jobs library:")
-    tok = _token()
-    print("  PASS  token acquired")
+    try:
+        tok = _token()
+    except Fatal as e:
+        print(f"  BLOCKED  {e}")
+        return 1
+    print("  PASS  token acquired (scan-ingest app)")
     status, _, _ = gc.request(f"{gc.GRAPH}/sites/{JOBS_SITE.replace('/sites/', ':/sites/')}",
                               token=tok)
     print(f"  {'PASS' if status == 200 else 'FAIL'}  jobs site: HTTP {status}")

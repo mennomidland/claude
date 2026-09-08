@@ -1,8 +1,9 @@
 # Scanner mail → SharePoint, and VIN reconciliation
 
 The Apeos C2567 in Parkes emails every scan to `automation@midlandind.com.au`.
-Nobody works that mailbox. The routine files the PDFs into the sales drawings
-library, reconciles any VIN against the VIN Tracker, and marks the mail actioned.
+Nobody works that mailbox. The routine files the PDFs into the **Completed Jobs**
+library on the jobs site, reconciles any VIN against the VIN Tracker, and marks
+the mail actioned.
 
 Implemented in `tools/scan_ingest.py`; filename parsing in `tools/scan_filename.py`
 with tests in `tools/test_scan_filename.py`.
@@ -96,17 +97,22 @@ categories**, so an ingested scan never lands in a bare directory unlike every
 other job. Job 751 uses `OUTSOURCED PARTS` in place of `PARTS`; that variant is
 left alone where it already exists.
 
-### Access is already granted, but write is unproven
+### The dedicated app needs this site granted to it
 
-`GET /sites/jobs` and the Completed Jobs drive both return **200** to the
-existing app-only credential, so the `Sites.Selected` grant already covers this
-site — no new SharePoint consent needed, contrary to what `04-graph-access.md`
-anticipated for the `jobs` site.
+Measured with the *QM3* credential, `GET /sites/jobs` and the Completed Jobs
+drive both return **200** — so that app already reaches this site, which is
+contrary to what `04-graph-access.md` anticipated. **That does not carry over.**
+The routine now runs under its own registration (below), and `Sites.Selected`
+grants nothing until the site is named for that specific app.
 
-**Write access to this library has not been probed.** The `PUT`/`DELETE`/
-`permanentDelete` probe recorded in `04-graph-access.md` was against the *sales
-photo* library. Do the first real run as `--commit --limit 1` and check the
-result; `--self-test` says the same.
+So the jobs site must be granted to the new app explicitly, with **`write`** —
+the routine creates folders and uploads files. Command and site id are in
+"Grant it write on the jobs site only" below.
+
+Write access to this library has never been probed under *any* credential: the
+`PUT`/`DELETE`/`permanentDelete` probe recorded in `04-graph-access.md` was
+against the *sales photo* library. The first `--commit --limit 1` run is the
+check, and `--self-test` says so.
 
 ## VIN reconciliation — the tracker MINTS VINs, so do not just add rows
 
@@ -185,13 +191,15 @@ The routine can only see VINs **typed into filenames** — in practice the
 invisible, because the PDFs have no text layer and cannot be read. Any claim of
 full VIN reconciliation is therefore false until OCR is on at the device.
 
-## BLOCKED: the app registration has no Mail permission
+## BLOCKED: no app registration can reach the mailbox yet
 
 Everything below step 1 is built and tested. Step 1 is not reachable:
 
 ```
 FAIL  403  GET /users/automation@midlandind.com.au/mailFolders/inbox
-           Access is denied. Check credentials and try again.
+FAIL  403  GET /users/menno@midlandind.com.au/mailFolders/inbox
+PASS  200  GET /users/automation@  (directory)
+PASS  200  Completed Jobs drive
 ```
 
 **This is an HTTP 403, not a CONNECT 403** — the tunnel opened and Graph itself
@@ -200,31 +208,133 @@ these read alike and mean opposite things; here the distinction is the whole
 diagnosis.) No new allowlist entry is needed: `graph.microsoft.com` and
 `*.sharepoint.com` are already open, and the mailbox needs nothing further.
 
-### What to grant
+The last two lines are what make the diagnosis specific. The **same token** reads
+the directory and SharePoint fine, so the credential is healthy and the denial is
+mail-specific. And **every** mailbox 403s, not just `automation@` — which rules
+out an `ApplicationAccessPolicy` scoping an existing Mail permission away from
+that one mailbox. There is simply no Mail permission anywhere yet.
 
-On the existing app registration, add **application** (not delegated) permission:
+Diagnose a future 403 here the same way: try a second mailbox. One denied and one
+allowed means a policy; both denied means a missing permission.
 
-| Permission | Why |
-|---|---|
-| `Mail.ReadWrite` | read the mail, download attachments, set categories, mark read, move |
+### A dedicated app registration
+
+**Decided 2026-09-08: this routine gets its own app registration**, not a Mail
+grant bolted onto the existing `QM3_DEV_Sharepoint`. The QM3 app was briefly
+chosen and then reversed; the reasoning for the split is worth keeping because it
+is what the credential layout now encodes:
+
+- `QM3_DEV_Sharepoint` is a **dev** registration for the photo-tagging work,
+  `HideApp`-tagged, holding exactly two permissions
+  (`9492366f-…` / `df021288-…`, the well-known ids for `Sites.Selected` and
+  `User.Read.All` — not resolvable in-tenant, the credential gets 403 on Graph's
+  own `appRoles`). Adding mail to it would mean one weakly-protected secret
+  reaching both the SharePoint estate and a mailbox.
+- Its secret lives in an environment variable, which `04-graph-access.md` already
+  flags: *"visible to anyone who can use the environment, and there is no secrets
+  store yet."*
+- Split as it is now, the scan app cannot touch the photo library and the QM3 app
+  cannot touch a mailbox. Neither blast radius contains the other.
+
+### Create it
+
+Name it something that says what it does — `Midland-ScanIngest`. Single-tenant.
+Then grant **application** (not delegated) permissions:
+
+| Permission | Scope | Why |
+|---|---|---|
+| `Mail.ReadWrite` | `automation@` only, by access policy | read mail, download attachments, categorise, mark read, move |
+| `Sites.Selected` | the **jobs** site only | write scans into `Completed Jobs` |
 
 `Mail.Read` alone is not enough: without write there is no way to mark a message
 actioned, and without that the routine cannot tell processed from unprocessed and
-would re-ingest all 226 every run.
+would re-ingest all 226 every run. `Mail.Send` is **not** needed and must not be
+added — the routine never sends. Do **not** grant `Sites.ReadWrite.All`; that is
+the whole estate, and `Sites.Selected` plus a per-site grant is the pattern this
+repo already uses.
 
-Then admin-consent it, and **scope it to this one mailbox** — the default grant
-reads every mailbox in the tenant, which is far more than this needs and is the
-same least-privilege argument that chose `Sites.Selected` over `Files.Read.All`:
+Portal route, which avoids typing GUIDs: **Entra ID → App registrations → New
+registration**, then **API permissions → Add a permission → Microsoft Graph →
+Application permissions**, add both, then **Grant admin consent for Midland**.
+Both permissions are inert until that consent button is pressed.
+
+### Scope the mail grant in the same change, not afterwards
+
+`Sites.Selected` is safe by default — it grants nothing until a site is named.
+`Mail.ReadWrite` is the opposite: **on consent it reaches every mailbox in the
+tenant.** Close that window immediately.
 
 ```powershell
-New-ApplicationAccessPolicy -AppId <client-id> `
+Connect-ExchangeOnline
+New-ApplicationAccessPolicy `
+  -AppId <new-client-id> `
   -PolicyScopeGroupId automation@midlandind.com.au `
   -AccessRight RestrictAccess `
-  -Description "Scan ingest routine — automation@ only"
+  -Description "Scan ingest routine - automation@ only"
 ```
 
-Verify with `Test-ApplicationAccessPolicy`, then `python3 tools/scan_ingest.py
---self-test`, which reports the mailbox line as PASS once consent lands.
+Prove the scope actually bit — **both** checks, because only the second can fail
+informatively:
+
+```powershell
+Test-ApplicationAccessPolicy -Identity automation@midlandind.com.au -AppId <new-client-id>   # expect: Granted
+Test-ApplicationAccessPolicy -Identity menno@midlandind.com.au      -AppId <new-client-id>   # expect: Denied
+```
+
+`Granted` on the first with `Denied` on the second is the only result meaning the
+grant is both working and contained. Propagation takes a few minutes; re-probe
+rather than assuming failure.
+
+### Grant it write on the jobs site only
+
+```
+site        https://midlandind.sharepoint.com/sites/jobs
+site id     midlandind.sharepoint.com,9023aec8-8f4d-4330-bb4c-b5a51e056441,e6cd581f-72b4-4b67-ada2-a3b290ec4df2
+library     Completed Jobs
+drive id    b!yK4jkE2PMEO7TLWlHgVkQR9Yzea0cmdLraKjspDsTfIYGnoqr1WfTry1_41JYSsj
+```
+
+`write` — not `read`. The routine creates folders and uploads files:
+
+```powershell
+Connect-PnPOnline -Url https://midlandind.sharepoint.com/sites/jobs -Interactive
+Grant-PnPAzureADAppSitePermission `
+  -AppId <new-client-id> `
+  -DisplayName "Midland-ScanIngest" `
+  -Site https://midlandind.sharepoint.com/sites/jobs `
+  -Permissions Write
+```
+
+Note this is a **site**-level grant, so it covers every library on the jobs site,
+not just `Completed Jobs` — Graph has no per-library granularity here. That is
+wider than strictly needed and is the accepted floor.
+
+### Then set three variables
+
+On the `Midland` cloud environment, alongside the existing `GRAPH_*` set, which
+stays untouched and keeps serving the QM3 tooling:
+
+```
+SCAN_GRAPH_TENANT_ID=36c6a58f-2544-4e95-b4bc-039423137847
+SCAN_GRAPH_CLIENT_ID=<new-client-id>
+SCAN_GRAPH_CLIENT_SECRET=<new-secret>
+```
+
+`scan_ingest.py` reads **only** these and **deliberately does not fall back** to
+`GRAPH_*`. A silent fallback would run the routine under an app that is not
+scoped for it, and the resulting failure would read as a permissions bug rather
+than a missing variable.
+
+Per `04-graph-access.md`, both variable and allowlist changes reach a running
+session — re-probe, do not restart. No new allowlist entry is needed:
+`login.microsoftonline.com`, `graph.microsoft.com` and `*.sharepoint.com` are
+already open, and mail needs nothing further.
+
+Then, from this repo:
+
+```sh
+python3 tools/scan_ingest.py --self-test    # token and mailbox lines flip to PASS
+```
 
 `SMARTSHEET_ACCESS_TOKEN` is a separate, independent credential, needed only for
 step 4. Without it the routine still files PDFs and reports the VINs it saw; it
