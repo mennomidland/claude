@@ -118,9 +118,30 @@ It never prints a credential or a token, and it does **not** do step 7. Full det
      wearing a parser error's clothes.
    - **ANSWERED 2026-08-31: tags UNION, they do not replace.** Confirmed from the UI --
      one asset shows both `promptver:v2.0-e2e-rendition` and `promptver:v3.0-features`.
-     A corrected tag never displaces a wrong one, and nothing written can be retracted by
-     writing again. **Treat every tag written as permanent** and do not ingest during
-     prompt iteration. See `routines/03-media-library-api.md`.
+     A corrected tag never displaces a wrong one. **Do not ingest during prompt
+     iteration.** See `routines/03-media-library-api.md`.
+   - **CONFIRMED 2026-09-08: there is no removal route, by three independent probes.**
+     31 candidate field names — the validator names none of them, while naming all four
+     known-good controls in the same request. Every `/api/media/*` path except `ingest`
+     answers `401` to the media key, on every method. And `-tag` / `!tag` / `~tag` inside
+     `tags[]` come back in `skippedTags` while the plain tag applies, so no prefix is
+     parsed. Removal has to be built server-side. `tools/probe_tag_removal.py` reproduces
+     all three.
+   - **The tagger now computes retractions anyway, and that is not optional.** The ledger
+     stores the tag SETS written per namespace, every run diffs them, and `prior - current`
+     is recorded in a pending-removal work list rendered by `tools/removal_report.py`. Set
+     `REMOVAL_FIELD` in `ingest_library.py` when the endpoint grows a removal field and the
+     backlog applies itself. Current backlog: **72 tags across all 40 gold-set assets**
+     (`test-run/goldset40-removals.md`).
+   - **Graph renditions are NOT byte-stable across days — 8 of 8 re-fetched differently
+     after 8 days**, with the source files untouched (`quickXorHash` and `lastModified`
+     unchanged, last edits 2014–2025) and the crop spec identical. Same spec fetched
+     repeatedly *today* is identical, so it is cross-day re-encoding, not randomness.
+     Because library dedup is SHA-keyed, **a re-tag by re-upload orphans one blob per
+     photo** — 40,452 of them on a full pass, none deletable. The duplicate guard in
+     `ingest_library.py` blocks this and now names the cause. This makes the tag-only route
+     a **prerequisite, not an optimisation**: there are no matching bytes left to re-send
+     at any price.
 
 **Enumeration is done.** `routines/01-enumeration.md` is rewritten around Graph `/delta`
 and implemented in `tools/enumerate_delta.py`; a full run over the library completed and
@@ -237,6 +258,15 @@ to the originals in `z.Tare Weights`, which was re-checked afterwards and is int
 - Namespace naming — proposed `trailer-photo:vision` and `trailer-photo:human`.
 - Set-level provenance fields `model` / `promptVersion` / `taggedAt`, and whether the
   resume query returns `promptVersion` so a re-tag can select only stale records.
+- **Blocking the bulk run: the tag-only route with replace semantics.** Specified as a
+  payload in `routines/03-media-library-api.md`. Until it exists, re-tagging cannot happen
+  without orphaning a blob per photo, and retractions accumulate in the work list instead of
+  being applied. Everything on this side is built and waiting on `REMOVAL_FIELD`.
+- **Manual cleanup owed in the media UI**: strike the 72 tags in
+  `test-run/goldset40-removals.md`; delete `mediaId` 50, an orphaned duplicate blob of
+  `IMG_3908 1.jpg` (the live asset is `mediaId` 40); delete the earlier duplicate of
+  `20251029_153352.jpg`; and empty the SharePoint recycle bin of the two files and folder
+  from the move-cycle test.
 
 ## Reference
 
@@ -250,3 +280,5 @@ to the originals in `z.Tare Weights`, which was re-checked afterwards and is int
   13 videos excluded) plus what it found. This is a usable gold set; do not re-run it
   from scratch.
 - `tools/tag_vocabulary.py` — flat-tag fallback only; the structured path is primary
+- `tools/probe_tag_removal.py` — the three removal probes; re-run when the API changes
+- `tools/removal_report.py` — renders a pending-removal work list as a UI checklist

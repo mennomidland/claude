@@ -82,6 +82,11 @@ correction after review is one.
 `tagGroup`, with no `dataBase64`. Everything needed to identify the asset is already
 first-class in the current payload; only the bytes requirement is in the way.
 
+> The cost argument below was superseded on 2026-09-08 by a much harder one: Graph
+> renditions are not byte-stable across days, so a re-tag cannot re-send matching bytes at
+> any price. See "Graph renditions are NOT byte-stable". This route is a prerequisite, not
+> an optimisation.
+
 **Mitigation implemented meanwhile.** `tools/ingest_library.py` stores a hash of each
 namespace's tag set in the occurrence ledger and compares it **before fetching bytes**:
 
@@ -117,13 +122,138 @@ unions.
 - Nothing the tagging pass writes can ever be retracted by writing again. The only removal
   route is the `x` on each tag in the UI, by hand, per asset.
 
-**Until this is fixed, treat every tag written as permanent.** That changes the Thursday
-protocol: iterate the prompt against the gold set WITHOUT ingesting, and only write tags
-once the schema is frozen. Writing during iteration bakes in every intermediate answer.
+That changes the Thursday protocol: iterate the prompt against the gold set WITHOUT
+ingesting, and only write tags once the schema is frozen. Writing during iteration bakes in
+every intermediate answer.
 
 **The ask, now the highest priority of the two:** make a re-POST to an existing
 `(asset, namespace)` replace that namespace's tag set, as originally specified. Paired with
 the tag-only route above, that makes correction possible at all.
+
+### The search for a removal route — three ways, all negative — 2026-09-08
+
+"Treat every tag as permanent" was the working conclusion, and it was tested rather than
+assumed. `tools/probe_tag_removal.py` reproduces all three probes.
+
+**1. No removal field in the payload.** The earlier field-name probe only reported on names
+it happened to SEND, and the schema is non-strict — an unknown key is accepted and silently
+dropped — so a field never sent looks identical to a field that does not exist. 31 candidate
+spellings were sent with deliberately wrong types (`replaceTags`, `removeTags`, `clearTags`,
+`deleteTags`, `untag`, `tagsToRemove`, `setTags`, `overwriteTags`, `replaceExisting`,
+`purgeTags`, `resetTags`, `syncTags`, `tagMode`, `tagStrategy`, `tagOperation`, `mode`,
+`op`, `replace`, `merge`, `strategy`, `pruneTags`, and the rest). The validator named
+**none** of them. It did name all four known-good controls in the same request —
+`filename`, `dataBase64`, `tags`, `createMissingTags`, `tagGroup` — so the probe reached the
+validator and the null result means something.
+
+**2. No sibling route reachable with `x-media-key`.** `/api/media/ingest` answers `405` to
+GET, PUT, PATCH and DELETE, so it is POST-only. Every other path under `/api/media/*` —
+`/api/media/{id}`, `/api/media/{id}/tags`, `/api/media/tags`, `/api/media/retag`,
+`/api/media/untag`, `/api/tags` — answers **`401`** to the media key, on every method. The
+key authorises exactly one route. Whether those paths exist at all cannot be told from
+outside, and does not matter: they are not reachable from the tagging pass.
+
+**3. No removal syntax inside `tags[]`.** Sent with `createMissingTags: false`, so an
+unrecognised string is reported rather than created:
+
+```
+appliedTags  ["defect:none"]                                        <- positive control
+skippedTags  ["-defect:none", "!defect:none", "~defect:none",
+              "remove:defect:none"]
+```
+
+`defect:none` already exists in the library and was applied, so "skipped" here means "this
+string was looked up as a tag name and not found" — the prefixes are not parsed.
+
+**Conclusion: removal is not achievable from the ingest API as it stands.** It has to be
+built server-side.
+
+### What the tagger does about it meanwhile
+
+The user's requirement is that a re-tag can *remove* erroneous tags, not merely add correct
+ones. The half of that which does not need the server is now built:
+
+- **`ingest_library.py` stores the tag SETS it wrote**, per namespace, in the ledger — not
+  just their hashes. A hash says something changed; only the set says *which tags are now
+  wrong*. Without this, removal is not computable even after the server supports it.
+- **Every run diffs prior against current** and records `prior - current` as pending
+  removals in a work list beside the ledger (`*_removals.json`), accumulating across runs so
+  a second correction cannot lose the first one's retraction.
+- **`tools/removal_report.py` renders that list as a per-asset checklist**, so the manual UI
+  cleanup is a finite job of known size instead of a hunt.
+- **`REMOVAL_FIELD` in `ingest_library.py` is the switch.** Set it to whatever field name
+  the endpoint grows and retractions go out with the same POST, and the backlog clears
+  itself. Nothing else changes — the diff is already computed and already recorded.
+
+The backlog this produced for the two corrections already made (`category:` → `folder:`,
+and the DJI_0270 combination fix) is **72 tags across all 40 gold-set assets** —
+`docs/test-run/goldset40-removals.md`. Every asset carries a `category:`/`variant:` tag
+asserting a classification that the folder only ever hypothesised.
+
+### Graph renditions are NOT byte-stable — this breaks re-ingest entirely — 2026-09-08
+
+Re-fetching the gold set eight days after it was ingested: **8 of 8 renditions returned
+different bytes** for the same item at the same crop spec.
+
+It is not the source files and not the crop spec:
+
+| | |
+|---|---|
+| Source files last modified | 2014, 2018, 2022, 2023, 2024, 2025-12 — all long before the run |
+| `quickXorHash` on the source | unchanged |
+| Crop spec | identical (`c{displayW}x{displayH}_Crop`, from the same `image` facet) |
+| Same spec fetched 3x today, plus a fresh token | **identical every time** |
+
+So the rendition is stable within a session and regenerated across days — Microsoft
+re-encodes it, and JPEG re-encoding is not reproducible.
+
+**The consequence is severe.** Library dedup is keyed on the SHA of the bytes. A re-tag that
+re-uploads therefore creates a **new blob per photo** — 40,452 orphaned blobs on a full
+re-tag pass, none of which can be deleted, because there is no delete route either.
+
+This was found the hard way: a probe that bypassed the duplicate guard produced
+**`mediaId` 50, an orphaned second blob of `IMG_3908 1.jpg`** (already in the library as
+`mediaId` 40). One asset, needing deletion in the UI. The probe now routes through the same
+guard as a real ingest and cannot do it again.
+
+**The guard is what saves the bulk run**, and it holds: `check_and_record` refuses to POST
+when the freshly-fetched bytes do not match the ledger, and now records the source file's
+own `quickXorHash` and `lastModified` so it can name the cause:
+
+```
+BLOCK IMG_3908 1.jpg: occurrence already ingested with different bytes
+    was 03602ef996877ceb… via graph_rendition (mediaId 40)
+    now 16e74912396b06aa…
+    The SOURCE FILE IS UNCHANGED (same quickXorHash and lastModified), so this is
+    Graph re-generating the rendition, not a new photo.
+```
+
+**This promotes the tag-only route from an optimisation to a hard prerequisite.** The
+earlier argument was cost — ~101 GB to move ~53 MB of tags. The real argument is that
+**re-tagging by re-upload is not possible at all**: it is not merely expensive to re-send
+the bytes, there are no matching bytes left to send. Correct tagging of this library depends
+on a route that identifies the asset by `(driveId, itemId)` or `mediaId` and carries no
+`dataBase64`.
+
+### The two asks, as a specification
+
+Both are one endpoint. Suggested shape, matching the fields already first-class:
+
+```
+POST /api/media/tags
+  { driveId, itemId }  or  { mediaId }        -- identify, no bytes
+  tagGroup: string                            -- the namespace to operate on
+  tags: string[]                              -- the tag set this namespace should now hold
+  mode: "replace" | "merge"                   -- default "replace"
+  removeTags?: string[]                       -- explicit retraction, for mode "merge"
+  createMissingTags?: boolean
+Returns: { mediaId, appliedTags, removedTags, skippedTags }
+```
+
+`mode: "replace"` alone satisfies both asks: it retracts by omission, and it needs no bytes.
+`removeTags` is the smaller, surgical version for callers that do not hold the whole set.
+`removedTags` in the response is what lets the caller clear its own backlog with confidence
+rather than assuming.
 
 ### The size cap bites on the payload, and reports itself as a JSON error
 
