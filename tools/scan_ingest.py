@@ -5,7 +5,7 @@ Pipeline, per message from the Apeos C2567:
 
   1. enumerate  Inbox, filtered to the scanner's address
   2. download   each PDF attachment's real bytes (Graph, no 1 MB ceiling)
-  3. upload     into the sales drawings library, foldered by job number
+  3. upload     into Completed Jobs, as `<job no>/SCANNED PAPERWORK/`
   4. reconcile  any VIN in the filename against the Smartsheet VIN Tracker
   5. action     categorise, mark read, move out of the Inbox
 
@@ -44,10 +44,24 @@ SCANNER = "noreply@viatek-scan.com.au"
 ACTIONED_FOLDER = "Scans Actioned"
 CATEGORY = "Scan Ingested"
 
-# Destination in the granted drive (docs/findings/library-structure.md).
-# 'SALES DRAWINGS/TRAILERS BY JOB NO' is foldered by CUSTOMER, not job number,
-# so scans get their own root rather than being mixed into that convention.
-DEST_ROOT = "SALES DRAWINGS/SCANNED JOB CARDS"
+# The 'Completed Jobs' library on the jobs site — NOT the sales drawings library
+# that graph_check.DRIVE_ID points at. Paths inside are `<job no>/<category>/`.
+JOBS_DRIVE_ID = ("b!yK4jkE2PMEO7TLWlHgVkQR9Yzea0cmdLraKjspDsTfIYGnoqr1"
+                 "WfTry1_41JYSsj")
+JOBS_SITE = "midlandind.sharepoint.com/sites/jobs"
+
+# Ingested scans go in their own subfolder so machine-filed paper is never mixed
+# with the hand-curated files in DRAWINGS/ and NEW ORDER/. One-line change if
+# this should be called something else.
+SCANS_SUBFOLDER = "SCANNED PAPERWORK"
+
+# Observed on 10 of 12 sampled job folders, so treated as the house standard and
+# created alongside a new job folder. (Job 751 has OUTSOURCED PARTS in place of
+# PARTS; that variant is left alone where it already exists.)
+STANDARD_CATEGORIES = [
+    "DRAWINGS", "MANUFACTURING JOB CARD", "NEW ORDER", "PARTS", "PHOTOS",
+    "PURCHASE ORDERS", "VARIATIONS TO ORDER",
+]
 
 SMARTSHEET_API = "https://api.smartsheet.com/2.0"
 VIN_TRACKER_SHEET_ID = 3933652678666116
@@ -151,32 +165,51 @@ def attachment_bytes(tok, message_id, attachment_id, expected_size):
 
 # --- SharePoint ------------------------------------------------------------
 
-def ensure_folder(tok, path, commit):
-    """Create each missing segment of `path` under the drive root."""
-    segments, built = path.split("/"), ""
-    for seg in segments:
-        parent, built = built, f"{built}/{seg}" if built else seg
-        quoted = urllib.parse.quote(built)
-        status, _, _ = gc.request(
-            f"{gc.GRAPH}/drives/{gc.DRIVE_ID}/root:/{quoted}", token=tok)
-        if status == 200:
-            continue
-        if not commit:
-            print(f"    would create folder {built}/")
-            continue
-        target = (f"{gc.GRAPH}/drives/{gc.DRIVE_ID}/root:/"
-                  f"{urllib.parse.quote(parent)}:/children" if parent
-                  else f"{gc.GRAPH}/drives/{gc.DRIVE_ID}/root/children")
-        body = json.dumps({
-            "name": seg, "folder": {}, "@microsoft.graph.conflictBehavior": "fail",
-        }).encode()
-        status, _, raw = _retrying(
-            lambda: gc.request(target, token=tok, method="POST", data=body,
-                               headers={"Content-Type": "application/json"}),
-            f"mkdir {built}")
-        # 409 means someone else created it between our GET and POST. Fine.
-        if status not in (200, 201, 409):
-            raise Fatal(f"mkdir {built}: HTTP {status} {gc._err(raw)}")
+def _exists(tok, path):
+    status, _, _ = gc.request(
+        f"{gc.GRAPH}/drives/{JOBS_DRIVE_ID}/root:/{urllib.parse.quote(path)}",
+        token=tok)
+    return status == 200
+
+
+def _mkdir(tok, parent, name, commit):
+    path = f"{parent}/{name}" if parent else name
+    if _exists(tok, path):
+        return path, False
+    if not commit:
+        print(f"    would create {path}/")
+        return path, True
+    target = (f"{gc.GRAPH}/drives/{JOBS_DRIVE_ID}/root:/"
+              f"{urllib.parse.quote(parent)}:/children" if parent
+              else f"{gc.GRAPH}/drives/{JOBS_DRIVE_ID}/root/children")
+    body = json.dumps({
+        "name": name, "folder": {}, "@microsoft.graph.conflictBehavior": "fail",
+    }).encode()
+    status, _, raw = _retrying(
+        lambda: gc.request(target, token=tok, method="POST", data=body,
+                           headers={"Content-Type": "application/json"}),
+        f"mkdir {path}")
+    # 409 means someone created it between our GET and POST. Fine.
+    if status not in (200, 201, 409):
+        raise Fatal(f"mkdir {path}: HTTP {status} {gc._err(raw)}")
+    return path, True
+
+
+def ensure_job_folder(tok, record, commit):
+    """Resolve `<job>/SCANNED PAPERWORK`, creating what is missing.
+
+    A job with no folder in Completed Jobs gets one, with the standard category
+    subfolders, so an ingested scan never lands in a bare directory that looks
+    unlike every other job.
+    """
+    job = job_folder(record).replace("job ", "") or "unfiled"
+    _, created = _mkdir(tok, "", job, commit)
+    if created:
+        print(f"    job {job} had no folder in Completed Jobs — creating it "
+              f"with the standard categories")
+        for category in STANDARD_CATEGORIES:
+            _mkdir(tok, job, category, commit)
+    path, _ = _mkdir(tok, job, SCANS_SUBFOLDER, commit)
     return path
 
 
@@ -185,14 +218,14 @@ def upload(tok, folder, filename, data, commit):
     dest = f"{folder}/{filename}"
     quoted = urllib.parse.quote(dest)
     status, _, _ = gc.request(
-        f"{gc.GRAPH}/drives/{gc.DRIVE_ID}/root:/{quoted}", token=tok)
+        f"{gc.GRAPH}/drives/{JOBS_DRIVE_ID}/root:/{quoted}", token=tok)
     if status == 200:
         return "exists", f"already in the library: {dest}"
     if not commit:
         return "would-upload", f"{dest} ({len(data) / 1e6:.1f} MB)"
 
     if len(data) <= SIMPLE_UPLOAD_MAX:
-        url = (f"{gc.GRAPH}/drives/{gc.DRIVE_ID}/root:/{quoted}:/content"
+        url = (f"{gc.GRAPH}/drives/{JOBS_DRIVE_ID}/root:/{quoted}:/content"
                "?@microsoft.graph.conflictBehavior=fail")
         status, _, raw = _retrying(
             lambda: gc.request(url, token=tok, method="PUT", data=data,
@@ -207,7 +240,7 @@ def upload(tok, folder, filename, data, commit):
 def _upload_session(tok, quoted, dest, data):
     body = json.dumps({"item": {"@microsoft.graph.conflictBehavior": "fail"}}).encode()
     status, _, raw = gc.request(
-        f"{gc.GRAPH}/drives/{gc.DRIVE_ID}/root:/{quoted}:/createUploadSession",
+        f"{gc.GRAPH}/drives/{JOBS_DRIVE_ID}/root:/{quoted}:/createUploadSession",
         token=tok, method="POST", data=body,
         headers={"Content-Type": "application/json"})
     url = _json(status, raw, "createUploadSession")["uploadUrl"]
@@ -347,7 +380,7 @@ def run(commit, limit):
                 record["vin_state"] = state
 
             data = attachment_bytes(tok, msg["id"], att["id"], att.get("size"))
-            folder = ensure_folder(tok, f"{DEST_ROOT}/{job_folder(record)}", commit)
+            folder = ensure_job_folder(tok, record, commit)
             state, detail = upload(tok, folder, att["name"], data, commit)
             print(f"    {state}: {detail}")
             entry["files"].append({"name": att["name"], "state": state,
@@ -392,14 +425,24 @@ def self_test():
     print("Parser:")
     if os.system(f"python3 {os.path.join(os.path.dirname(__file__), 'test_scan_filename.py')}"):
         return 1
-    print("\nGraph token and SharePoint destination:")
+    print("\nGraph token and the Completed Jobs library:")
     tok = _token()
     print("  PASS  token acquired")
-    quoted = urllib.parse.quote(DEST_ROOT.rsplit("/", 1)[0])
+    status, _, _ = gc.request(f"{gc.GRAPH}/sites/{JOBS_SITE.replace('/sites/', ':/sites/')}",
+                              token=tok)
+    print(f"  {'PASS' if status == 200 else 'FAIL'}  jobs site: HTTP {status}")
     status, _, raw = gc.request(
-        f"{gc.GRAPH}/drives/{gc.DRIVE_ID}/root:/{quoted}", token=tok)
-    print(f"  {'PASS' if status == 200 else 'FAIL'}  destination parent "
-          f"'{DEST_ROOT.rsplit('/', 1)[0]}': HTTP {status}")
+        f"{gc.GRAPH}/drives/{JOBS_DRIVE_ID}/root?$select=name,webUrl", token=tok)
+    where = json.loads(raw).get("webUrl", "") if status == 200 else gc._err(raw)
+    print(f"  {'PASS' if status == 200 else 'FAIL'}  Completed Jobs drive: "
+          f"HTTP {status}  {where}")
+    # A job folder that is known to exist, so a 404 here means the path
+    # convention is wrong rather than the job simply being absent.
+    print(f"  {'PASS' if _exists(tok, '917') else 'FAIL'}  known job folder '917' "
+          f"resolves by path")
+    print("  NOTE  write access to this library is unverified — the sales library "
+          "was probed,\n        this one has not been. The first "
+          "'--commit --limit 1' run proves it.")
     print("\nMailbox (expected to fail until Mail.ReadWrite is granted):")
     try:
         got = mail_get(tok, "/mailFolders/inbox", **{"$select": "totalItemCount"})

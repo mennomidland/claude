@@ -65,15 +65,48 @@ Operators scan a general arrangement and a quote per job, a minute or two apart.
 Of the 7 jobs in the sampled backlog, **only job 917 had both halves.** So the
 GA/quote pair check is a live exception report, not a parser diagnostic.
 
-## Destination
+## Destination: the Completed Jobs library
 
-`SALES DRAWINGS/SCANNED JOB CARDS/job <n>/`, in the already-granted drive
-`Documents` on `SalesMarketingTeam`.
+```
+site    https://midlandind.sharepoint.com/sites/jobs
+library Completed Jobs
+drive   b!yK4jkE2PMEO7TLWlHgVkQR9Yzea0cmdLraKjspDsTfIYGnoqr1WfTry1_41JYSsj
+path    <job no>/SCANNED PAPERWORK/<original filename>
+```
 
-**Not** `SALES DRAWINGS/TRAILERS BY JOB NO`, despite the name — that folder holds
-84 subfolders keyed by **customer** (`TOLL`, `VULCAN`, `WMTH`, …), not by job
-number, and the filenames carry no customer. Filing scans there would need a
-customer lookup the scans cannot supply.
+**Not the sales drawings library**, which is what `graph_check.DRIVE_ID` points
+at and what an earlier draft of this file wrongly specified. Scans belong with
+the job, not with the drawing masters.
+
+2,005 job folders, keyed by **bare job number** (`784`, `904`, `1130`, `2813`),
+some with work-order subfolders (`W00475`, `FEA`). Each job folder carries a
+standard set of categories — present on 10 of 12 sampled folders:
+
+```
+DRAWINGS   MANUFACTURING JOB CARD   NEW ORDER   PARTS
+PHOTOS     PURCHASE ORDERS          VARIATIONS TO ORDER
+```
+
+Ingested scans go to a **`SCANNED PAPERWORK/`** subfolder rather than into
+`DRAWINGS/` or `NEW ORDER/`, so machine-filed paper never mixes with the
+hand-curated files. One constant in `scan_ingest.py` if that name should change.
+
+Where a job has no folder, the routine **creates it with the standard
+categories**, so an ingested scan never lands in a bare directory unlike every
+other job. Job 751 uses `OUTSOURCED PARTS` in place of `PARTS`; that variant is
+left alone where it already exists.
+
+### Access is already granted, but write is unproven
+
+`GET /sites/jobs` and the Completed Jobs drive both return **200** to the
+existing app-only credential, so the `Sites.Selected` grant already covers this
+site — no new SharePoint consent needed, contrary to what `04-graph-access.md`
+anticipated for the `jobs` site.
+
+**Write access to this library has not been probed.** The `PUT`/`DELETE`/
+`permanentDelete` probe recorded in `04-graph-access.md` was against the *sales
+photo* library. Do the first real run as `--commit --limit 1` and check the
+result; `--self-test` says the same.
 
 ## VIN reconciliation — the tracker MINTS VINs, so do not just add rows
 
@@ -121,13 +154,29 @@ Confirming that needed `limit: 20000` on `find_in_sheet`: the default searches
 only the first 100 rows and reports `occurrences: 0` with no indication that it
 stopped early. A zero from that tool is meaningless without the row count.
 
-### Job numbers do not join
+### RESOLVED — the scan job number is the Completed Jobs folder, not the tracker's
 
-Tracker `JobNumber` is `NNNN-NN` (`4529-01`, `4188-01`). Scan filenames say
-`job no. 917`, `job no. 543` — bare three-digit numbers. **These are different
-numbering schemes**, and none of 917/543/341/311/564/269/751 appear in the
-tracker sample. Do not join scans to the tracker on job number until someone
-confirms what the scanned `job no.` refers to.
+An earlier draft of this file said the scan job numbers "do not join" anything,
+on the grounds that tracker `JobNumber` is `NNNN-NN` (`4529-01`) while scans say
+`job no. 917`. The first half stands — **do not join scans to the VIN Tracker on
+job number** — but the scans do join, to `Completed Jobs`:
+
+- `Completed Jobs/917/` exists, and contains **`st319hdkib-13360.pvz`** — the
+  exact model and drawing ref from `job no. 917 GA ST319HDKIB - 13360`.
+- `Completed Jobs/917/PHOTOS/Job 917 - Civil Independence - ST-3/` holds 79 files
+  named `Job 917 ST-3 #6T9T25R10NAKT4003 (38).JPG` — which independently
+  confirms job 917 ↔ VIN `6T9T25R10NAKT4003`, the same pairing the quote scan's
+  filename asserts.
+- `ST-3` in those names is a value from the VIN Tracker's `TrailerType
+  Identifier` picklist, and the scan's model code `ST319HDKIB` starts `ST3`.
+
+So the join path is **scan → Completed Jobs job folder → VIN**, and the VIN is
+the key into the tracker. The job number is not.
+
+Of the 7 sampled job numbers, **917 and 751 have folders; 543, 341, 311, 564 and
+269 do not** — most likely because those jobs are not finished. The routine
+creates the folder rather than holding the mail (decided 2026-09-08), so watch
+the first unbounded run for job folders appearing for live jobs.
 
 ### VIN coverage is capped by the missing OCR
 
