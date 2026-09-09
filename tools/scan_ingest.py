@@ -68,6 +68,7 @@ SMARTSHEET_API = "https://api.smartsheet.com/2.0"
 VIN_TRACKER_SHEET_ID = 3933652678666116
 VIN_COLUMN_ID = 5757631654586244          # 'VIN', the primary formula column
 STATIC_VIN_COLUMN_ID = 6457179909345156   # 'STATIC VIN', the manual override
+JOB_NUMBER_COLUMN_ID = 417294149019524    # 'JobNumber' -- the reliable job key
 
 # Graph's simple-upload ceiling. Above this an upload session is required; the
 # largest scan measured was 2.6 MB, so this is headroom, not a hot path.
@@ -358,6 +359,53 @@ def _upload_session(tok, quoted, dest, data):
 
 # --- Smartsheet VIN reconciliation ----------------------------------------
 
+def _job_no(value):
+    """Normalise a tracker JobNumber cell to a bare string.
+
+    The column is TEXT_NUMBER holding values like 749, which come back as the
+    float 749.0. Filing under "749.0" would create a folder next to the real
+    "749", so the trailing .0 has to go.
+    """
+    text = str(value).strip()
+    if text.endswith(".0"):
+        text = text[:-2]
+    return text or None
+
+
+def load_tracker_jobs():
+    """VIN -> JobNumber from the tracker, for every row that has both.
+
+    This is the reliable job key. Measured over the backlog: of 95 scans whose
+    VIN resolves to a tracker JobNumber, the number the operator typed into the
+    filename disagreed with the tracker on 6. The VIN is machine-copied off the
+    quote; the job number is retyped, so where they differ the tracker wins.
+    """
+    token = os.environ.get("SMARTSHEET_ACCESS_TOKEN")
+    if not token:
+        return {}
+    jobs, page = {}, 1
+    while True:
+        status, _, raw = gc.request(
+            f"{SMARTSHEET_API}/sheets/{VIN_TRACKER_SHEET_ID}"
+            f"?pageSize=5000&page={page}"
+            f"&columnIds={VIN_COLUMN_ID},{STATIC_VIN_COLUMN_ID},{JOB_NUMBER_COLUMN_ID}",
+            headers={"Authorization": f"Bearer {token}"})
+        body = _json(status, raw, "Smartsheet VIN Tracker")
+        for row in body.get("rows", []):
+            cells = {c.get("columnId"): (c.get("displayValue") or c.get("value"))
+                     for c in row.get("cells", [])}
+            job = _job_no(cells.get(JOB_NUMBER_COLUMN_ID) or "")
+            if not job:
+                continue
+            for col in (VIN_COLUMN_ID, STATIC_VIN_COLUMN_ID):
+                vin = cells.get(col)
+                if vin:
+                    jobs[str(vin).strip().upper()] = job
+        if page >= body.get("totalPages", 1):
+            return jobs
+        page += 1
+
+
 def load_tracker_vins():
     """Every VIN already in the tracker, from both the VIN and STATIC VIN columns.
 
@@ -383,6 +431,37 @@ def load_tracker_vins():
         if page >= body.get("totalPages", 1):
             return seen
         page += 1
+
+
+def resolve_job(record, tracker_jobs):
+    """Prefer the tracker's JobNumber over the number typed into the filename.
+
+    The VIN is copied off the quote, the job number is retyped, so where they
+    disagree the tracker is right. Measured over the backlog: 6 of 95 resolvable
+    scans had a mistyped job number, and filing those by the typed value would
+    have put them in the wrong job's folder.
+
+    Mutates `record`: job_no becomes authoritative, job_no_typed keeps what the
+    operator wrote, and job_source says which was used.
+    """
+    typed = record.get("job_no")
+    record["job_no_typed"] = typed
+    record["job_source"] = "filename"
+    vin = record.get("vin")
+    if not vin:
+        return record
+    resolved = tracker_jobs.get(vin)
+    if not resolved:
+        return record
+    record["job_source"] = "vin-tracker"
+    if str(typed or "").lstrip("0") != resolved.lstrip("0"):
+        record["job_no"] = resolved
+        record["problems"].append(
+            f"typed job no. {typed!r} disagrees with the tracker's {resolved!r} "
+            f"for VIN {vin}; filed under {resolved!r}")
+    else:
+        record["job_no"] = resolved
+    return record
 
 
 def reconcile_vin(vin, tracker):
@@ -443,6 +522,9 @@ def mark_actioned(tok, message, folder_id, commit):
 def run(commit, limit):
     tok = _token()
     tracker = load_tracker_vins()
+    tracker_jobs = load_tracker_jobs()
+    if tracker_jobs:
+        print(f"Loaded {len(tracker_jobs)} VIN -> JobNumber mappings from the tracker.")
     if tracker is None:
         print("NOTE  SMARTSHEET_ACCESS_TOKEN not set — VINs will be reported, "
               "not reconciled.\n")
@@ -476,6 +558,14 @@ def run(commit, limit):
                 state, detail = reconcile_vin(record["vin"], tracker)
                 print(f"    VIN {record['vin']}: {detail}")
                 record["vin_state"] = state
+
+            # Must happen before the folder is resolved, since it can change the
+            # job number the scan is filed under.
+            resolve_job(record, tracker_jobs)
+            if record["job_source"] == "vin-tracker" and \
+                    record["job_no"] != record["job_no_typed"]:
+                print(f"    job no. CORRECTED {record['job_no_typed']} -> "
+                      f"{record['job_no']} (from the tracker, via the VIN)")
 
             # Dry runs skip the download: nothing is uploaded, the size is
             # already in the metadata, and fetching the whole backlog just to
