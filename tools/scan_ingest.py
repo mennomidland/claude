@@ -152,24 +152,35 @@ def mail_get(tok, path, **params):
 
 
 def scan_messages(tok, limit):
-    """Scanner mail in the Inbox, oldest first so a partial run makes progress."""
-    out, url = [], None
+    """Scanner mail in the Inbox, oldest first so a partial run makes progress.
+
+    Sorted client-side, deliberately. Graph rejects a `$filter` on
+    `from/emailAddress/address` combined with an `$orderby` on a different
+    property -- "The restriction or sort order is too complex for this
+    operation" (HTTP 400). The sender filter is the valuable half: it does the
+    2,500-item inbox down to the couple of hundred scanner messages server-side,
+    and sorting a few hundred here costs nothing. Do not re-add `$orderby`.
+    """
+    out = []
     params = {
         "$filter": f"from/emailAddress/address eq '{SCANNER}' and hasAttachments eq true",
         "$select": "id,subject,receivedDateTime,isRead,categories,internetMessageId",
-        "$orderby": "receivedDateTime asc",
         "$top": "50",
     }
     page = mail_get(tok, "/mailFolders/inbox/messages", **params)
     while True:
         out.extend(page.get("value", []))
-        if limit and len(out) >= limit:
-            return out[:limit]
         url = page.get("@odata.nextLink")
         if not url:
-            return out
-        status, _, raw = gc.request(url, token=tok)
+            break
+        status, raw_headers, raw = gc.request(url, token=tok)
         page = _json(status, raw, "messages page")
+
+    # Sort before slicing: paging order is unspecified without $orderby, so
+    # truncating first could hand back an arbitrary subset rather than the
+    # oldest N.
+    out.sort(key=lambda m: m.get("receivedDateTime") or "")
+    return out[:limit] if limit else out
 
 
 def attachments(tok, message_id):
@@ -188,20 +199,40 @@ def attachment_bytes(tok, message_id, attachment_id, expected_size):
         raise Fatal(f"attachment bytes: HTTP {status} {gc._err(raw)}")
     if raw[:4] != b"%PDF":
         raise Fatal(f"attachment did not start with %PDF (got {raw[:8]!r})")
-    if expected_size and len(raw) != expected_size:
-        # Graph's `size` includes MIME overhead for some attachment types, so a
-        # mismatch is worth reporting but is not on its own a corrupt download.
-        print(f"    note: {len(raw)} bytes downloaded, Graph reported {expected_size}")
+    # Graph's reported `size` includes MIME overhead -- measured as a constant
+    # 394 bytes more than the decoded PDF on every scan sampled -- so an exact
+    # comparison would fire on every file. Only flag a shortfall big enough to
+    # mean a truncated download.
+    if expected_size:
+        tolerance = max(4096, expected_size // 100)
+        if expected_size - len(raw) > tolerance:
+            raise Fatal(
+                f"attachment looks truncated: {len(raw)} bytes downloaded, "
+                f"Graph reported {expected_size}")
     return raw
 
 
 # --- SharePoint ------------------------------------------------------------
 
+# Folder existence is checked repeatedly -- the same job appears across many
+# messages, and each one re-probes the job folder, its categories and the scans
+# subfolder. Over 226 messages that is thousands of round trips, so remember
+# what we have already resolved. Only positive results and folders we created
+# are cached; a negative is not cached, so a folder created by someone else
+# mid-run is still picked up.
+_folder_cache = set()
+
+
 def _exists(tok, path):
+    if path in _folder_cache:
+        return True
     status, _, _ = gc.request(
         f"{gc.GRAPH}/drives/{JOBS_DRIVE_ID}/root:/{urllib.parse.quote(path)}",
         token=tok)
-    return status == 200
+    if status == 200:
+        _folder_cache.add(path)
+        return True
+    return False
 
 
 def _mkdir(tok, parent, name, commit):
@@ -210,6 +241,7 @@ def _mkdir(tok, parent, name, commit):
         return path, False
     if not commit:
         print(f"    would create {path}/")
+        _folder_cache.add(path)   # so a dry run reports each folder once
         return path, True
     target = (f"{gc.GRAPH}/drives/{JOBS_DRIVE_ID}/root:/"
               f"{urllib.parse.quote(parent)}:/children" if parent
@@ -224,6 +256,7 @@ def _mkdir(tok, parent, name, commit):
     # 409 means someone created it between our GET and POST. Fine.
     if status not in (200, 201, 409):
         raise Fatal(f"mkdir {path}: HTTP {status} {gc._err(raw)}")
+    _folder_cache.add(path)
     return path, True
 
 
@@ -245,8 +278,12 @@ def ensure_job_folder(tok, record, commit):
     return path
 
 
-def upload(tok, folder, filename, data, commit):
-    """Upload without overwriting. Returns (status, detail)."""
+def upload(tok, folder, filename, data, commit, reported_size=0):
+    """Upload without overwriting. Returns (status, detail).
+
+    `reported_size` is only for the dry-run message, where `data` is empty
+    because the download was skipped.
+    """
     dest = f"{folder}/{filename}"
     quoted = urllib.parse.quote(dest)
     status, _, _ = gc.request(
@@ -254,7 +291,7 @@ def upload(tok, folder, filename, data, commit):
     if status == 200:
         return "exists", f"already in the library: {dest}"
     if not commit:
-        return "would-upload", f"{dest} ({len(data) / 1e6:.1f} MB)"
+        return "would-upload", f"{dest} ({reported_size / 1e6:.1f} MB)"
 
     if len(data) <= SIMPLE_UPLOAD_MAX:
         url = (f"{gc.GRAPH}/drives/{JOBS_DRIVE_ID}/root:/{quoted}:/content"
@@ -411,9 +448,14 @@ def run(commit, limit):
                 print(f"    VIN {record['vin']}: {detail}")
                 record["vin_state"] = state
 
-            data = attachment_bytes(tok, msg["id"], att["id"], att.get("size"))
+            # Dry runs skip the download: nothing is uploaded, the size is
+            # already in the metadata, and fetching the whole backlog just to
+            # discard it costs ~200 MB of egress for no information.
+            data = (attachment_bytes(tok, msg["id"], att["id"], att.get("size"))
+                    if commit else b"")
             folder = ensure_job_folder(tok, record, commit)
-            state, detail = upload(tok, folder, att["name"], data, commit)
+            state, detail = upload(tok, folder, att["name"],
+                                   data, commit, att.get("size") or 0)
             print(f"    {state}: {detail}")
             entry["files"].append({"name": att["name"], "state": state,
                                    "parsed": record})
