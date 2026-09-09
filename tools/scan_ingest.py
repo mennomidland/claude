@@ -502,10 +502,29 @@ def report(records):
     problems = [r for r in records if r["problems"]]
     print(f"{len(records)} scan(s); {len(problems)} with a parse problem")
 
-    missing = [r for r in records if r.get("vin_state") == "missing"]
+    # Report on scans that actually carry a VIN, and never let "not checked"
+    # read as "all present". An earlier version counted quote scans instead of
+    # VIN-bearing scans and printed "0 ... are NOT in the tracker" even when
+    # nothing had been reconciled, which is the most misleading thing this
+    # summary could say.
+    with_vin = [r for r in records if r.get("vin")]
     quotes = [r for r in records if r["doc_type"] == QUOTE]
-    print(f"{len(quotes)} quote scan(s) carried a VIN in the filename; "
-          f"{len(missing)} of those VINs are NOT in the tracker")
+    quotes_without_vin = [r for r in quotes if not r.get("vin")]
+    print(f"{len(with_vin)} scan(s) carry a VIN in the filename "
+          f"({len(set(r['vin'] for r in with_vin))} distinct)")
+    if quotes_without_vin:
+        print(f"  and {len(quotes_without_vin)} of {len(quotes)} quote scan(s) carry "
+              f"NO VIN — a VIN on the page cannot be read, the PDFs have no text layer")
+
+    unchecked = [r for r in with_vin if r.get("vin_state") == "unchecked"]
+    present = [r for r in with_vin if r.get("vin_state") == "present"]
+    missing = [r for r in with_vin if r.get("vin_state") == "missing"]
+    if unchecked:
+        print(f"  NOT RECONCILED: {len(unchecked)} VIN(s) were not checked against "
+              f"the tracker\n  (SMARTSHEET_ACCESS_TOKEN unset). This is NOT the same "
+              f"as being present.")
+    if present or missing:
+        print(f"  in the tracker: {len(present)}; NOT in the tracker: {len(missing)}")
     for r in missing:
         print(f"  MISSING  {r['vin']}  (job {r['job_no']}, {r['filename']})")
     if missing:
