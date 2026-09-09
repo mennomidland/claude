@@ -28,6 +28,15 @@ _JOB_NO = re.compile(r"job\s*no\.?\s*(?P<job>[0-9]+[A-Za-z]?)", re.IGNORECASE)
 # A VIN as typed after 'Quote, VIN' — 17 chars of the standard alphabet.
 _VIN = re.compile(r"\bVIN\s*[:,]?\s*(?P<vin>[A-HJ-NPR-Z0-9]{17})\b", re.IGNORECASE)
 
+# ...and the same thing with the word 'VIN' omitted, which operators do:
+# 'job no. 516, Quote 6T9T25R05LAKT4002'. Requiring the keyword silently lost
+# these, which matters because the quote scans are the only place a VIN appears
+# at all. A 17-character token from the VIN alphabet is not something else in
+# these filenames -- model codes run ~10 characters and drawing refs fewer --
+# but at least one letter is required so a long typed number cannot match.
+_VIN_BARE = re.compile(r"\b(?=[A-HJ-NPR-Z0-9]{17}\b)(?P<vin>[A-HJ-NPR-Z0-9]*[A-HJ-NPR-Z][A-HJ-NPR-Z0-9]*)\b",
+                       re.IGNORECASE)
+
 # 'GA <model> - <drawing ref>', where the ref may itself be split further
 # ('GA DW319SWKOH - 15650 - L'). Model codes are typed inconsistently — TG320SFP0R
 # with a zero and TG219SFPOR with a letter O both occur — so the model is captured
@@ -104,7 +113,7 @@ def parse(filename):
         out["problems"].append("no job number")
         rest = operator_text
 
-    m = _VIN.search(rest)
+    m = _VIN.search(rest) or _VIN_BARE.search(rest)
     if m:
         out["vin"] = m.group("vin").upper()
 

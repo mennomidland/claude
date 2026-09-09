@@ -214,25 +214,53 @@ def attachment_bytes(tok, message_id, attachment_id, expected_size):
 
 # --- SharePoint ------------------------------------------------------------
 
-# Folder existence is checked repeatedly -- the same job appears across many
-# messages, and each one re-probes the job folder, its categories and the scans
-# subfolder. Over 226 messages that is thousands of round trips, so remember
-# what we have already resolved. Only positive results and folders we created
-# are cached; a negative is not cached, so a folder created by someone else
-# mid-run is still picked up.
-_folder_cache = set()
+# Existence is resolved from cached DIRECTORY LISTINGS, not per-path probes.
+#
+# Measured against this drive: a single-item probe and a 200-item children page
+# both cost ~1.3s. So probing each job folder, its seven categories and each
+# target filename separately costs thousands of round trips -- ~16s per message
+# across the backlog. One listing of the drive root answers "does job N exist?"
+# for all 2,005 jobs at once, and one listing per job answers the rest.
+#
+# `existence of A/B` therefore becomes `B in children(A)`.
+_children_cache = {}
+
+
+def _children(tok, path, refresh=False):
+    """Names directly under `path` ('' for the drive root), paginated and cached."""
+    if not refresh and path in _children_cache:
+        return _children_cache[path]
+
+    base = f"{gc.GRAPH}/drives/{JOBS_DRIVE_ID}"
+    url = (f"{base}/root:/{urllib.parse.quote(path)}:/children" if path
+           else f"{base}/root/children")
+    url += "?" + urllib.parse.urlencode({"$select": "name", "$top": "999"})
+
+    names = set()
+    while url:
+        status, _, raw = gc.request(url, token=tok)
+        if status == 404:
+            # The parent itself does not exist. An empty set is the right answer
+            # and is deliberately NOT cached, so it resolves once it is created.
+            return set()
+        body = _json(status, raw, f"children of {path or '(root)'}")
+        names.update(c["name"] for c in body.get("value", []))
+        url = body.get("@odata.nextLink")
+    _children_cache[path] = names
+    return names
 
 
 def _exists(tok, path):
-    if path in _folder_cache:
-        return True
-    status, _, _ = gc.request(
-        f"{gc.GRAPH}/drives/{JOBS_DRIVE_ID}/root:/{urllib.parse.quote(path)}",
-        token=tok)
-    if status == 200:
-        _folder_cache.add(path)
-        return True
-    return False
+    parent, _, name = path.rpartition("/")
+    return name in _children(tok, parent)
+
+
+def _note_created(path):
+    """Record a folder as present so later lookups need no round trip."""
+    parent, _, name = path.rpartition("/")
+    if parent in _children_cache:
+        _children_cache[parent].add(name)
+    _children_cache.setdefault(path, set())
 
 
 def _mkdir(tok, parent, name, commit):
@@ -241,7 +269,7 @@ def _mkdir(tok, parent, name, commit):
         return path, False
     if not commit:
         print(f"    would create {path}/")
-        _folder_cache.add(path)   # so a dry run reports each folder once
+        _note_created(path)   # so a dry run reports each folder once
         return path, True
     target = (f"{gc.GRAPH}/drives/{JOBS_DRIVE_ID}/root:/"
               f"{urllib.parse.quote(parent)}:/children" if parent
@@ -256,7 +284,7 @@ def _mkdir(tok, parent, name, commit):
     # 409 means someone created it between our GET and POST. Fine.
     if status not in (200, 201, 409):
         raise Fatal(f"mkdir {path}: HTTP {status} {gc._err(raw)}")
-    _folder_cache.add(path)
+    _note_created(path)
     return path, True
 
 
@@ -286,9 +314,7 @@ def upload(tok, folder, filename, data, commit, reported_size=0):
     """
     dest = f"{folder}/{filename}"
     quoted = urllib.parse.quote(dest)
-    status, _, _ = gc.request(
-        f"{gc.GRAPH}/drives/{JOBS_DRIVE_ID}/root:/{quoted}", token=tok)
-    if status == 200:
+    if filename in _children(tok, folder):
         return "exists", f"already in the library: {dest}"
     if not commit:
         return "would-upload", f"{dest} ({reported_size / 1e6:.1f} MB)"
@@ -422,6 +448,9 @@ def run(commit, limit):
               "not reconciled.\n")
     else:
         print(f"Loaded {len(tracker)} VINs from the tracker.\n")
+
+    known_jobs = _children(tok, "")
+    print(f"Completed Jobs holds {len(known_jobs)} top-level job folders.\n")
 
     messages = scan_messages(tok, limit)
     print(f"{len(messages)} scanner message(s) in the Inbox"

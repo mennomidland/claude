@@ -41,6 +41,17 @@ REAL_NAMES = [
     ("job no. 564 GA TG219SFPOR - 8000A-03092026150020-0001.pdf",
      {"job_no": "564", "model": "TG219SFPOR", "drawing_ref": "8000A"}),
 
+    # A quote whose VIN is typed WITHOUT the word 'VIN'. Requiring the keyword
+    # silently lost these, and the quote scans are the only place a VIN appears.
+    ("job no. 516, Quote 6T9T25R05LAKT4002-27082026095752-0001.pdf",
+     {"job_no": "516", "doc_type": QUOTE, "vin": "6T9T25R05LAKT4002",
+      "model": None, "problems": []}),
+
+    # Same job's GA half, with a comma after the job number.
+    ("job no. 516, GA SK320BFK00 - 8085A-27082026095522-0001.pdf",
+     {"job_no": "516", "doc_type": GENERAL_ARRANGEMENT, "model": "SK320BFK00",
+      "drawing_ref": "8085A"}),
+
     # A drawing ref that is itself split by ' - ' — the ref must keep both parts.
     ("job no. 269 GA DW319SWKOH - 15650 - L-03092026150505-0001.pdf",
      {"job_no": "269", "model": "DW319SWKOH", "drawing_ref": "15650 - L"}),
@@ -67,6 +78,13 @@ EDGE_CASES = [
     ("job no.402 GA DT320SSR0B - 9000-01012026120000-0001.pdf", {"job_no": "402"}),
     # A hand-suffixed job number.
     ("job no. 403A GA DT320SSR0B - 9000-01012026120000-0001.pdf", {"job_no": "403A"}),
+    # A long typed number must NOT be mistaken for a VIN: the bare-VIN pattern
+    # requires at least one letter.
+    ("job no. 406 Quote 12345678901234567-01012026120000-0001.pdf",
+     {"job_no": "406", "doc_type": QUOTE, "vin": None}),
+    # A model code is far too short to trip the 17-character bare pattern.
+    ("job no. 407 GA DT320SSR0B - 9000-01012026120000-0001.pdf",
+     {"job_no": "407", "vin": None, "model": "DT320SSR0B"}),
     # An impossible date must be reported, not crash or silently pass through.
     ("job no. 404-99999999999999-0001.pdf", {"job_no": "404", "scanned_at": None}),
     # Path-hostile characters in the typed text must not reach a SharePoint path.
