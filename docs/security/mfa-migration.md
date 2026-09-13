@@ -371,6 +371,60 @@ Before touching it, look in the **unified audit log** — it records SharePoint
 file operations even where Entra sign-in logs show nothing — and check Power
 Automate flows and OpsMachine jobs for references to the account.
 
+### 2c. Security Defaults readiness
+
+Run `tools/security_defaults_preflight.py` for live status. It reports go/no-go
+and names every account that would break.
+
+Two properties of Security Defaults drive everything here:
+
+- **No exclusions.** Only Entra Connect / Cloud Sync accounts are exempt. A
+  service account that cannot complete MFA cannot be excused — it simply
+  breaks. There is no break-glass exclusion either, including for the account
+  used to turn it back off.
+- **Authenticator-app only.** The registration flow does not offer SMS or
+  voice. An account whose only method is a phone number must register the
+  Authenticator app within 14 days or be blocked from signing in.
+
+#### Hard blockers
+
+1. **38 accounts still on per-user MFA (`enforced`).** Security Defaults cannot
+   coexist with them. All must be set to `disabled` first. Mechanical, but it
+   is the gate everything else waits behind.
+2. **`automation@` has no MFA method.** With no exclusions available, it gets
+   14 days and is then blocked. If its Power BI SSO is a stored-credential or
+   otherwise non-interactive flow, registering MFA may not be possible at all.
+   Resolve by moving it to an **app registration** — service principals are not
+   subject to Security Defaults — or by confirming it can complete interactive
+   MFA. This is no longer optional cleanup; it is a prerequisite.
+3. **`MidlandSharepoint@` is still unidentified.** It has no MFA and
+   authenticates in a way that reaches neither sign-in log, which is the
+   signature of legacy authentication. Security Defaults blocks legacy auth
+   outright *and* requires MFA registration, so this account faces both. It
+   must be identified before the switch, not after.
+4. **Legacy authentication inventory.** Security Defaults blocks basic auth:
+   SMTP AUTH scan-to-email, POP, IMAP, older Office clients, basic-auth
+   ActiveSync. `copier@` and `3cx@` are now blocked so are likely moot, but
+   other multifunction devices and line-of-business apps may still use it.
+   This is the most common cause of a Security Defaults rollout going wrong.
+
+#### Warnings, not blockers
+
+- **`KynBoardRoom`** has phone and WHfB only. WHfB is inert on Android, and SMS
+  is not accepted during registration, so somebody must register Authenticator
+  on it within 14 days or the boardroom account locks out.
+- **5 LEAP guest accounts** are in scope. They authenticate at their home
+  tenant, but confirm before a vendor is locked out mid-project.
+- **At least two admin accounts** need working Authenticator registrations
+  before the switch, precisely because there is no break-glass exclusion.
+
+#### The one-way-door caveat
+
+With no exclusions available, the first genuine need for one forces a move to
+Conditional Access — which requires Entra ID P1 per covered user. Worth knowing
+before switching Security Defaults on, rather than discovering it under
+pressure when a service account breaks.
+
 ### 3. No tenant-level enforcement
 
 Security Defaults off, no Conditional Access. Nothing enforces MFA on a new
