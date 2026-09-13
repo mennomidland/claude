@@ -21,7 +21,7 @@ DRY RUN BY DEFAULT. Nothing is written without --commit.
 
 Requires SCAN_GRAPH_TENANT_ID / SCAN_GRAPH_CLIENT_ID / SCAN_GRAPH_CLIENT_SECRET
 -- this routine's own app registration, NOT the QM3 app in GRAPH_* -- plus, for
-step 4 only, SMARTSHEET_ACCESS_TOKEN.
+step 4 only, SMARTSHEET_AUTH.
 
 **Step 1 needs the dedicated app registration and its Mail grant** — see
 docs/routines/06-scan-mailbox.md. Everything below step 1 is exercised by
@@ -359,6 +359,17 @@ def _upload_session(tok, quoted, dest, data):
 
 # --- Smartsheet VIN reconciliation ----------------------------------------
 
+def _smartsheet_token():
+    """The Smartsheet API token, or None.
+
+    The environment variable is SMARTSHEET_AUTH. SMARTSHEET_ACCESS_TOKEN is
+    accepted as a fallback only because earlier drafts of this routine used that
+    name; SMARTSHEET_AUTH is the real one.
+    """
+    return (os.environ.get("SMARTSHEET_AUTH")
+            or os.environ.get("SMARTSHEET_ACCESS_TOKEN"))
+
+
 def _job_no(value):
     """Normalise a tracker JobNumber cell to a bare string.
 
@@ -380,7 +391,7 @@ def load_tracker_jobs():
     filename disagreed with the tracker on 6. The VIN is machine-copied off the
     quote; the job number is retyped, so where they differ the tracker wins.
     """
-    token = os.environ.get("SMARTSHEET_ACCESS_TOKEN")
+    token = _smartsheet_token()
     if not token:
         return {}
     jobs, page = {}, 1
@@ -412,7 +423,7 @@ def load_tracker_vins():
     Returns None when no token is configured, so the caller can report the VINs
     it found without claiming they are missing.
     """
-    token = os.environ.get("SMARTSHEET_ACCESS_TOKEN")
+    token = _smartsheet_token()
     if not token:
         return None
     seen, page = set(), 1
@@ -611,7 +622,7 @@ def report(records):
     missing = [r for r in with_vin if r.get("vin_state") == "missing"]
     if unchecked:
         print(f"  NOT RECONCILED: {len(unchecked)} VIN(s) were not checked against "
-              f"the tracker\n  (SMARTSHEET_ACCESS_TOKEN unset). This is NOT the same "
+              f"the tracker\n  (SMARTSHEET_AUTH unset). This is NOT the same "
               f"as being present.")
     if present or missing:
         print(f"  in the tracker: {len(present)}; NOT in the tracker: {len(missing)}")
