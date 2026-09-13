@@ -389,6 +389,64 @@ are for humans; the folder is what the code keys off.
 There is deliberately **no local state file** — nothing in this repo has to stay
 in sync with the mailbox for the routine to be correct.
 
+## The scheduled Routine
+
+```
+id        trig_01FAi1m5AkzjuYnrmhwBCbYH
+name      Scan mailbox ingest — automation@ to Completed Jobs
+cron      0 20 * * *   (UTC)  = 06:00 AEST daily
+env       env_0175ZY9ro2ikpeDDEHXq7R4t  (Midland)
+mode      fresh session per fire
+notify    email on a noteworthy run
+```
+
+**Fresh session per fire is required, not a preference.** Environment variables
+only reach a session at container start (see the re-correction in
+`04-graph-access.md`), so a Routine bound to a long-running session would go
+stale the moment a credential is rotated. A fresh session picks up the current
+values every time.
+
+**It stores no MCP connectors, and does not need any.** The routine talks to
+Graph and to Smartsheet over their REST APIs with credentials from the
+environment. Nothing in `scan_ingest.py` calls an `mcp__*` tool. The creation
+warning about absent connectors is therefore expected and harmless.
+
+**DST drift.** The cron is UTC and NSW moves to AEDT in October, so the local
+fire time shifts 06:00 → 07:00 for the summer months. Both are early morning, so
+this is left alone deliberately rather than chased twice a year.
+
+The Routine's prompt tells the fired session to clone the repo if it is not
+already present, self-test before running, and **never to add a row to the VIN
+Tracker** — the insert-mints-a-VIN hazard above is the reason, and it is worth
+restating anywhere this runs unattended.
+
+## Backlog run — 2026-09-13
+
+First production run, `--commit` over the whole backlog:
+
+| | |
+|---|---|
+| Messages processed and filed | **274** |
+| Files uploaded | 273 |
+| Job folders created | **117** |
+| Errors | **0** |
+| Deliberately left in the Inbox | **29** |
+
+The 29 are not an oversight. Committing the entire backlog would have left the
+Routine nothing to process on its first fire, and so no way to see it work end to
+end against real mail. They are a live test set.
+
+**Idempotency held under a hard kill.** The run was killed mid-message to stop
+it. The interrupted message turned out to have completed — the file was in
+SharePoint at its full 1,213,462 bytes and the message had moved to
+`Scans Actioned` — because each message is fully committed before the next
+begins, and only the log line had not flushed. No partial state, nothing to
+clean up.
+
+Rate was roughly 5 messages a minute, so a full 300-message backlog is about an
+hour. Anything of that size should be run in the background rather than in a
+foreground call that will time out.
+
 ## Running it
 
 ```sh
