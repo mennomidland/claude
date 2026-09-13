@@ -158,12 +158,49 @@ with no restart — the proxy's own `recentRelayFailures` log shows the rejectio
 at the moment of the change. Do not burn a session restart on an allowlist edit; re-probe
 the host instead.
 
-### CORRECTED — environment variables also reach a running session
+### RE-CORRECTED, 2026-09-13 — environment variables need a NEW session
+
+This section has now been wrong in both directions, so read the evidence rather than the
+conclusion.
+
+**Current, and backed by the platform's own UI:** the Edit cloud environment dialog states
+verbatim, under its title, *"Changes to your environment will apply to new sessions."*
+Measured the same day: four variables (`SCAN_GRAPH_TENANT_ID`, `SCAN_GRAPH_CLIENT_ID`,
+`SCAN_GRAPH_CLIENT_SECRET`, `SMARTSHEET_AUTH`) were confirmed saved on the **Midland**
+environment and were still absent from a session whose container had started earlier that
+evening. A full dump of all 141 variable names showed no trace of them under any spelling,
+while `GRAPH_*` and `MEDIA_INGEST_KEY` -- all of which predate that container -- were
+present. Everything the container has, it got at start.
+
+**The previous claim** (below, kept because the reasoning is instructive) recorded the
+opposite from session `session_016EmSbCtVTxyNtCkqCimdwn` on an older runner. Either the
+behaviour changed, or that observation confused a variable arriving with something else.
+Do not rely on it.
+
+Practical consequence, and it is mostly good news: a **scheduled routine fires a fresh
+session**, which picks variables up at container start -- the case that demonstrably
+works. Only an already-running session is blind to a new variable. So after editing the
+environment, do not sit re-probing this session; start a new one.
+
+The diagnostic in the old note still stands and is still worth keeping:
+
+> The variables do **not** appear in **PID 1's** environment even once they are working --
+> the runner injects them into the agent process, not into container init. So
+> `/proc/1/environ` is not a valid test.
+
+Check the shell's own environment instead. Note that sweeping *every* process's environ
+looking for a credential name is refused by the permission classifier as credential
+exploration, and rightly so -- `env | cut -d= -f1` lists the names without touching a
+single value, and answers the same question.
+
+<details><summary>Superseded claim, 2026-08-26</summary>
 
 An earlier draft of this section claimed the opposite: that variables are inherited at
 process start and therefore need a fresh session. **That is wrong.** All four credentials
 were added mid-session and became readable with no restart, in the same session that had
 reported them missing minutes earlier.
+
+</details>
 
 The reasoning behind the wrong claim is worth recording, because the diagnostic that
 produced it is still misleading. The variables do **not** appear in **PID 1's**
@@ -177,8 +214,8 @@ Check the shell's own environment instead, which is what `tools/graph_check.py` 
 [ -n "$GRAPH_CLIENT_ID" ] && echo set     # never echo the value
 ```
 
-Short version: **both allowlist and variable changes are live. Neither needs a new
-session — re-probe instead of restarting.**
+Short version: **an allowlist change is live; a VARIABLE change needs a new
+session.** Re-probe for the allowlist; start a fresh session for a variable.
 
 ### The redirect trap also catches your diagnostics
 
