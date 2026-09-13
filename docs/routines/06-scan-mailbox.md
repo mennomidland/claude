@@ -394,7 +394,7 @@ in sync with the mailbox for the routine to be correct.
 ```
 id        trig_01FAi1m5AkzjuYnrmhwBCbYH
 name      Scan mailbox ingest — automation@ to Completed Jobs
-cron      0 20 * * *   (UTC)  = 06:00 AEST daily
+cron      0 17 * * *   (UTC)  = 03:00 AEST daily
 env       env_0175ZY9ro2ikpeDDEHXq7R4t  (Midland)
 mode      fresh session per fire
 notify    email on a noteworthy run
@@ -412,8 +412,12 @@ environment. Nothing in `scan_ingest.py` calls an `mcp__*` tool. The creation
 warning about absent connectors is therefore expected and harmless.
 
 **DST drift.** The cron is UTC and NSW moves to AEDT in October, so the local
-fire time shifts 06:00 → 07:00 for the summer months. Both are early morning, so
-this is left alone deliberately rather than chased twice a year.
+fire time shifts 03:00 → 04:00 for the summer months. Both are the middle of the
+night, so this is left alone deliberately rather than chased twice a year.
+
+03:00 local also means the run is well clear of the working day: operators scan
+through the day, so a small-hours fire picks up a full day's scanning in one
+pass and never competes with someone using the device.
 
 The Routine's prompt tells the fired session to clone the repo if it is not
 already present, self-test before running, and **never to add a row to the VIN
