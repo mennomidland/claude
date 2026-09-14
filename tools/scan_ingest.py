@@ -31,6 +31,7 @@ import argparse
 import base64
 import json
 import os
+import re
 import sys
 import time
 import urllib.parse
@@ -366,9 +367,23 @@ def _smartsheet_token():
     The environment variable is SMARTSHEET_AUTH. SMARTSHEET_ACCESS_TOKEN is
     accepted as a fallback only because earlier drafts of this routine used that
     name; SMARTSHEET_AUTH is the real one.
+
+    The value wanted is the bare token. Smartsheet hands it out written as
+    "Bearer <token>" -- the full Authorization header, not the credential -- so
+    that is the natural thing to paste, and the caller below already adds the
+    scheme. Storing the header form would send "Bearer Bearer <token>" and earn
+    a 401 at 03:00 with nothing to show for it, so strip the prefix here.
+    Surrounding quotes get the same treatment: the environment dialog stores its
+    field verbatim, with no shell to consume them, so a quoted value arrives
+    with the quotes still attached.
     """
-    return (os.environ.get("SMARTSHEET_AUTH")
-            or os.environ.get("SMARTSHEET_ACCESS_TOKEN"))
+    raw = (os.environ.get("SMARTSHEET_AUTH")
+           or os.environ.get("SMARTSHEET_ACCESS_TOKEN"))
+    if not raw:
+        return None
+    token = re.sub(r"^bearer\b\s*", "",
+                   raw.strip().strip('"\'').strip(), flags=re.IGNORECASE)
+    return token.strip() or None
 
 
 def _job_no(value):
