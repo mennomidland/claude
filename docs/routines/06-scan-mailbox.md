@@ -461,6 +461,30 @@ Note also that a repo-level settings file may not have helped anyway: project
 settings load from the project directory at startup, and in a `sources: []`
 session the repo is not the project directory until after the clone.
 
+#### CONFIRMED FIXED — 2026-09-14
+
+The setup script was the right diagnosis. Third fire, verified from the mailbox
+rather than from the Routine's own report:
+
+```
+23:55:28  left:29  actioned:274     <- fired
+23:56:18  left:24  actioned:279
+23:57:08  left:19  actioned:284
+23:57:58  left:15  actioned:288
+23:58:48  left:10  actioned:293
+23:59:39  left:6   actioned:297
+00:00:29  left:2   actioned:301
+00:01:19  left:0   actioned:303     <- done
+```
+
+**29 messages in about six minutes, mailbox emptied, 303 filed in total.** The
+same ~5 messages/minute as a manual run, so the Routine costs nothing extra in
+throughput. Nothing else changed between the second fire and this one except the
+setup script, so the pre-clone is what unblocked it: the classifier was
+objecting to code the agent fetched mid-session, exactly as read.
+
+#### If it ever regresses
+
 #### If the setup script does not fix it
 
 Then stop wrapping the script in an agent. `scan_ingest.py` is self-contained —
