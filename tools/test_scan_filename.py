@@ -9,8 +9,9 @@ Run: python3 tools/test_scan_filename.py
 """
 import sys
 
-from scan_filename import (GENERAL_ARRANGEMENT, QUOTE, UNSPECIFIED, job_folder,
-                           pair_status, parse)
+from scan_filename import (GENERAL_ARRANGEMENT, QUOTE, UNSPECIFIED,
+                           confusable_variants, job_folder, pair_status,
+                           parse)
 
 # (filename, expected subset) — sampled across the backlog to catch format drift.
 REAL_NAMES = [
@@ -55,6 +56,24 @@ REAL_NAMES = [
     # A drawing ref that is itself split by ' - ' — the ref must keep both parts.
     ("job no. 269 GA DW319SWKOH - 15650 - L-03092026150505-0001.pdf",
      {"job_no": "269", "model": "DW319SWKOH", "drawing_ref": "15650 - L"}),
+
+    # A VIN containing a letter O, which the ISO VIN alphabet excludes. The
+    # tracker holds the ZERO form (6T9T25R01J0KT4004, job 334), so this is an
+    # operator typo -- but enforcing the standard alphabet dropped the VIN
+    # entirely and reported "quote without a VIN", which reads as missing data.
+    ("job no. 334 Quote, VIN 6T9T25R01JOKT4004-14092026150130-0001.pdf",
+     {"job_no": "334", "doc_type": QUOTE, "vin": "6T9T25R01JOKT4004"}),
+
+    # The same shape, except the TRACKER holds the O-form too -- so the register
+    # itself is non-standard here and this is not a typo at all. Both must be
+    # captured and flagged; neither may be silently rewritten.
+    ("job no. 328 Quote,  VIN 6T9T24R08HOKT4004-14092026163036-0001.pdf",
+     {"job_no": "328", "doc_type": QUOTE, "vin": "6T9T24R08HOKT4004"}),
+
+    # 'job no.' typed with no number before the description. The VIN is still
+    # extracted, and the tracker resolves the job from it (699).
+    ("job no. Quote, VIN 6T9T24R07MAKT4009-14092026154554-0001.pdf",
+     {"job_no": None, "doc_type": QUOTE, "vin": "6T9T24R07MAKT4009"}),
 
     # Job number only. Two of these exist for job 751 on consecutive days, so the
     # timestamp is the only thing telling them apart.
@@ -127,6 +146,28 @@ def check_invariants():
     return not failures
 
 
+def check_confusable():
+    """I/O/Q handling: captured, flagged, and offered as variants -- never rewritten."""
+    failures = []
+    typed = "6T9T25R01JOKT4004"
+    r = parse(f"job no. 334 Quote, VIN {typed}-14092026150130-0001.pdf")
+    if r["vin"] != typed:
+        failures.append(f"  VIN was altered: {r['vin']!r} != {typed!r}")
+    if not any("excludes I/O/Q" in p for p in r["problems"]):
+        failures.append(f"  no confusable-character warning: {r['problems']}")
+    if "6T9T25R01J0KT4004" not in confusable_variants(typed):
+        failures.append(f"  zero-form not offered: {confusable_variants(typed)}")
+    # A clean VIN must produce no variants and no warning.
+    clean = parse("job no. 917 Quote, VIN 6T9T25R10NAKT4003-07092026163802-0001.pdf")
+    if confusable_variants(clean["vin"]) or clean["problems"]:
+        failures.append(f"  clean VIN flagged: {clean['problems']}, "
+                        f"{confusable_variants(clean['vin'])}")
+    print(f"{'FAIL' if failures else 'PASS'}  confusable I/O/Q handling")
+    for f in failures:
+        print(f)
+    return not failures
+
+
 def check_pairing():
     records = [parse(n) for n, _ in REAL_NAMES]
     summary = pair_status(records)
@@ -152,6 +193,7 @@ def main():
         check(REAL_NAMES, "real filenames from the mailbox"),
         check(EDGE_CASES, "edge cases"),
         check_invariants(),
+        check_confusable(),
         check_pairing(),
     ]
     print()

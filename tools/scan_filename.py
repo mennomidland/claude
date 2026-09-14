@@ -25,8 +25,23 @@ _DEVICE_SUFFIX = re.compile(r"-(?P<stamp>\d{14})-(?P<seq>\d{4})$")
 # by hand ('917A'), so capture the token rather than \d+.
 _JOB_NO = re.compile(r"job\s*no\.?\s*(?P<job>[0-9]+[A-Za-z]?)", re.IGNORECASE)
 
-# A VIN as typed after 'Quote, VIN' — 17 chars of the standard alphabet.
-_VIN = re.compile(r"\bVIN\s*[:,]?\s*(?P<vin>[A-HJ-NPR-Z0-9]{17})\b", re.IGNORECASE)
+# A VIN as typed after 'Quote, VIN'. Deliberately accepts the FULL alphanumeric
+# alphabet, not the ISO VIN alphabet which excludes I, O and Q.
+#
+# Real VINs do exclude those three, precisely because they are confusable with
+# 1 and 0 -- but this data does not obey that. Measured on two scans the parser
+# had silently dropped:
+#
+#   6T9T25R01JOKT4004  typed with a letter O; the tracker holds the zero form
+#                      (6T9T25R01J0KT4004, job 334) -- an operator typo
+#   6T9T24R08HOKT4004  typed with a letter O, and the TRACKER HOLDS THE SAME
+#                      O-form -- so the register itself is non-standard here
+#
+# Enforcing the standard alphabet rejected both and reported "quote without a
+# VIN", which reads as missing data when the VIN was right there. Capturing them
+# and flagging the character is strictly better: nothing is lost, and the
+# ambiguity is surfaced for a human. See _flag_confusable below.
+_VIN = re.compile(r"\bVIN\s*[:,]?\s*(?P<vin>[A-Z0-9]{17})\b", re.IGNORECASE)
 
 # ...and the same thing with the word 'VIN' omitted, which operators do:
 # 'job no. 516, Quote 6T9T25R05LAKT4002'. Requiring the keyword silently lost
@@ -34,8 +49,31 @@ _VIN = re.compile(r"\bVIN\s*[:,]?\s*(?P<vin>[A-HJ-NPR-Z0-9]{17})\b", re.IGNORECA
 # at all. A 17-character token from the VIN alphabet is not something else in
 # these filenames -- model codes run ~10 characters and drawing refs fewer --
 # but at least one letter is required so a long typed number cannot match.
-_VIN_BARE = re.compile(r"\b(?=[A-HJ-NPR-Z0-9]{17}\b)(?P<vin>[A-HJ-NPR-Z0-9]*[A-HJ-NPR-Z][A-HJ-NPR-Z0-9]*)\b",
+_VIN_BARE = re.compile(r"\b(?=[A-Z0-9]{17}\b)(?P<vin>[A-Z0-9]*[A-Z][A-Z0-9]*)\b",
                        re.IGNORECASE)
+
+# I, O and Q in a VIN are either a typo for 1 or 0, or a non-standard register
+# entry. Either way a human should look, so it is reported rather than corrected
+# silently -- guessing at a VIN is exactly the wrong place to be clever.
+_CONFUSABLE = re.compile(r"[IOQ]")
+
+
+def confusable_variants(vin):
+    """Plausible standard-alphabet readings of a VIN containing I, O or Q.
+
+    Used by reconciliation as a *fallback* only, after the VIN as typed fails to
+    match: it reports the candidate, it never rewrites the scan's VIN.
+    """
+    if not vin or not _CONFUSABLE.search(vin):
+        return []
+    seen, out = {vin}, []
+    for swapped in (vin.replace("O", "0"), vin.replace("I", "1"),
+                    vin.replace("Q", "0"),
+                    vin.replace("O", "0").replace("I", "1").replace("Q", "0")):
+        if swapped not in seen:
+            seen.add(swapped)
+            out.append(swapped)
+    return out
 
 # 'GA <model> - <drawing ref>', where the ref may itself be split further
 # ('GA DW319SWKOH - 15650 - L'). Model codes are typed inconsistently — TG320SFP0R
@@ -116,6 +154,12 @@ def parse(filename):
     m = _VIN.search(rest) or _VIN_BARE.search(rest)
     if m:
         out["vin"] = m.group("vin").upper()
+        bad = sorted(set(_CONFUSABLE.findall(out["vin"])))
+        if bad:
+            out["problems"].append(
+                f"VIN {out['vin']} contains {', '.join(bad)} — the VIN standard "
+                f"excludes I/O/Q, so this is a typo for 1/0 or a non-standard "
+                f"entry; check it")
 
     if re.search(r"\bquote\b", rest, re.IGNORECASE):
         out["doc_type"] = QUOTE

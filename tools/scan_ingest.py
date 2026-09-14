@@ -37,7 +37,8 @@ import urllib.parse
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import graph_check as gc
-from scan_filename import QUOTE, job_folder, pair_status, parse
+from scan_filename import (QUOTE, confusable_variants, job_folder,
+                           pair_status, parse)
 
 MAILBOX = "automation@midlandind.com.au"
 SCANNER = "noreply@viatek-scan.com.au"
@@ -476,11 +477,27 @@ def resolve_job(record, tracker_jobs):
 
 
 def reconcile_vin(vin, tracker):
-    """Classify one observed VIN. Never writes."""
+    """Classify one observed VIN. Never writes.
+
+    A VIN that fails to match is retried against its confusable-character
+    variants (O->0, I->1, Q->0) before being called missing. Measured: a scan
+    typed 6T9T25R01JOKT4004 with a letter O while the tracker holds
+    6T9T25R01J0KT4004 with a zero. Reporting that as "not in the tracker" would
+    send someone hunting for a trailer that is registered perfectly well.
+
+    The variant is REPORTED, never substituted -- the scan keeps the VIN as
+    typed, and a human decides which spelling is right.
+    """
     if tracker is None:
-        return "unchecked", "SMARTSHEET_ACCESS_TOKEN not set"
+        return "unchecked", "SMARTSHEET_AUTH not set"
     if vin in tracker:
         return "present", "already in the VIN Tracker"
+    for candidate in confusable_variants(vin):
+        if candidate in tracker:
+            return "present-as-variant", (
+                f"not in the tracker as typed, but {candidate} is — "
+                f"differs only in O/I/Q vs 0/1, so the scan or the register has "
+                f"a typo")
     return "missing", "NOT in the VIN Tracker"
 
 
@@ -619,13 +636,16 @@ def report(records):
 
     unchecked = [r for r in with_vin if r.get("vin_state") == "unchecked"]
     present = [r for r in with_vin if r.get("vin_state") == "present"]
+    variants = [r for r in with_vin if r.get("vin_state") == "present-as-variant"]
     missing = [r for r in with_vin if r.get("vin_state") == "missing"]
     if unchecked:
         print(f"  NOT RECONCILED: {len(unchecked)} VIN(s) were not checked against "
               f"the tracker\n  (SMARTSHEET_AUTH unset). This is NOT the same "
               f"as being present.")
-    if present or missing:
+    if present or missing or variants:
         print(f"  in the tracker: {len(present)}; NOT in the tracker: {len(missing)}")
+    for r in variants:
+        print(f"  TYPO?    {r['vin']}  (job {r['job_no']}, {r['filename']})")
     for r in missing:
         print(f"  MISSING  {r['vin']}  (job {r['job_no']}, {r['filename']})")
     if missing:
