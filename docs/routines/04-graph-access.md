@@ -182,6 +182,24 @@ session**, which picks variables up at container start -- the case that demonstr
 works. Only an already-running session is blind to a new variable. So after editing the
 environment, do not sit re-probing this session; start a new one.
 
+#### The 03:00 routine proved the fresh-session half — and found a gap
+
+The first scheduled firing, 2026-09-14, is the measurement. The fired session had all
+three `SCAN_GRAPH_*` variables and authenticated to Graph without trouble: 29 files filed,
+no errors. So a fresh container does pick the variables up, exactly as above.
+
+But `SMARTSHEET_AUTH` was **not** there, and the run skipped reconciliation entirely --
+12 VINs came back `unchecked`. The note above lists it among the four "confirmed saved",
+which on this evidence it is not: three of the four arrived and one did not. Whatever the
+cause (saved to a different environment, saved and not persisted, a name mismatch), the
+conclusion to carry forward is narrower than the one written above: *confirming a variable
+in the dialog is not evidence it reaches a container.* The fired session is the only test
+that counts.
+
+`scan_ingest.py` handles the absence correctly -- it reports `unchecked` with an explicit
+note that unchecked is not the same as present -- which is the reason this was caught at
+all rather than reading as "12 VINs fine".
+
 The diagnostic in the old note still stands and is still worth keeping:
 
 > The variables do **not** appear in **PID 1's** environment even once they are working --
